@@ -1,0 +1,1780 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tensorflow modelling &#8212; Optimization of pump operation under transients in hydraulic turbine rigs</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e2363ea40746bee74734a24ffefccd78.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="RNN ARIMA Modeling" href="rnn_tensorflow.html" />
+    <link rel="prev" title="New Section" href="xgb_rnn_pytorch.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/turbine.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Optimization of pump operation under transients in hydraulic turbine rigs</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../home.html">
+   Logbook for Vattenfall project
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  PROJECT MEETINGS
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../logbook.html">
+   Project Logbook
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  RESEARCH CODES
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="xgb_rnn_pytorch.html">
+   Static modelling
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Tensorflow modelling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="rnn_tensorflow.html">
+   RNN ARIMA Modeling
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/contents/codes/tensorflow_simple.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/contents/codes/tensorflow_simple.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Tensorflow modelling
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#load-the-data">
+     1, Load the data
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preprocessing-data-normalize-train-validation-test-etc">
+     2, Preprocessing data: normalize, train, validation, test, etc.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#resample-the-data-with-low-resolution">
+       2.1, resample the data with low-resolution
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-the-data-and-check-their-variations-along-time">
+   plot the data and check their variations along time
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#check-he-correlation">
+   check he correlation
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#autocorrelation-function-acf-and-pacf-to-check-time-dependence">
+     2.2, autocorrelation function (ACF) and (PACF) to check time dependence
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#crossing-autocorrelationship-for-various-parameters">
+     2.3 crossing autocorrelationship for various parameters
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#normalize-the-data">
+     2.3, normalize the data
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset">
+     Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-blue-font-size-25px-3-nb-get-the-rolling-windowed-dataset-span">
+     <span style="color:blue; font-size:25px">
+      <strong>
+       3, NB: get the rolling/windowed dataset
+      </strong>
+     </span>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-construction">
+     <strong>
+      4, Model construction
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="tensorflow-modelling">
+<h1>Tensorflow modelling<a class="headerlink" href="#tensorflow-modelling" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">pandas.plotting</span> <span class="kn">import</span> <span class="n">register_matplotlib_converters</span>
+<span class="c1"># plt.style.use([&#39;science&#39;,&#39;no-latex&#39;])</span>
+<span class="c1"># plt.rcParams[&quot;font.family&quot;] = &quot;Times New Roman&quot;</span>
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="load-the-data">
+<h2>1, Load the data<a class="headerlink" href="#load-the-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#from tensorflow import keras</span>
+<span class="c1">#from google.colab import drive</span>
+<span class="c1">#drive.mount(&#39;/content/drive&#39;)</span>
+<span class="c1">#df = pd.read_csv(&#39;/content/drive/MyDrive/Data/vattenfall_turbine.csv&#39;)</span>
+<span class="c1">#drive.flush_and_unmount()</span>
+<span class="c1">#print(&#39;NB: Unmount the google cloud driver&#39;)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;vattenfall_turbine.csv&#39;</span><span class="p">)</span>
+<span class="n">keys</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+<span class="n">feature_keys</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+<span class="n">time_key</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span><span class="o">/</span><span class="n">ipykernel_15896</span><span class="o">/</span><span class="mf">1426215155.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> 
+<span class="ne">---&gt; </span><span class="mi">10</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;vattenfall_turbine.csv&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">keys</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">feature_keys</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\pandas\util\_decorators.py</span> in <span class="ni">wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">309</span>                     <span class="n">stacklevel</span><span class="o">=</span><span class="n">stacklevel</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">310</span>                 <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">311</span>             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">312</span> 
+<span class="g g-Whitespace">    </span><span class="mi">313</span>         <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\pandas\io\parsers\readers.py</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">584</span>     <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">585</span> 
+<span class="ne">--&gt; </span><span class="mi">586</span>     <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">587</span> 
+<span class="g g-Whitespace">    </span><span class="mi">588</span> 
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\pandas\io\parsers\readers.py</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">480</span> 
+<span class="g g-Whitespace">    </span><span class="mi">481</span>     <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">482</span>     <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">483</span> 
+<span class="g g-Whitespace">    </span><span class="mi">484</span>     <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\pandas\io\parsers\readers.py</span> in <span class="ni">__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">809</span>             <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">810</span> 
+<span class="ne">--&gt; </span><span class="mi">811</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">812</span> 
+<span class="g g-Whitespace">    </span><span class="mi">813</span>     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\pandas\io\parsers\readers.py</span> in <span class="ni">_make_engine</span><span class="nt">(self, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1038</span>             <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1039</span>         <span class="c1"># error: Too many arguments for &quot;ParserBase&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1040</span>         <span class="k">return</span> <span class="n">mapping</span><span class="p">[</span><span class="n">engine</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>  <span class="c1"># type: ignore[call-arg]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1041</span> 
+<span class="g g-Whitespace">   </span><span class="mi">1042</span>     <span class="k">def</span> <span class="nf">_failover_to_python</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\pandas\io\parsers\c_parser_wrapper.py</span> in <span class="ni">__init__</span><span class="nt">(self, src, **kwds)</span>
+<span class="g g-Whitespace">     </span><span class="mi">49</span> 
+<span class="g g-Whitespace">     </span><span class="mi">50</span>         <span class="c1"># open handles</span>
+<span class="ne">---&gt; </span><span class="mi">51</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_open_handles</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span>         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">     </span><span class="mi">53</span> 
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\pandas\io\parsers\base_parser.py</span> in <span class="ni">_open_handles</span><span class="nt">(self, src, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">220</span>         <span class="n">Let</span> <span class="n">the</span> <span class="n">readers</span> <span class="nb">open</span> <span class="n">IOHandles</span> <span class="n">after</span> <span class="n">they</span> <span class="n">are</span> <span class="n">done</span> <span class="k">with</span> <span class="n">their</span> <span class="n">potential</span> <span class="n">raises</span><span class="o">.</span>
+<span class="g g-Whitespace">    </span><span class="mi">221</span>         <span class="s2">&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">222</span><span class="s2">         self.handles = get_handle(</span>
+<span class="g g-Whitespace">    </span><span class="mi">223</span><span class="s2">             src,</span>
+<span class="g g-Whitespace">    </span><span class="mi">224</span><span class="s2">             &quot;r&quot;,</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\pandas\io\common.py</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">699</span><span class="s2">         if ioargs.encoding and &quot;b&quot; not in ioargs.mode:</span>
+<span class="g g-Whitespace">    </span><span class="mi">700</span><span class="s2">             # Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">701</span><span class="s2">             handle = open(</span>
+<span class="g g-Whitespace">    </span><span class="mi">702</span><span class="s2">                 handle,</span>
+<span class="g g-Whitespace">    </span><span class="mi">703</span><span class="s2">                 ioargs.mode,</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;vattenfall_turbine.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_cols</span> <span class="o">=</span> <span class="n">feature_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_keys</span><span class="p">):</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">plot_features</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">plot_cols</span><span class="p">]</span>
+<span class="c1">#plot_features.index = df[time_key]</span>
+<span class="n">fig1</span> <span class="o">=</span> <span class="n">plot_features</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span>
+<span class="c1">#display(Markdown(&#39; &lt;font size=&quot;6&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;**Lets take a close look at the time series.**&lt;/span&gt; &lt;/font&gt;&#39;))</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s1">&#39;&lt;span style=&quot;color:blue;font-size:50px&quot;&gt;**Lets take a close look at the time series.**&lt;/span&gt;&#39;</span><span class="p">))</span>
+
+<span class="n">plot_features</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">plot_cols</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">):</span><span class="mi">1000</span><span class="p">]</span>
+<span class="c1">#plot_features.index = df[time_key][:480]</span>
+<span class="n">fig2</span> <span class="o">=</span> <span class="n">plot_features</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/tensorflow_simple_4_0.png" src="../../_images/tensorflow_simple_4_0.png" />
+<p><span style="color:blue;font-size:50px"><strong>Lets take a close look at the time series.</strong></span></p>
+<img alt="../../_images/tensorflow_simple_4_2.png" src="../../_images/tensorflow_simple_4_2.png" />
+</div>
+</div>
+</div>
+<div class="section" id="preprocessing-data-normalize-train-validation-test-etc">
+<h2>2, Preprocessing data: normalize, train, validation, test, etc.<a class="headerlink" href="#preprocessing-data-normalize-train-validation-test-etc" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="resample-the-data-with-low-resolution">
+<h3>2.1, resample the data with low-resolution<a class="headerlink" href="#resample-the-data-with-low-resolution" title="Permalink to this headline">¶</a></h3>
+<p>df_train = df[feature_keys[0:7:2]][int(len(df)/4):int(len(df)/2):100]
+display(Markdown(‘<span style="color:red; font-size:30px"><strong>No. of the values in the training dataset is: %d</strong></span>’ %len(df_train)))</p>
+</div>
+</div>
+</div>
+<div class="section" id="plot-the-data-and-check-their-variations-along-time">
+<h1>plot the data and check their variations along time<a class="headerlink" href="#plot-the-data-and-check-their-variations-along-time" title="Permalink to this headline">¶</a></h1>
+<p>df_train.plot(subplots=True, figsize=(15, 10))
+plt.show()
+#print(‘No. of the values in the training dataset is: %d’ %len(df_train))</p>
+<p>display(Markdown(‘<span style="color:blue; font-size:20px"><strong>Plot the heatmap for variation of standard deviation</strong></span>’))</p>
+</div>
+<div class="section" id="check-he-correlation">
+<h1>check he correlation<a class="headerlink" href="#check-he-correlation" title="Permalink to this headline">¶</a></h1>
+<p>import seaborn as sns
+plt.figure(figsize=(12, 6))
+sns.heatmap(df_train.corr(), annot=True, fmt=”.2f”)
+plt.show()</p>
+<div class="section" id="autocorrelation-function-acf-and-pacf-to-check-time-dependence">
+<h2>2.2, autocorrelation function (ACF) and (PACF) to check time dependence<a class="headerlink" href="#autocorrelation-function-acf-and-pacf-to-check-time-dependence" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">autocorr</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">correlate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">size</span><span class="o">/</span><span class="mi">2</span><span class="p">):]</span>
+
+<span class="n">acf_open</span> <span class="o">=</span> <span class="n">autocorr</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">guide_open</span><span class="p">)</span>
+
+
+<span class="kn">from</span> <span class="nn">statsmodels.graphics.tsaplots</span> <span class="kn">import</span> <span class="n">plot_acf</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">tsa</span><span class="o">.</span><span class="n">plot_acf</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">guide_open</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">lags</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Autocorrelation for guide-open&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 100&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">sm</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">tsa</span><span class="o">.</span><span class="n">plot_pacf</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">guide_open</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">lags</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;PACF for guide-open&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 100&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">sm</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">tsa</span><span class="o">.</span><span class="n">plot_acf</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">pump101_speed</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">lags</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Autocorrelation for Pump101 speed&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 100&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">sm</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">tsa</span><span class="o">.</span><span class="n">plot_pacf</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">pump101_speed</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">lags</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;PACF for Pump101 speed&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 100&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/tensorflow_simple_9_0.png" src="../../_images/tensorflow_simple_9_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="crossing-autocorrelationship-for-various-parameters">
+<h2>2.3 crossing autocorrelationship for various parameters<a class="headerlink" href="#crossing-autocorrelationship-for-various-parameters" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NB: we have resampled the data for the autocorreltion analysis</span>
+
+<span class="kn">import</span> <span class="nn">statsmodels.tsa.stattools</span> <span class="k">as</span> <span class="nn">smt</span>
+<span class="n">xacf</span> <span class="o">=</span> <span class="n">smt</span><span class="o">.</span><span class="n">ccf</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">guide_open</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="n">df_train</span><span class="o">.</span><span class="n">head_net</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span>  <span class="n">adjusted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">acf1</span> <span class="o">=</span> <span class="n">smt</span><span class="o">.</span><span class="n">ccf</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">guide_open</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="n">df_train</span><span class="o">.</span><span class="n">guide_open</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span>  <span class="n">adjusted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">acf2</span> <span class="o">=</span> <span class="n">smt</span><span class="o">.</span><span class="n">ccf</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">head_net</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="n">df_train</span><span class="o">.</span><span class="n">head_net</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span>  <span class="n">adjusted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">xacf</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">],</span>  <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Cross ACF between guide-open and Head_net&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 5000&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">acf1</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">],</span>  <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;ACF of guide-open signal&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 5000&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">acf2</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">],</span>  <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;ACF ofHead_net&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 5000&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/tensorflow_simple_11_0.png" src="../../_images/tensorflow_simple_11_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Autocorrelation between guide_opan and pump101_speed</span>
+<span class="n">xacf</span> <span class="o">=</span> <span class="n">smt</span><span class="o">.</span><span class="n">ccf</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">guide_open</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="n">df_train</span><span class="o">.</span><span class="n">pump101_speed</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span>  <span class="n">adjusted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">acf1</span> <span class="o">=</span> <span class="n">smt</span><span class="o">.</span><span class="n">ccf</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">guide_open</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="n">df_train</span><span class="o">.</span><span class="n">guide_open</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span>  <span class="n">adjusted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">acf2</span> <span class="o">=</span> <span class="n">smt</span><span class="o">.</span><span class="n">ccf</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">pump101_speed</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="n">df_train</span><span class="o">.</span><span class="n">pump101_speed</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1900</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span>  <span class="n">adjusted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">xacf</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">],</span>  <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Cross ACF between guide-open and pump101_speed&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 5000&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">acf1</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">],</span>  <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;ACF of guide-open signal&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 5000&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">acf2</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">],</span>  <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">i</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;ACF of pump101_speed signal&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 5000&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/tensorflow_simple_12_0.png" src="../../_images/tensorflow_simple_12_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="normalize-the-data">
+<h2>2.3, normalize the data<a class="headerlink" href="#normalize-the-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, we assume all data are used for the training (the time series is not that stationary for the prediction)</span>
+<span class="n">df_train_mean</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">df_train_std</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_train</span><span class="o">-</span><span class="n">df_train_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">df_train_std</span>
+
+<span class="n">fig2</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Second, plot the standand deviation of features within this dataframe</span>
+<span class="n">df_std</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Column&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Normalized&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Column&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Normalized&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_std</span><span class="p">)</span>
+<span class="n">fig3</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">train_df</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/tensorflow_simple_14_0.png" src="../../_images/tensorflow_simple_14_0.png" />
+<img alt="../../_images/tensorflow_simple_14_1.png" src="../../_images/tensorflow_simple_14_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># tf.convert_to_tensor(new_df)</span>
+<span class="n">new_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;guide_open&#39;</span><span class="p">)</span>
+<span class="c1">#new_df.head()</span>
+<span class="n">target</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">new_df</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">new_df</span><span class="p">)</span>
+
+<span class="c1">#normalizer = tf.keras.layers.Normalization(axis=-1)</span>
+<span class="c1">#normalizer.adapt(numeric_features)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">new_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;TensorSliceDataset shapes: (3,), types: tf.float64&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset">
+<h2>Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset<a class="headerlink" href="#test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">train_df</span><span class="p">)</span>
+<span class="n">train_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 1967 entries, 196607 to 393207
+Data columns (total 4 columns):
+ #   Column          Non-Null Count  Dtype  
+---  ------          --------------  -----  
+ 0   guide_open      1967 non-null   float64
+ 1   pump101_speed   1967 non-null   float64
+ 2   head_net        1967 non-null   float64
+ 3   discharge_rate  1967 non-null   float64
+dtypes: float64(4)
+memory usage: 61.6 KB
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="span-style-color-blue-font-size-25px-3-nb-get-the-rolling-windowed-dataset-span">
+<h2><span style ="color:blue; font-size:25px"> <strong>3, NB: get the rolling/windowed dataset</strong></span><a class="headerlink" href="#span-style-color-blue-font-size-25px-3-nb-get-the-rolling-windowed-dataset-span" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">windowed_dataset</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle_buffer</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Function for creating a windowed dataset for sequence training&quot;&quot;&quot;</span>
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="n">window_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">drop_remainder</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">flat_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">window</span><span class="p">:</span> <span class="n">window</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">window_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">shuffle_buffer</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">window</span><span class="p">:</span> <span class="p">(</span><span class="n">window</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">window</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">)</span>
+<span class="n">series</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.29050317,  0.11212805,  1.25079512, -1.36088997,  0.09993288,
+       -0.0479911 , -0.35622969, -1.08855909, -0.3510177 ,  2.58839995,
+       -0.50565079, -0.58430921, -1.27309938,  0.74678304, -0.55834612,
+       -0.11080156, -1.18733663, -1.00822592, -0.68986173])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">train_df</span><span class="o">.</span><span class="n">guide_open</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">clear_session</span><span class="p">()</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">51</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">51</span><span class="p">)</span>
+<span class="n">shuffle_buffer_size</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">window_size</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="n">train_set</span>  <span class="o">=</span> <span class="n">windowed_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle_buffer_size</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="n">train_set</span><span class="p">:</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span><span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s1">&#39;&lt;span style=&quot;color:blue; font-size:20px&quot;&gt;The windowed size is: </span><span class="si">%d</span><span class="s1">, and raw datashape is (</span><span class="si">%d</span><span class="s1">)&lt;/span&gt;&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+
+<span class="c1">#(f&#39;The windowed size and raw datashape:{n, data.shape}&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:tensorflow:AutoGraph could not transform &lt;function windowed_dataset.&lt;locals&gt;.&lt;lambda&gt; at 0x000002588B3D9280&gt; and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: module &#39;gast&#39; has no attribute &#39;Index&#39;
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+WARNING: AutoGraph could not transform &lt;function windowed_dataset.&lt;locals&gt;.&lt;lambda&gt; at 0x000002588B3D9280&gt; and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: module &#39;gast&#39; has no attribute &#39;Index&#39;
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[-2.3410695, -2.3477952, -2.3309808, ..., -2.0975974, -2.0834734,
+        -2.087509 ],
+       [-2.3329988, -2.3235826, -2.3329988, ..., -2.0807831, -2.0747302,
+        -2.0733848],
+       [-2.3477952, -2.3309808, -2.3329988, ..., -2.0834734, -2.087509 ,
+        -2.0807831],
+       ...,
+       [-1.8729576, -1.8695947, -1.8716123, ..., -1.6341933, -1.6274676,
+        -1.6247773],
+       [-1.867577 , -1.8521076, -1.8568157, ..., -1.6133436, -1.5998919,
+        -1.6012372],
+       [-1.8521076, -1.8568157, -1.858161 , ..., -1.5998919, -1.6012372,
+        -1.5958564]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([-2.0807831, -2.071367 , -2.0747302, -2.070022 , -2.0646412,
+       -2.0706947, -2.0686767, -2.0484996, -2.0471544, -2.0518625,
+       -2.0733848, -2.0390835, -2.0417738, -2.033703 , -2.0256321,
+       -2.0249596, -2.020924 , -2.0505173, -2.0404286, -2.0202515,
+       -2.0189064, -2.0000741, -1.9920033, -2.002092 , -2.0068   ,
+       -2.016216 , -1.9913307, -2.003437 , -1.9886404, -1.9819145,
+       -1.9832598, -1.9798969, -1.9778793, -1.9677905, -1.9899855,
+       -1.9946935, -1.9610648, -1.9651003, -1.9610648, -1.9529939,
+       -1.9590472, -1.9455956, -1.9496311, -1.9415601, -1.9381973,
+       -1.9341618, -1.9435779, -1.9139847, -1.9267634, -1.935507 ,
+       -1.9260908, -1.9139847, -1.9193652, -1.9018782, -1.9079313,
+       -1.9052411, -1.9126394, -1.908604 , -1.8917897, -1.8837187,
+       -1.8890992, -1.8884268, -1.8729576, -1.9018782, -1.8729576,
+       -1.8716123, -1.8695947, -1.8709397, -1.8655592, -1.858161 ,
+       -1.8521076, -1.858161 , -1.867577 , -1.8379836, -1.8433642,
+       -1.837311 , -1.8568157, -1.8265499, -1.832603 , -1.837311 ,
+       -1.8285676, -1.818479 , -1.8211691, -1.8097355, -1.8225144,
+       -1.8023372, -1.8137709, -1.809063 , -1.8050275, -1.8016646,
+       -1.7942663, -1.7922485, -1.7734164, -1.7801421, -1.788213 ,
+       -1.7700535, -1.7713988, -1.7640004, -1.7814873, -1.764673 ,
+       -1.751894 , -1.7774519, -1.76131  , -1.7465134, -1.7424779,
+       -1.7384425, -1.7364248, -1.7492038, -1.7357521, -1.7384425,
+       -1.7364248, -1.7283539, -1.7202829, -1.7182653, -1.7135572,
+       -1.7142298, -1.7236458, -1.7061589, -1.7068315, -1.7061589,
+       -1.7014508, -1.6846365, -1.7068315, -1.6812737, -1.6738753,
+       -1.6765656, -1.6853092, -1.6859815, -1.6584061, -1.6577334,
+       -1.6563883, -1.6792558, -1.6765656, -1.6604238, -1.6617689,
+       -1.6510078, -1.6503352, -1.6469723, -1.6368835, -1.6341933,
+       -1.6200693, -1.6274676, -1.6328481, -1.6254498, -1.6113257,
+       -1.6247773, -1.6133436, -1.6241047, -1.5958564, -1.5891308],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[-1.8568157, -1.858161 , -1.8433642, ..., -1.6012372, -1.5958564,
+        -1.5891308],
+       [-1.858161 , -1.867577 , -1.8521076, ..., -1.6113257, -1.6133436,
+        -1.5998919],
+       [-1.858161 , -1.8433642, -1.8379836, ..., -1.5958564, -1.5891308,
+        -1.5924937],
+       ...,
+       [-1.3873581, -1.3833226, -1.3765969, ..., -1.1432129, -1.1391774,
+        -1.1317792],
+       [-1.3765969, -1.3772695, -1.377942 , ..., -1.1317792, -1.1364872,
+        -1.1156373],
+       [-1.3833226, -1.3765969, -1.3772695, ..., -1.1391774, -1.1317792,
+        -1.1364872]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([-1.5924937, -1.6012372, -1.5857679, -1.5938388, -1.5998919,
+       -1.5850953, -1.577697 , -1.5803872, -1.5662632, -1.5575197,
+       -1.5770243, -1.5662632, -1.5568472, -1.5709713, -1.5487763,
+       -1.5474311, -1.5528117, -1.5467585, -1.5521392, -1.5481037,
+       -1.5326345, -1.5353247, -1.5245636, -1.5326345, -1.5178378,
+       -1.5306166, -1.5205281, -1.5050588, -1.5252361, -1.501696 ,
+       -1.4976605, -1.5164926, -1.506404 , -1.4969879, -1.4929525,
+       -1.4868993, -1.4714301, -1.4801736, -1.479501 , -1.4774832,
+       -1.466722 , -1.4855541, -1.452598 , -1.4613415, -1.4539431,
+       -1.465377 , -1.4478899, -1.462014 , -1.4364561, -1.4425094,
+       -1.4828639, -1.4418368, -1.4404916, -1.4337659, -1.4189692,
+       -1.4189692, -1.4250224, -1.4156064, -1.4451996, -1.409553 ,
+       -1.4075354, -1.4014821, -1.4149338, -1.4055176, -1.3887033,
+       -1.3873581, -1.395429 , -1.3833226, -1.3940839, -1.3772695,
+       -1.3873581, -1.377942 , -1.368526 , -1.3611276, -1.3792871,
+       -1.3597825, -1.3618003, -1.3765969, -1.3402778, -1.3496939,
+       -1.3456584, -1.341623 , -1.354402 , -1.333552 , -1.3348973,
+       -1.3362423, -1.3174102, -1.325481 , -1.3274989, -1.3201005,
+       -1.3140473, -1.306649 , -1.3005959, -1.3564196, -1.3153925,
+       -1.2972329, -1.298578 , -1.2750379, -1.2864717, -1.285799 ,
+       -1.2797459, -1.2918524, -1.2662944, -1.2757105, -1.2757105,
+       -1.258896 , -1.258896 , -1.2541882, -1.2508253, -1.2514977,
+       -1.2467898, -1.2481349, -1.2420818, -1.2629315, -1.2481349,
+       -1.2427543, -1.2373737, -1.2232497, -1.2279575, -1.222577 ,
+       -1.223922 , -1.2138335, -1.2017272, -1.2145061, -1.197019 ,
+       -1.2091254, -1.1929836, -1.1842402, -1.1916386, -1.197019 ,
+       -1.1849128, -1.1862578, -1.1694436, -1.1734791, -1.1802047,
+       -1.1627177, -1.1943288, -1.1586822, -1.1506113, -1.1519566,
+       -1.1546468, -1.1613727, -1.1445582, -1.1432129, -1.1459033,
+       -1.1391774, -1.1499388, -1.1364872, -1.1230358, -1.1156373],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[-1.377942  , -1.368526  , -1.3792871 , ..., -1.1156373 ,
+        -1.1230358 , -1.121018  ],
+       [-1.3772695 , -1.377942  , -1.368526  , ..., -1.1364872 ,
+        -1.1156373 , -1.1230358 ],
+       [-1.368526  , -1.3792871 , -1.3611276 , ..., -1.1230358 ,
+        -1.121018  , -1.1163099 ],
+       ...,
+       [-0.90713876, -0.9010855 , -0.9017581 , ..., -0.6562675 ,
+        -0.65761274, -0.65155965],
+       [-0.9010855 , -0.9017581 , -0.89839524, ..., -0.65761274,
+        -0.65155965, -0.6529047 ],
+       [-0.89839524, -0.89435977, -0.8923421 , ..., -0.6529047 ,
+        -0.64416116, -0.6421435 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([-1.1163099 , -1.121018  , -1.1149648 , -1.1122744 , -1.1015133 ,
+       -1.1015133 , -1.1317792 , -1.0974778 , -1.0860441 , -1.0934423 ,
+       -1.1008407 , -1.0826812 , -1.0853714 , -1.079991  , -1.0725926 ,
+       -1.0914247 , -1.0699022 , -1.0503975 , -1.0584683 , -1.0564507 ,
+       -1.067212  , -1.0571233 , -1.0571233 , -1.0356008 , -1.0356008 ,
+       -1.0376186 , -1.053088  , -1.0564507 , -1.0282025 , -1.0282025 ,
+       -1.0174413 , -1.0335832 , -1.0261847 , -1.019459  , -1.00668   ,
+       -1.0127332 , -1.0006268 , -1.0187863 , -0.98852044, -1.00668   ,
+       -0.9851576 , -0.9838124 , -0.9925559 , -0.97708666, -0.9764141 ,
+       -0.9663255 , -0.98986566, -0.96834314, -0.9663255 , -0.957582  ,
+       -0.9656529 , -0.95085627, -0.9602722 , -0.9427853 , -0.96834314,
+       -0.94614816, -0.94614816, -0.9427853 , -0.93336916, -0.9138645 ,
+       -0.9152097 , -0.9380773 , -0.9266435 , -0.9138645 , -0.91991776,
+       -0.9145371 , -0.909829  , -0.90713876, -0.9017581 , -0.9010855 ,
+       -0.89839524, -0.89435977, -0.8923421 , -0.89435977, -0.88897926,
+       -0.8809083 , -0.87620026, -0.88023573, -0.87081957, -0.8795631 ,
+       -0.8661115 , -0.8647665 , -0.8519875 , -0.8580406 , -0.8418989 ,
+       -0.847952  , -0.86140364, -0.835173  , -0.8445892 , -0.8345004 ,
+       -0.8331554 , -0.8284473 , -0.8318102 , -0.81768614, -0.81096023,
+       -0.8163409 , -0.81970376, -0.80154425, -0.8163409 , -0.80019903,
+       -0.7914555 , -0.8062523 , -0.7914555 , -0.8116328 , -0.78876525,
+       -0.7988538 , -0.7928007 , -0.7840572 , -0.76320726, -0.76657027,
+       -0.77598625, -0.75715417, -0.77396864, -0.75715417, -0.7537913 ,
+       -0.76320726, -0.7403397 , -0.7551365 , -0.73764944, -0.73226875,
+       -0.7517735 , -0.7363042 , -0.725543  , -0.7363042 , -0.7161269 ,
+       -0.72621566, -0.7181447 , -0.71410924, -0.6972948 , -0.69864   ,
+       -0.6966222 , -0.71881735, -0.70065767, -0.6872062 , -0.7094012 ,
+       -0.699985  , -0.68787867, -0.67173696, -0.6912417 , -0.66635627,
+       -0.67039174, -0.66635627, -0.6616482 , -0.6562675 , -0.65761274,
+       -0.6744272 , -0.6596306 , -0.6529047 , -0.64416116, -0.63676286],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[-0.89435977, -0.90713876, -0.9010855 , ..., -0.6596306 ,
+        -0.6562675 , -0.65761274],
+       [-0.89435977, -0.8923421 , -0.8809083 , ..., -0.64416116,
+        -0.6421435 , -0.63676286],
+       [-0.8923421 , -0.8809083 , -0.88023573, ..., -0.6421435 ,
+        -0.63676286, -0.6407983 ],
+       ...,
+       [-0.4282639 , -0.41884795, -0.420193  , ..., -0.17537487,
+        -0.18613605, -0.17604747],
+       [-0.420193  , -0.40875918, -0.4114496 , ..., -0.17604747,
+        -0.16461352, -0.16932158],
+       [-0.40875918, -0.4114496 , -0.40674156, ..., -0.16461352,
+        -0.16932158, -0.15250711]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([-0.65155965, -0.6407983 , -0.6327274 , -0.63878065, -0.62398404,
+       -0.6179307 , -0.6421435 , -0.60582435, -0.61725813, -0.6159131 ,
+       -0.60716957, -0.61255   , -0.60582435, -0.60246146, -0.5910277 ,
+       -0.57623106, -0.5957358 , -0.5943906 , -0.5789213 , -0.58362937,
+       -0.57488585, -0.5789213 , -0.5681601 , -0.55874395, -0.5526907 ,
+       -0.56210685, -0.55067307, -0.5661423 , -0.55672616, -0.54394734,
+       -0.56345206, -0.54058427, -0.5358764 , -0.5345312 , -0.51973456,
+       -0.5230974 , -0.51502645, -0.52377003, -0.5083008 , -0.5116636 ,
+       -0.5049377 , -0.50762814, -0.5412569 , -0.5015749 , -0.4975394 ,
+       -0.50224745, -0.48879588, -0.4914863 , -0.47803468, -0.48207015,
+       -0.4968668 , -0.47332662, -0.48408797, -0.47332662, -0.46861854,
+       -0.46391067, -0.45583972, -0.45180425, -0.44978645, -0.46323806,
+       -0.44440576, -0.43835264, -0.44844124, -0.43297198, -0.4289365 ,
+       -0.42557365, -0.4282639 , -0.4215382 , -0.420193  , -0.41884795,
+       -0.4114496 , -0.4403703 , -0.397998  , -0.40875918, -0.40136087,
+       -0.39261734, -0.40606895, -0.38925448, -0.39530775, -0.40674156,
+       -0.3663869 , -0.3771481 , -0.37513044, -0.3717674 , -0.3670595 ,
+       -0.37378523, -0.35697076, -0.35226268, -0.37580287, -0.35226268,
+       -0.3670595 , -0.34284672, -0.3515901 , -0.3401563 , -0.33813867,
+       -0.3280499 , -0.33208537, -0.32334185, -0.3421741 , -0.32535964,
+       -0.310563  , -0.32334185, -0.31459847, -0.30047426, -0.30450973,
+       -0.29643878, -0.31190804, -0.31930637, -0.29912904, -0.2957662 ,
+       -0.28635022, -0.2836598 , -0.285005  , -0.26953575, -0.2950936 ,
+       -0.26146483, -0.28904048, -0.26751795, -0.26213744, -0.26011962,
+       -0.2641551 , -0.25070348, -0.24868584, -0.2527213 , -0.23523423,
+       -0.23725204, -0.22783591, -0.24465036, -0.23254398, -0.24801323,
+       -0.21909237, -0.22918113, -0.2157295 , -0.2137117 , -0.20362312,
+       -0.21909237, -0.21505691, -0.19958766, -0.17941034, -0.20026027,
+       -0.18680866, -0.19218934, -0.18277319, -0.22447304, -0.18613605,
+       -0.17604747, -0.17806512, -0.16461352, -0.15250711, -0.1578878 ],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[-0.42557365, -0.4289365 , -0.4215382 , ..., -0.18277319,
+        -0.19218934, -0.17806512],
+       [-0.4114496 , -0.40674156, -0.397998  , ..., -0.16932158,
+        -0.15250711, -0.1578878 ],
+       [-0.40674156, -0.397998  , -0.40136087, ..., -0.15250711,
+        -0.1578878 , -0.16461352],
+       ...,
+       [ 0.05800963,  0.06742577,  0.06540813, ...,  0.30753636,
+         0.30888137,  0.31224424],
+       [ 0.05397417,  0.05128392,  0.06002745, ...,  0.29946542,
+         0.31224424,  0.29946542],
+       [ 0.05128392,  0.06002745,  0.05800963, ...,  0.31224424,
+         0.29946542,  0.30753636]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([-0.17537487, -0.16461352, -0.14914426, -0.14040072, -0.14914426,
+       -0.13636526, -0.1457814 , -0.16932158, -0.1451088 , -0.13098477,
+       -0.12627669, -0.12493148, -0.13703787, -0.11282508, -0.11551533,
+       -0.11013483, -0.10744441, -0.1013913 , -0.10677198, -0.09399298,
+       -0.09735584, -0.09466559, -0.08659466, -0.08524944, -0.08188658,
+       -0.06910758, -0.13031216, -0.07852355, -0.06439951, -0.06305429,
+       -0.08659466, -0.05969144, -0.05431076, -0.04758505, -0.05296573,
+       -0.04354958, -0.05162051, -0.02942537, -0.02068201, -0.02942537,
+       -0.03144319, -0.05498337, -0.03144319, -0.03884151, -0.02068201,
+       -0.01126587, -0.00924805, -0.01328351, -0.00050451, -0.00050451,
+       -0.00184973, -0.00992065,  0.01025667,  0.01294692,  0.02303567,
+        0.02774374, -0.0072304 ,  0.01630977,  0.02841635,  0.0317792 ,
+        0.03312424,  0.03783231,  0.04052274,  0.0438856 ,  0.0317792 ,
+        0.05397417,  0.05128392,  0.06002745,  0.05195653,  0.05800963,
+        0.06540813,  0.0694436 ,  0.07146124,  0.06742577,  0.07818713,
+        0.08962092,  0.07751453,  0.08424024,  0.10374495,  0.10105471,
+        0.07751453,  0.09096596,  0.08625806,  0.11786917,  0.10778042,
+        0.1138337 ,  0.11047085,  0.10441756,  0.12459488,  0.13132077,
+        0.12459488,  0.13333842,  0.1393917 ,  0.12190463,  0.14880785,
+        0.13670127,  0.14477238,  0.15082549,  0.15687877,  0.15418835,
+        0.1649497 ,  0.16293189,  0.16629474,  0.15956903,  0.1824366 ,
+        0.18647206,  0.1703302 ,  0.19656081,  0.1898351 ,  0.18109156,
+        0.19185273,  0.19857864,  0.20194149,  0.20463175,  0.21001242,
+        0.2079946 ,  0.21606553,  0.17571089,  0.22749949,  0.22279142,
+        0.22548167,  0.21673813,  0.2342252 ,  0.22884452,  0.24229613,
+        0.24767682,  0.23624302,  0.24700421,  0.25642034,  0.2665089 ,
+        0.24498639,  0.258438  ,  0.25238487,  0.26852673,  0.2846686 ,
+        0.27659768,  0.28130573,  0.26987195,  0.2907219 ,  0.28063312,
+        0.28937668,  0.29408473,  0.29946542,  0.28937668,  0.31224424,
+        0.29946542,  0.31224424,  0.31695232,  0.30753636,  0.30888137],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[0.06540813, 0.0694436 , 0.07751453, ..., 0.31224424, 0.31695232,
+        0.31829754],
+       [0.07751453, 0.07146124, 0.07818713, ..., 0.31829754, 0.3162799 ,
+        0.32704106],
+       [0.0694436 , 0.07751453, 0.07146124, ..., 0.31695232, 0.31829754,
+        0.3162799 ],
+       ...,
+       [0.52814204, 0.54428405, 0.5456291 , ..., 0.7662352 , 0.75412875,
+        0.7642175 ],
+       [0.5456291 , 0.54764694, 0.5483195 , ..., 0.75211096, 0.76488996,
+        0.76825297],
+       [0.54764694, 0.5483195 , 0.55437267, ..., 0.76488996, 0.76825297,
+        0.7621997 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([0.3162799 , 0.33040392, 0.32704106, 0.31829754, 0.3465458 ,
+       0.32704106, 0.34318292, 0.34587318, 0.34385553, 0.35327166,
+       0.35865217, 0.36201522, 0.36470544, 0.37613925, 0.37210378,
+       0.3801747 , 0.3801747 , 0.3855554 , 0.38219252, 0.3936263 ,
+       0.38421017, 0.35932478, 0.3996796 , 0.39631674, 0.38891825,
+       0.39833438, 0.40976816, 0.41514885, 0.41851172, 0.41716668,
+       0.42725524, 0.4306181 , 0.43734398, 0.39766178, 0.43734398,
+       0.42792785, 0.43532616, 0.44070685, 0.45550367, 0.45348585,
+       0.44608754, 0.4622294 , 0.42994568, 0.45819393, 0.46761006,
+       0.46693745, 0.46626484, 0.4830793 , 0.4817341 , 0.49182284,
+       0.48442453, 0.47971645, 0.49316806, 0.49115026, 0.50594705,
+       0.5052745 , 0.48980504, 0.5032566 , 0.51872605, 0.514018  ,
+       0.5126728 , 0.5328501 , 0.52814204, 0.526797  , 0.51065516,
+       0.52814204, 0.54428405, 0.55302763, 0.5456291 , 0.5456291 ,
+       0.5483195 , 0.55437267, 0.54764694, 0.5644614 , 0.51738083,
+       0.55504525, 0.56984204, 0.5584081 , 0.57455015, 0.58194846,
+       0.57993066, 0.5785856 , 0.5886742 , 0.57455015, 0.5987629 ,
+       0.5980903 , 0.59472746, 0.59472746, 0.5913646 , 0.6122145 ,
+       0.6229757 , 0.6155774 , 0.60616124, 0.6229757 , 0.61894023,
+       0.6263388 , 0.6357547 , 0.629029  , 0.6391178 , 0.64517087,
+       0.64517087, 0.6411354 , 0.6572772 , 0.66333055, 0.62499356,
+       0.67072886, 0.66198534, 0.66871125, 0.6666934 , 0.6680386 ,
+       0.6828352 , 0.67610955, 0.6821628 , 0.6882159 , 0.6861983 ,
+       0.69090617, 0.6828352 , 0.6989773 , 0.6989773 , 0.70906585,
+       0.70032233, 0.7225175 , 0.71444654, 0.7245353 , 0.7178094 ,
+       0.7063756 , 0.7245353 , 0.7406771 , 0.7379869 , 0.72857076,
+       0.7393319 , 0.7534562 , 0.74874806, 0.7258803 , 0.7642175 ,
+       0.75480133, 0.756819  , 0.7702706 , 0.76556253, 0.76018184,
+       0.76690775, 0.7642175 , 0.7662352 , 0.75412875, 0.7642175 ,
+       0.75211096, 0.76488996, 0.76825297, 0.7621997 , 0.7621997 ],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[0.5483195 , 0.55437267, 0.5644614 , ..., 0.76825297, 0.7621997 ,
+        0.7621997 ],
+       [0.5328501 , 0.5126728 , 0.52814204, ..., 0.7702706 , 0.76556253,
+        0.76018184],
+       [0.55437267, 0.5644614 , 0.55504525, ..., 0.7621997 , 0.7621997 ,
+        0.75950944],
+       ...,
+       [0.76152706, 0.76488996, 0.76488996, ..., 0.76018184, 0.7702706 ,
+        0.7608545 ],
+       [0.76488996, 0.76488996, 0.7581642 , ..., 0.7702706 , 0.7608545 ,
+        0.76825297],
+       [0.76488996, 0.7635449 , 0.756819  , ..., 0.76690775, 0.76690775,
+        0.7702706 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([0.75950944, 0.75412875, 0.7709432 , 0.76556253, 0.76825297,
+       0.76825297, 0.7621997 , 0.7709432 , 0.76825297, 0.76825297,
+       0.7581642 , 0.7621997 , 0.7588368 , 0.7507659 , 0.7588368 ,
+       0.7581642 , 0.76690775, 0.7662352 , 0.75278354, 0.76892537,
+       0.7621997 , 0.7608545 , 0.75950944, 0.76892537, 0.76892537,
+       0.7621997 , 0.755474  , 0.75211096, 0.76152706, 0.76825297,
+       0.7662352 , 0.76488996, 0.756819  , 0.7621997 , 0.7608545 ,
+       0.7608545 , 0.76825297, 0.7581642 , 0.76488996, 0.76152706,
+       0.7662352 , 0.7608545 , 0.7702706 , 0.77228844, 0.7756513 ,
+       0.76152706, 0.7635449 , 0.7635449 , 0.76825297, 0.77901417,
+       0.7736335 , 0.7608545 , 0.76690775, 0.77296084, 0.7635449 ,
+       0.7635449 , 0.756819  , 0.7675804 , 0.756819  , 0.76488996,
+       0.77430606, 0.7642175 , 0.7608545 , 0.7716158 , 0.7621997 ,
+       0.76152706, 0.7642175 , 0.76892537, 0.76488996, 0.76488996,
+       0.75950944, 0.76152706, 0.76018184, 0.7635449 , 0.7581642 ,
+       0.76825297, 0.7608545 , 0.756819  , 0.7642175 , 0.76152706,
+       0.7642175 , 0.76488996, 0.76690775, 0.7581642 , 0.7628723 ,
+       0.756819  , 0.7608545 , 0.76825297, 0.75412875, 0.76152706,
+       0.76892537, 0.76690775, 0.76018184, 0.769598  , 0.76488996,
+       0.7608545 , 0.7675804 , 0.7581642 , 0.76018184, 0.7749787 ,
+       0.75950944, 0.7662352 , 0.7662352 , 0.76690775, 0.7675804 ,
+       0.7662352 , 0.7621997 , 0.76892537, 0.7702706 , 0.75278354,
+       0.7628723 , 0.75950944, 0.7534562 , 0.7662352 , 0.76018184,
+       0.7662352 , 0.7608545 , 0.7581642 , 0.76152706, 0.7675804 ,
+       0.7749787 , 0.7635449 , 0.7702706 , 0.7675804 , 0.7662352 ,
+       0.7621997 , 0.7662352 , 0.7534562 , 0.75950944, 0.7608545 ,
+       0.76690775, 0.7574916 , 0.7702706 , 0.76690775, 0.7628723 ,
+       0.76892537, 0.7662352 , 0.7635449 , 0.7642175 , 0.77296084,
+       0.7702706 , 0.75950944, 0.75950944, 0.76556253, 0.76690775,
+       0.7702706 , 0.76018184, 0.76825297, 0.76018184, 0.76556253],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[0.76892537, 0.76152706, 0.76488996, ..., 0.76690775, 0.76018184,
+        0.7702706 ],
+       [0.76825297, 0.76018184, 0.7635449 , ..., 0.76018184, 0.7642175 ,
+        0.7716158 ],
+       [0.76018184, 0.7635449 , 0.7608545 , ..., 0.7642175 , 0.7716158 ,
+        0.7534562 ],
+       ...,
+       [0.7702706 , 0.755474  , 0.7642175 , ..., 0.7736335 , 0.7716158 ,
+        0.76556253],
+       [0.76892537, 0.7608545 , 0.7702706 , ..., 0.7588368 , 0.76018184,
+        0.7736335 ],
+       [0.7642175 , 0.7675804 , 0.77228844, ..., 0.76556253, 0.76556253,
+        0.76825297]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([0.7608545 , 0.7534562 , 0.76892537, 0.7608545 , 0.7581642 ,
+       0.76825297, 0.7642175 , 0.7716158 , 0.7675804 , 0.76690775,
+       0.75412875, 0.7675804 , 0.7736335 , 0.7628723 , 0.7628723 ,
+       0.7642175 , 0.7628723 , 0.7581642 , 0.7621997 , 0.7608545 ,
+       0.7574916 , 0.7702706 , 0.7702706 , 0.7621997 , 0.7642175 ,
+       0.7642175 , 0.76825297, 0.76018184, 0.7709432 , 0.76825297,
+       0.7534562 , 0.7702706 , 0.7588368 , 0.7561464 , 0.7749787 ,
+       0.7608545 , 0.7642175 , 0.76892537, 0.7702706 , 0.77430606,
+       0.76892537, 0.7628723 , 0.7702706 , 0.75950944, 0.76018184,
+       0.77228844, 0.7675804 , 0.7608545 , 0.77430606, 0.76018184,
+       0.7702706 , 0.7709432 , 0.7642175 , 0.76825297, 0.7621997 ,
+       0.7769965 , 0.76152706, 0.7621997 , 0.7628723 , 0.7709432 ,
+       0.76018184, 0.76825297, 0.7675804 , 0.75278354, 0.75950944,
+       0.76892537, 0.75480133, 0.7621997 , 0.7608545 , 0.7702706 ,
+       0.755474  , 0.77228844, 0.7635449 , 0.7675804 , 0.76690775,
+       0.7675804 , 0.7635449 , 0.7642175 , 0.77430606, 0.7642175 ,
+       0.7736335 , 0.75950944, 0.7662352 , 0.7608545 , 0.76556253,
+       0.7628723 , 0.75278354, 0.77296084, 0.7662352 , 0.76690775,
+       0.755474  , 0.7588368 , 0.7716158 , 0.7635449 , 0.7642175 ,
+       0.76825297, 0.76825297, 0.7628723 , 0.76690775, 0.76892537,
+       0.769598  , 0.7702706 , 0.75950944, 0.7662352 , 0.76825297,
+       0.7608545 , 0.7574916 , 0.76690775, 0.7628723 , 0.76152706,
+       0.7709432 , 0.7642175 , 0.76690775, 0.7662352 , 0.76152706,
+       0.7608545 , 0.77228844, 0.7608545 , 0.76018184, 0.7642175 ,
+       0.7608545 , 0.7574916 , 0.76825297, 0.7662352 , 0.76690775,
+       0.7642175 , 0.76825297, 0.7716158 , 0.76488996, 0.7621997 ,
+       0.77430606, 0.7702706 , 0.76488996, 0.7635449 , 0.75412875,
+       0.7561464 , 0.7608545 , 0.76892537, 0.7628723 , 0.7702706 ,
+       0.76825297, 0.7702706 , 0.7628723 , 0.76018184, 0.77901417,
+       0.7736335 , 0.7588368 , 0.76556253, 0.7716158 , 0.76556253],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[0.7608545 , 0.7702706 , 0.755474  , ..., 0.76018184, 0.7736335 ,
+        0.7716158 ],
+       [0.7675804 , 0.77228844, 0.7635449 , ..., 0.76556253, 0.76825297,
+        0.76556253],
+       [0.77228844, 0.7635449 , 0.7635449 , ..., 0.76825297, 0.76556253,
+        0.7716158 ],
+       ...,
+       [0.76690775, 0.76488996, 0.7662352 , ..., 0.7628723 , 0.76892537,
+        0.7621997 ],
+       [0.76488996, 0.7662352 , 0.7635449 , ..., 0.76892537, 0.7621997 ,
+        0.7635449 ],
+       [0.7635449 , 0.77296084, 0.76825297, ..., 0.7635449 , 0.756819  ,
+        0.7716158 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([0.76556253, 0.7716158 , 0.76825297, 0.7642175 , 0.7588368 ,
+       0.75950944, 0.76825297, 0.769598  , 0.7675804 , 0.7628723 ,
+       0.76892537, 0.7561464 , 0.76825297, 0.76892537, 0.7635449 ,
+       0.76690775, 0.7675804 , 0.76556253, 0.75480133, 0.7803594 ,
+       0.769598  , 0.7621997 , 0.76825297, 0.76488996, 0.7621997 ,
+       0.7574916 , 0.76488996, 0.76892537, 0.7635449 , 0.76556253,
+       0.7621997 , 0.76892537, 0.76018184, 0.7675804 , 0.76488996,
+       0.77834153, 0.7621997 , 0.769598  , 0.7662352 , 0.7642175 ,
+       0.7662352 , 0.76152706, 0.756819  , 0.7588368 , 0.7716158 ,
+       0.76152706, 0.7675804 , 0.76556253, 0.75278354, 0.7702706 ,
+       0.76488996, 0.7628723 , 0.7635449 , 0.7662352 , 0.76556253,
+       0.76152706, 0.7588368 , 0.75480133, 0.76152706, 0.76825297,
+       0.75950944, 0.76152706, 0.769598  , 0.76488996, 0.76018184,
+       0.75950944, 0.76690775, 0.76488996, 0.77228844, 0.7662352 ,
+       0.7608545 , 0.76825297, 0.7635449 , 0.7642175 , 0.76152706,
+       0.769598  , 0.77296084, 0.76892537, 0.7642175 , 0.76690775,
+       0.76556253, 0.7588368 , 0.7662352 , 0.76152706, 0.76018184,
+       0.7621997 , 0.7635449 , 0.7675804 , 0.7662352 , 0.7642175 ,
+       0.7662352 , 0.7716158 , 0.7621997 , 0.76892537, 0.7702706 ,
+       0.76892537, 0.7608545 , 0.7642175 , 0.756819  , 0.76825297,
+       0.76556253, 0.7635449 , 0.7608545 , 0.75412875, 0.7635449 ,
+       0.7769965 , 0.76018184, 0.7702706 , 0.76488996, 0.7702706 ,
+       0.7635449 , 0.77430606, 0.76488996, 0.7635449 , 0.76488996,
+       0.77296084, 0.7662352 , 0.76892537, 0.7621997 , 0.7702706 ,
+       0.7662352 , 0.76152706, 0.7635449 , 0.76892537, 0.7709432 ,
+       0.7608545 , 0.7574916 , 0.7628723 , 0.755474  , 0.76690775,
+       0.76018184, 0.769598  , 0.76488996, 0.7621997 , 0.7621997 ,
+       0.7662352 , 0.77901417, 0.76825297, 0.7702706 , 0.7749787 ,
+       0.7642175 , 0.76556253, 0.7621997 , 0.75412875, 0.7662352 ,
+       0.7628723 , 0.7621997 , 0.7635449 , 0.756819  , 0.7675804 ],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[0.76018184, 0.7608545 , 0.76690775, ..., 0.76556253, 0.75412875,
+        0.7628723 ],
+       [0.76825297, 0.7642175 , 0.76892537, ..., 0.7716158 , 0.7675804 ,
+        0.7716158 ],
+       [0.7642175 , 0.76892537, 0.76152706, ..., 0.7675804 , 0.7716158 ,
+        0.77228844],
+       ...,
+       [0.769598  , 0.77430606, 0.7621997 , ..., 0.7716158 , 0.7702706 ,
+        0.76690775],
+       [0.7702706 , 0.7662352 , 0.7675804 , ..., 0.76892537, 0.76690775,
+        0.755474  ],
+       [0.7621997 , 0.7635449 , 0.7702706 , ..., 0.76892537, 0.76690775,
+        0.76892537]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([0.76892537, 0.77228844, 0.76488996, 0.7716158 , 0.7662352 ,
+       0.7635449 , 0.7716158 , 0.769598  , 0.7662352 , 0.77228844,
+       0.7628723 , 0.7763239 , 0.7608545 , 0.76018184, 0.76690775,
+       0.7675804 , 0.76488996, 0.76152706, 0.769598  , 0.76018184,
+       0.7642175 , 0.7621997 , 0.76556253, 0.77430606, 0.7716158 ,
+       0.76488996, 0.7749787 , 0.76018184, 0.7662352 , 0.7561464 ,
+       0.76018184, 0.7635449 , 0.7716158 , 0.76892537, 0.76690775,
+       0.75950944, 0.7769965 , 0.7662352 , 0.7642175 , 0.76152706,
+       0.76556253, 0.7621997 , 0.769598  , 0.7581642 , 0.77296084,
+       0.76152706, 0.7662352 , 0.76152706, 0.76892537, 0.7574916 ,
+       0.7642175 , 0.76892537, 0.769598  , 0.75950944, 0.75480133,
+       0.7675804 , 0.77228844, 0.76892537, 0.7642175 , 0.7642175 ,
+       0.77430606, 0.7642175 , 0.76825297, 0.7635449 , 0.7702706 ,
+       0.7662352 , 0.7621997 , 0.7675804 , 0.77430606, 0.7621997 ,
+       0.7642175 , 0.769598  , 0.7675804 , 0.76556253, 0.76556253,
+       0.7621997 , 0.77296084, 0.7574916 , 0.7635449 , 0.769598  ,
+       0.76152706, 0.76488996, 0.77430606, 0.7635449 , 0.7716158 ,
+       0.7662352 , 0.77296084, 0.7608545 , 0.77430606, 0.769598  ,
+       0.76556253, 0.769598  , 0.76556253, 0.7561464 , 0.7608545 ,
+       0.76690775, 0.7608545 , 0.769598  , 0.7642175 , 0.7581642 ,
+       0.76690775, 0.7716158 , 0.7675804 , 0.7662352 , 0.76690775,
+       0.7662352 , 0.7709432 , 0.769598  , 0.7621997 , 0.76892537,
+       0.7621997 , 0.769598  , 0.7608545 , 0.77766895, 0.7628723 ,
+       0.7608545 , 0.7709432 , 0.76892537, 0.7709432 , 0.7621997 ,
+       0.769598  , 0.76825297, 0.7628723 , 0.7763239 , 0.76488996,
+       0.77430606, 0.76892537, 0.7675804 , 0.7608545 , 0.76152706,
+       0.7675804 , 0.7662352 , 0.7621997 , 0.77968675, 0.7749787 ,
+       0.76825297, 0.76825297, 0.76825297, 0.7662352 , 0.769598  ,
+       0.76690775, 0.76892537, 0.76892537, 0.7642175 , 0.755474  ,
+       0.7702706 , 0.76690775, 0.76488996, 0.7716158 , 0.76690775],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[0.77430606, 0.7621997 , 0.7642175 , ..., 0.7702706 , 0.76690775,
+        0.76488996],
+       [0.7621997 , 0.7642175 , 0.76556253, ..., 0.76690775, 0.76488996,
+        0.76892537],
+       [0.7642175 , 0.76556253, 0.7675804 , ..., 0.76488996, 0.76892537,
+        0.7642175 ],
+       ...,
+       [0.76488996, 0.7716158 , 0.76690775, ..., 0.7642175 , 0.7561464 ,
+        0.77430606],
+       [0.7716158 , 0.76690775, 0.7635449 , ..., 0.7561464 , 0.77430606,
+        0.7709432 ],
+       [0.76556253, 0.76488996, 0.7716158 , ..., 0.76825297, 0.7642175 ,
+        0.7561464 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([0.76892537, 0.7642175 , 0.76825297, 0.7763239 , 0.7628723 ,
+       0.7635449 , 0.76488996, 0.7716158 , 0.7675804 , 0.77228844,
+       0.769598  , 0.76152706, 0.7702706 , 0.7702706 , 0.7702706 ,
+       0.76892537, 0.76556253, 0.7662352 , 0.76152706, 0.76892537,
+       0.76825297, 0.7642175 , 0.76152706, 0.7628723 , 0.755474  ,
+       0.76690775, 0.7675804 , 0.7662352 , 0.76690775, 0.755474  ,
+       0.7716158 , 0.76825297, 0.75412875, 0.7662352 , 0.7621997 ,
+       0.7628723 , 0.76825297, 0.7608545 , 0.77228844, 0.7628723 ,
+       0.7662352 , 0.7628723 , 0.76488996, 0.76892537, 0.7662352 ,
+       0.76892537, 0.7628723 , 0.7662352 , 0.7621997 , 0.76892537,
+       0.7662352 , 0.7662352 , 0.76825297, 0.7675804 , 0.7581642 ,
+       0.7608545 , 0.76892537, 0.7709432 , 0.7662352 , 0.7581642 ,
+       0.76488996, 0.76152706, 0.7635449 , 0.7635449 , 0.76690775,
+       0.75412875, 0.76556253, 0.7635449 , 0.7716158 , 0.76488996,
+       0.76018184, 0.7581642 , 0.7621997 , 0.7635449 , 0.7675804 ,
+       0.7621997 , 0.756819  , 0.7621997 , 0.7588368 , 0.76690775,
+       0.7635449 , 0.7769965 , 0.76556253, 0.76488996, 0.7621997 ,
+       0.7608545 , 0.7574916 , 0.76892537, 0.7662352 , 0.7642175 ,
+       0.7675804 , 0.7756513 , 0.7702706 , 0.7675804 , 0.77766895,
+       0.756819  , 0.76556253, 0.76488996, 0.769598  , 0.7628723 ,
+       0.77430606, 0.76152706, 0.77296084, 0.76488996, 0.76556253,
+       0.7709432 , 0.77296084, 0.7675804 , 0.76892537, 0.769598  ,
+       0.7709432 , 0.7635449 , 0.7628723 , 0.7749787 , 0.7709432 ,
+       0.7702706 , 0.7675804 , 0.7628723 , 0.7621997 , 0.7702706 ,
+       0.7588368 , 0.76825297, 0.76152706, 0.7716158 , 0.7534562 ,
+       0.7581642 , 0.76152706, 0.7561464 , 0.7642175 , 0.76892537,
+       0.7621997 , 0.755474  , 0.7635449 , 0.76152706, 0.7709432 ,
+       0.75950944, 0.7635449 , 0.76690775, 0.7621997 , 0.76825297,
+       0.7621997 , 0.7574916 , 0.76152706, 0.76825297, 0.76556253,
+       0.7642175 , 0.756819  , 0.7709432 , 0.77228844, 0.77430606],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
+array([[0.7635449 , 0.7581642 , 0.7621997 , ..., 0.7709432 , 0.77228844,
+        0.76152706],
+       [0.76690775, 0.7635449 , 0.7581642 , ..., 0.77430606, 0.7709432 ,
+        0.77228844],
+       [0.7621997 , 0.7621997 , 0.7675804 , ..., 0.76152706, 0.7561464 ,
+        0.7709432 ],
+       ...,
+       [0.76892537, 0.76892537, 0.76892537, ..., 0.7675804 , 0.7608545 ,
+        0.76556253],
+       [0.7635449 , 0.756819  , 0.7662352 , ..., 0.7628723 , 0.76825297,
+        0.7675804 ],
+       [0.756819  , 0.7662352 , 0.7635449 , ..., 0.76825297, 0.7675804 ,
+        0.76152706]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
+array([0.7561464 , 0.76152706, 0.76488996, 0.7561464 , 0.7709432 ,
+       0.76892537, 0.7716158 , 0.7642175 , 0.77228844, 0.76018184,
+       0.76018184, 0.7702706 , 0.7675804 , 0.76488996, 0.7621997 ,
+       0.769598  , 0.7621997 , 0.76892537, 0.7588368 , 0.7581642 ,
+       0.77766895, 0.75480133, 0.76018184, 0.7628723 , 0.76690775,
+       0.7588368 , 0.76488996, 0.76892537, 0.7642175 , 0.7588368 ,
+       0.7662352 , 0.76152706, 0.7608545 , 0.7635449 , 0.7635449 ,
+       0.76690775, 0.77228844, 0.76690775, 0.76825297, 0.7763239 ,
+       0.7608545 , 0.7675804 , 0.7662352 , 0.76152706, 0.7662352 ,
+       0.7635449 , 0.76556253, 0.7749787 , 0.7635449 , 0.7675804 ,
+       0.75950944, 0.76690775, 0.77228844, 0.7642175 , 0.7608545 ,
+       0.7635449 , 0.76825297, 0.7621997 , 0.7574916 , 0.7621997 ,
+       0.7574916 , 0.769598  , 0.7709432 , 0.76892537, 0.76018184,
+       0.7581642 , 0.76892537, 0.76892537, 0.76892537, 0.7635449 ,
+       0.77228844, 0.7662352 , 0.756819  , 0.7635449 , 0.7675804 ,
+       0.77228844, 0.76690775, 0.7588368 , 0.769598  , 0.77296084,
+       0.7635449 , 0.77834153, 0.7702706 , 0.7608545 , 0.77296084,
+       0.7635449 , 0.7675804 , 0.7635449 , 0.76488996, 0.7581642 ,
+       0.7628723 , 0.7574916 , 0.7561464 , 0.7749787 , 0.7662352 ,
+       0.769598  , 0.76018184, 0.76690775, 0.76690775, 0.76152706,
+       0.7662352 , 0.75950944, 0.7709432 , 0.7769965 , 0.75480133,
+       0.7702706 , 0.7662352 , 0.7702706 , 0.77296084, 0.7534562 ,
+       0.7635449 , 0.76488996, 0.7642175 , 0.7716158 , 0.7702706 ,
+       0.7702706 , 0.76825297, 0.7702706 , 0.76892537, 0.76556253,
+       0.76152706, 0.76825297, 0.7608545 , 0.7635449 , 0.76690775,
+       0.76892537, 0.7574916 , 0.7675804 , 0.7635449 , 0.77228844,
+       0.76690775, 0.7662352 , 0.76018184, 0.76825297, 0.76690775,
+       0.7716158 , 0.7581642 , 0.7642175 , 0.7716158 , 0.76892537,
+       0.77430606, 0.7675804 , 0.7662352 , 0.7608545 , 0.76556253,
+       0.7675804 , 0.7635449 , 0.7628723 , 0.76152706, 0.76690775],
+      dtype=float32)&gt;)
+(&lt;tf.Tensor: shape=(87, 80), dtype=float32, numpy=
+array([[0.76892537, 0.7635449 , 0.756819  , ..., 0.76556253, 0.7628723 ,
+        0.76825297],
+       [0.7662352 , 0.7635449 , 0.77228844, ..., 0.7675804 , 0.76152706,
+        0.76690775],
+       [0.77228844, 0.7675804 , 0.7588368 , ..., 0.76690775, 0.76488996,
+        0.7628723 ],
+       ...,
+       [0.76488996, 0.76152706, 0.7769965 , ..., 0.77968675, 0.7608545 ,
+        0.76556253],
+       [0.7769965 , 0.76018184, 0.7642175 , ..., 0.76556253, 0.7635449 ,
+        0.7716158 ],
+       [0.76690775, 0.76488996, 0.7628723 , ..., 0.76825297, 0.76018184,
+        0.7628723 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(87,), dtype=float32, numpy=
+array([0.7675804 , 0.76488996, 0.76488996, 0.76152706, 0.7628723 ,
+       0.76825297, 0.7642175 , 0.76018184, 0.77430606, 0.76488996,
+       0.7769965 , 0.7749787 , 0.769598  , 0.7635449 , 0.75412875,
+       0.76892537, 0.769598  , 0.769598  , 0.76488996, 0.76690775,
+       0.7635449 , 0.7716158 , 0.76892537, 0.7635449 , 0.76892537,
+       0.7581642 , 0.7709432 , 0.769598  , 0.7709432 , 0.7675804 ,
+       0.7763239 , 0.7675804 , 0.7702706 , 0.7769965 , 0.7635449 ,
+       0.76892537, 0.77228844, 0.769598  , 0.7716158 , 0.7635449 ,
+       0.7662352 , 0.756819  , 0.7675804 , 0.77296084, 0.7675804 ,
+       0.7635449 , 0.7716158 , 0.75412875, 0.7736335 , 0.7675804 ,
+       0.7621997 , 0.7702706 , 0.76152706, 0.76825297, 0.77901417,
+       0.7628723 , 0.7635449 , 0.7662352 , 0.7702706 , 0.7662352 ,
+       0.7716158 , 0.7581642 , 0.76892537, 0.769598  , 0.7662352 ,
+       0.76825297, 0.7769965 , 0.76825297, 0.75950944, 0.7662352 ,
+       0.7662352 , 0.77834153, 0.7608545 , 0.76152706, 0.76825297,
+       0.7635449 , 0.76825297, 0.76018184, 0.76690775, 0.7628723 ,
+       0.7608545 , 0.7628723 , 0.76556253, 0.7716158 , 0.7635449 ,
+       0.7628723 , 0.77968675], dtype=float32)&gt;)
+</pre></div>
+</div>
+<p><span style="color:blue; font-size:20px">The windowed size is: 13, and raw datashape is (1967)</span></p>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_basic_model</span><span class="p">():</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">new_df</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">])</span>
+
+  <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+                <span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">BinaryCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+  <span class="k">return</span> <span class="n">model</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">get_basic_model</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_df</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">new_df</span><span class="p">),</span> <span class="n">target</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span><span class="o">/</span><span class="n">ipykernel_32756</span><span class="o">/</span><span class="mf">2725428979.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>   <span class="k">return</span> <span class="n">model</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> 
+<span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">model</span> <span class="o">=</span> <span class="n">get_basic_model</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_df</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">new_df</span><span class="p">),</span> <span class="n">target</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+
+<span class="nn">~\AppData\Local\Temp/ipykernel_32756/2725428979.py</span> in <span class="ni">get_basic_model</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">get_basic_model</span><span class="p">():</span>
+<span class="ne">----&gt; </span><span class="mi">2</span>   <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">new_df</span><span class="p">),</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\training\tracking\base.py</span> in <span class="ni">_method_wrapper</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">455</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="g g-Whitespace">    </span><span class="mi">456</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">457</span>       <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">458</span>     <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">459</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="n">previous_value</span>  <span class="c1"># pylint: disable=protected-access</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\engine\sequential.py</span> in <span class="ni">__init__</span><span class="nt">(self, layers, name)</span>
+<span class="g g-Whitespace">    </span><span class="mi">140</span>         <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">layers</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>       <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">142</span>         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">143</span> 
+<span class="g g-Whitespace">    </span><span class="mi">144</span>   <span class="nd">@property</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\training\tracking\base.py</span> in <span class="ni">_method_wrapper</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">455</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="g g-Whitespace">    </span><span class="mi">456</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">457</span>       <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">458</span>     <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">459</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="n">previous_value</span>  <span class="c1"># pylint: disable=protected-access</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\engine\sequential.py</span> in <span class="ni">add</span><span class="nt">(self, layer)</span>
+<span class="g g-Whitespace">    </span><span class="mi">178</span> 
+<span class="g g-Whitespace">    </span><span class="mi">179</span>     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">base_layer</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">180</span>       <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The added layer must be &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">181</span>                       <span class="s1">&#39;an instance of class Layer. &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">182</span>                       <span class="s1">&#39;Found: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">layer</span><span class="p">))</span>
+
+<span class="ne">TypeError</span>: The added layer must be an instance of class Layer. Found: &lt;TensorSliceDataset shapes: (3,), types: tf.float64&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="model-construction">
+<h2><strong>4, Model construction</strong><a class="headerlink" href="#model-construction" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">clear_session</span><span class="p">()</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv1D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;causal&quot;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+                                    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">),</span>
+                                    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">),</span>
+                                    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                                    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">400</span><span class="p">)</span>
+                                    <span class="p">])</span>
+
+<span class="c1">#input_shape=[None, 1]</span>
+<span class="c1">#model.build(input_shape)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NotImplementedError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span><span class="o">/</span><span class="n">ipykernel_26960</span><span class="o">/</span><span class="mf">2288807282.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">clear_session</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv1D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;causal&quot;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                                     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                                     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\training\tracking\base.py</span> in <span class="ni">_method_wrapper</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">455</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="g g-Whitespace">    </span><span class="mi">456</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">457</span>       <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">458</span>     <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">459</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="n">previous_value</span>  <span class="c1"># pylint: disable=protected-access</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\engine\sequential.py</span> in <span class="ni">__init__</span><span class="nt">(self, layers, name)</span>
+<span class="g g-Whitespace">    </span><span class="mi">140</span>         <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">layers</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span>       <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">142</span>         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">143</span> 
+<span class="g g-Whitespace">    </span><span class="mi">144</span>   <span class="nd">@property</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\training\tracking\base.py</span> in <span class="ni">_method_wrapper</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">455</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="g g-Whitespace">    </span><span class="mi">456</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">457</span>       <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">458</span>     <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">459</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="n">previous_value</span>  <span class="c1"># pylint: disable=protected-access</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\engine\sequential.py</span> in <span class="ni">add</span><span class="nt">(self, layer)</span>
+<span class="g g-Whitespace">    </span><span class="mi">219</span>       <span class="c1"># If the model is being built continuously on top of an input layer:</span>
+<span class="g g-Whitespace">    </span><span class="mi">220</span>       <span class="c1"># refresh its output.</span>
+<span class="ne">--&gt; </span><span class="mi">221</span>       <span class="n">output_tensor</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">222</span>       <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nest</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">output_tensor</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">223</span>         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">SINGLE_LAYER_OUTPUT_ERROR_MSG</span><span class="p">)</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\layers\recurrent.py</span> in <span class="ni">__call__</span><span class="nt">(self, inputs, initial_state, constants, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">661</span> 
+<span class="g g-Whitespace">    </span><span class="mi">662</span>     <span class="k">if</span> <span class="n">initial_state</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">constants</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">663</span>       <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">RNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">664</span> 
+<span class="g g-Whitespace">    </span><span class="mi">665</span>     <span class="c1"># If any of `initial_state` or `constants` are specified and are Keras</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\engine\base_layer.py</span> in <span class="ni">__call__</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">923</span>     <span class="c1"># &gt;&gt; model = tf.keras.Model(inputs, outputs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">924</span>     <span class="k">if</span> <span class="n">_in_functional_construction_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">input_list</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">925</span>       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_functional_construction_call</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">926</span>                                                 <span class="n">input_list</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">927</span> 
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\engine\base_layer.py</span> in <span class="ni">_functional_construction_call</span><span class="nt">(self, inputs, args, kwargs, input_list)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1115</span>           <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1116</span>             <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">enable_auto_cast_variables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_compute_dtype_object</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1117</span>               <span class="n">outputs</span> <span class="o">=</span> <span class="n">call_fn</span><span class="p">(</span><span class="n">cast_inputs</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1118</span> 
+<span class="g g-Whitespace">   </span><span class="mi">1119</span>           <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">OperatorNotAllowedInGraphError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\layers\recurrent_v2.py</span> in <span class="ni">call</span><span class="nt">(self, inputs, mask, training, initial_state)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1106</span> 
+<span class="g g-Whitespace">   </span><span class="mi">1107</span>     <span class="c1"># LSTM does not support constants. Ignore it during process.</span>
+<span class="ne">-&gt; </span><span class="mi">1108</span>     <span class="n">inputs</span><span class="p">,</span> <span class="n">initial_state</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_inputs</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">initial_state</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1109</span> 
+<span class="g g-Whitespace">   </span><span class="mi">1110</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\layers\recurrent.py</span> in <span class="ni">_process_inputs</span><span class="nt">(self, inputs, initial_state, constants)</span>
+<span class="g g-Whitespace">    </span><span class="mi">860</span>         <span class="n">initial_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span>
+<span class="g g-Whitespace">    </span><span class="mi">861</span>     <span class="k">elif</span> <span class="n">initial_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">862</span>       <span class="n">initial_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_initial_state</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">863</span> 
+<span class="g g-Whitespace">    </span><span class="mi">864</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initial_state</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">):</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\layers\recurrent.py</span> in <span class="ni">get_initial_state</span><span class="nt">(self, inputs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">643</span>     <span class="n">dtype</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span>
+<span class="g g-Whitespace">    </span><span class="mi">644</span>     <span class="k">if</span> <span class="n">get_initial_state_fn</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">645</span>       <span class="n">init_state</span> <span class="o">=</span> <span class="n">get_initial_state_fn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">646</span>           <span class="n">inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">647</span>     <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\layers\recurrent.py</span> in <span class="ni">get_initial_state</span><span class="nt">(self, inputs, batch_size, dtype)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2521</span> 
+<span class="g g-Whitespace">   </span><span class="mi">2522</span>   <span class="k">def</span> <span class="nf">get_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">2523</span>     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_generate_zero_filled_state_for_cell</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2524</span>         <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">dtype</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">2525</span> 
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\layers\recurrent.py</span> in <span class="ni">_generate_zero_filled_state_for_cell</span><span class="nt">(cell, inputs, batch_size, dtype)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2966</span>     <span class="n">batch_size</span> <span class="o">=</span> <span class="n">array_ops</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">2967</span>     <span class="n">dtype</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span>
+<span class="ne">-&gt; </span><span class="mi">2968</span>   <span class="k">return</span> <span class="n">_generate_zero_filled_state</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">state_size</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2969</span> 
+<span class="g g-Whitespace">   </span><span class="mi">2970</span> 
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\layers\recurrent.py</span> in <span class="ni">_generate_zero_filled_state</span><span class="nt">(batch_size_tensor, state_size, dtype)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2982</span> 
+<span class="g g-Whitespace">   </span><span class="mi">2983</span>   <span class="k">if</span> <span class="n">nest</span><span class="o">.</span><span class="n">is_sequence</span><span class="p">(</span><span class="n">state_size</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">2984</span>     <span class="k">return</span> <span class="n">nest</span><span class="o">.</span><span class="n">map_structure</span><span class="p">(</span><span class="n">create_zeros</span><span class="p">,</span> <span class="n">state_size</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2985</span>   <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2986</span>     <span class="k">return</span> <span class="n">create_zeros</span><span class="p">(</span><span class="n">state_size</span><span class="p">)</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\util\nest.py</span> in <span class="ni">map_structure</span><span class="nt">(func, *structure, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">633</span> 
+<span class="g g-Whitespace">    </span><span class="mi">634</span>   <span class="k">return</span> <span class="n">pack_sequence_as</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">635</span>       <span class="n">structure</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">636</span>       <span class="n">expand_composites</span><span class="o">=</span><span class="n">expand_composites</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">637</span> 
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\util\nest.py</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">    </span><span class="mi">633</span> 
+<span class="g g-Whitespace">    </span><span class="mi">634</span>   <span class="k">return</span> <span class="n">pack_sequence_as</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">635</span>       <span class="n">structure</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">636</span>       <span class="n">expand_composites</span><span class="o">=</span><span class="n">expand_composites</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">637</span> 
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\layers\recurrent.py</span> in <span class="ni">create_zeros</span><span class="nt">(unnested_state_size)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2979</span>     <span class="n">flat_dims</span> <span class="o">=</span> <span class="n">tensor_shape</span><span class="o">.</span><span class="n">as_shape</span><span class="p">(</span><span class="n">unnested_state_size</span><span class="p">)</span><span class="o">.</span><span class="n">as_list</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">2980</span>     <span class="n">init_state_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">batch_size_tensor</span><span class="p">]</span> <span class="o">+</span> <span class="n">flat_dims</span>
+<span class="ne">-&gt; </span><span class="mi">2981</span>     <span class="k">return</span> <span class="n">array_ops</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">init_state_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2982</span> 
+<span class="g g-Whitespace">   </span><span class="mi">2983</span>   <span class="k">if</span> <span class="n">nest</span><span class="o">.</span><span class="n">is_sequence</span><span class="p">(</span><span class="n">state_size</span><span class="p">):</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\util\dispatch.py</span> in <span class="ni">wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span>     <span class="sd">&quot;&quot;&quot;Call target, and fall back on dispatchers if there is a TypeError.&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">201</span>       <span class="k">return</span> <span class="n">target</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">202</span>     <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">203</span>       <span class="c1"># Note: convert_to_eager_tensor currently raises a ValueError, not a</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\ops\array_ops.py</span> in <span class="ni">wrapped</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2745</span> 
+<span class="g g-Whitespace">   </span><span class="mi">2746</span>   <span class="k">def</span> <span class="nf">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">2747</span>     <span class="n">tensor</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2748</span>     <span class="n">tensor</span><span class="o">.</span><span class="n">_is_zeros_tensor</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">   </span><span class="mi">2749</span>     <span class="k">return</span> <span class="n">tensor</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\ops\array_ops.py</span> in <span class="ni">zeros</span><span class="nt">(shape, dtype, name)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2792</span>           <span class="c1"># Create a constant if it won&#39;t be very big. Otherwise create a fill</span>
+<span class="g g-Whitespace">   </span><span class="mi">2793</span>           <span class="c1"># op to prevent serialized GraphDefs from becoming too large.</span>
+<span class="ne">-&gt; </span><span class="mi">2794</span>           <span class="n">output</span> <span class="o">=</span> <span class="n">_constant_if_small</span><span class="p">(</span><span class="n">zero</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2795</span>           <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2796</span>             <span class="k">return</span> <span class="n">output</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\ops\array_ops.py</span> in <span class="ni">_constant_if_small</span><span class="nt">(value, shape, dtype, name)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2730</span> <span class="k">def</span> <span class="nf">_constant_if_small</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">2731</span>   <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2732</span>     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2733</span>       <span class="k">return</span> <span class="n">constant</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2734</span>   <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+
+<span class="nn">&lt;__array_function__ internals&gt;</span> in <span class="ni">prod</span><span class="nt">(*args, **kwargs)</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\numpy\core\fromnumeric.py</span> in <span class="ni">prod</span><span class="nt">(a, axis, dtype, out, keepdims, initial, where)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3028</span>     <span class="mi">10</span>
+<span class="g g-Whitespace">   </span><span class="mi">3029</span>     <span class="s2">&quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">3030</span><span class="s2">     return _wrapreduction(a, np.multiply, &#39;prod&#39;, axis, dtype, out,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3031</span><span class="s2">                           keepdims=keepdims, initial=initial, where=where)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3032</span><span class="s2"> </span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\numpy\core\fromnumeric.py</span> in <span class="ni">_wrapreduction</span><span class="nt">(obj, ufunc, method, axis, dtype, out, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">85</span><span class="s2">                 return reduction(axis=axis, out=out, **passkwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">86</span><span class="s2"> </span>
+<span class="ne">---&gt; </span><span class="mi">87</span><span class="s2">     return ufunc.reduce(obj, axis, dtype, out, **passkwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">88</span><span class="s2"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">89</span><span class="s2"> </span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\framework\ops.py</span> in <span class="ni">__array__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">843</span><span class="s2"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">844</span><span class="s2">   def __array__(self):</span>
+<span class="ne">--&gt; </span><span class="mi">845</span><span class="s2">     raise NotImplementedError(</span>
+<span class="g g-Whitespace">    </span><span class="mi">846</span><span class="s2">         &quot;Cannot convert a symbolic Tensor (</span><span class="si">{}</span><span class="s2">) to a numpy array.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">847</span><span class="s2">         &quot; This error may indicate that you&#39;re trying to pass a Tensor to&quot;</span>
+
+<span class="ne">NotImplementedError</span>: Cannot convert a symbolic Tensor (lstm/strided_slice:0) to a numpy array. This error may indicate that you&#39;re trying to pass a Tensor to a NumPy call, which is not supported
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span><span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Huber</span><span class="p">(),</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mae&quot;</span><span class="p">])</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/5
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span><span class="o">/</span><span class="n">ipykernel_26960</span><span class="o">/</span><span class="mf">2758974175.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span><span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">Huber</span><span class="p">(),</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mae&quot;</span><span class="p">])</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\engine\training.py</span> in <span class="ni">_method_wrapper</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span>   <span class="k">def</span> <span class="nf">_method_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_in_multi_worker_mode</span><span class="p">():</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="ne">--&gt; </span><span class="mi">108</span>       <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span> 
+<span class="g g-Whitespace">    </span><span class="mi">110</span>     <span class="c1"># Running inside `run_distribute_coordinator` already.</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\engine\training.py</span> in <span class="ni">fit</span><span class="nt">(self, x, y, batch_size, epochs, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, initial_epoch, steps_per_epoch, validation_steps, validation_batch_size, validation_freq, max_queue_size, workers, use_multiprocessing)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1096</span>                 <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1097</span>               <span class="n">callbacks</span><span class="o">.</span><span class="n">on_train_batch_begin</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1098</span>               <span class="n">tmp_logs</span> <span class="o">=</span> <span class="n">train_function</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1099</span>               <span class="k">if</span> <span class="n">data_handler</span><span class="o">.</span><span class="n">should_sync</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1100</span>                 <span class="n">context</span><span class="o">.</span><span class="n">async_wait</span><span class="p">()</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\eager\def_function.py</span> in <span class="ni">__call__</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">778</span>       <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">779</span>         <span class="n">compiler</span> <span class="o">=</span> <span class="s2">&quot;nonXla&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">780</span>         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">781</span> 
+<span class="g g-Whitespace">    </span><span class="mi">782</span>       <span class="n">new_tracing_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_tracing_count</span><span class="p">()</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\eager\def_function.py</span> in <span class="ni">_call</span><span class="nt">(self, *args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">821</span>       <span class="c1"># This is the first call of __call__, so we have to initialize.</span>
+<span class="g g-Whitespace">    </span><span class="mi">822</span>       <span class="n">initializers</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">--&gt; </span><span class="mi">823</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwds</span><span class="p">,</span> <span class="n">add_initializers_to</span><span class="o">=</span><span class="n">initializers</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">824</span>     <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">825</span>       <span class="c1"># At this point we know that the initialization is complete (or less</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\eager\def_function.py</span> in <span class="ni">_initialize</span><span class="nt">(self, args, kwds, add_initializers_to)</span>
+<span class="g g-Whitespace">    </span><span class="mi">694</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_graph_deleter</span> <span class="o">=</span> <span class="n">FunctionDeleter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lifted_initializer_graph</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">695</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_concrete_stateful_fn</span> <span class="o">=</span> <span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">696</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_stateful_fn</span><span class="o">.</span><span class="n">_get_concrete_function_internal_garbage_collected</span><span class="p">(</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="g g-Whitespace">    </span><span class="mi">697</span>             <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">698</span> 
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\eager\function.py</span> in <span class="ni">_get_concrete_function_internal_garbage_collected</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2853</span>       <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">2854</span>     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2855</span>       <span class="n">graph_function</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_define_function</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2856</span>     <span class="k">return</span> <span class="n">graph_function</span>
+<span class="g g-Whitespace">   </span><span class="mi">2857</span> 
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\eager\function.py</span> in <span class="ni">_maybe_define_function</span><span class="nt">(self, args, kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3211</span> 
+<span class="g g-Whitespace">   </span><span class="mi">3212</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_function_cache</span><span class="o">.</span><span class="n">missed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">call_context_key</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">3213</span>       <span class="n">graph_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_graph_function</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3214</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_function_cache</span><span class="o">.</span><span class="n">primary</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph_function</span>
+<span class="g g-Whitespace">   </span><span class="mi">3215</span>       <span class="k">return</span> <span class="n">graph_function</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\eager\function.py</span> in <span class="ni">_create_graph_function</span><span class="nt">(self, args, kwargs, override_flat_arg_shapes)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3063</span>     <span class="n">arg_names</span> <span class="o">=</span> <span class="n">base_arg_names</span> <span class="o">+</span> <span class="n">missing_arg_names</span>
+<span class="g g-Whitespace">   </span><span class="mi">3064</span>     <span class="n">graph_function</span> <span class="o">=</span> <span class="n">ConcreteFunction</span><span class="p">(</span>
+<span class="ne">-&gt; </span><span class="mi">3065</span>         <span class="n">func_graph_module</span><span class="o">.</span><span class="n">func_graph_from_py_func</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3066</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3067</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_python_function</span><span class="p">,</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\framework\func_graph.py</span> in <span class="ni">func_graph_from_py_func</span><span class="nt">(name, python_func, args, kwargs, signature, func_graph, autograph, autograph_options, add_control_dependencies, arg_names, op_return_value, collections, capture_by_value, override_flat_arg_shapes)</span>
+<span class="g g-Whitespace">    </span><span class="mi">984</span>         <span class="n">_</span><span class="p">,</span> <span class="n">original_func</span> <span class="o">=</span> <span class="n">tf_decorator</span><span class="o">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">python_func</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">985</span> 
+<span class="ne">--&gt; </span><span class="mi">986</span>       <span class="n">func_outputs</span> <span class="o">=</span> <span class="n">python_func</span><span class="p">(</span><span class="o">*</span><span class="n">func_args</span><span class="p">,</span> <span class="o">**</span><span class="n">func_kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">987</span> 
+<span class="g g-Whitespace">    </span><span class="mi">988</span>       <span class="c1"># invariant: `func_outputs` contains only Tensors, CompositeTensors,</span>
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\eager\def_function.py</span> in <span class="ni">wrapped_fn</span><span class="nt">(*args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">598</span>         <span class="c1"># __wrapped__ allows AutoGraph to swap in a converted function. We give</span>
+<span class="g g-Whitespace">    </span><span class="mi">599</span>         <span class="c1"># the function a weak reference to itself to avoid a reference cycle.</span>
+<span class="ne">--&gt; </span><span class="mi">600</span>         <span class="k">return</span> <span class="n">weak_wrapped_fn</span><span class="p">()</span><span class="o">.</span><span class="n">__wrapped__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">601</span>     <span class="n">weak_wrapped_fn</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">wrapped_fn</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">602</span> 
+
+<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\framework\func_graph.py</span> in <span class="ni">wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">971</span>           <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># pylint:disable=broad-except</span>
+<span class="g g-Whitespace">    </span><span class="mi">972</span>             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;ag_error_metadata&quot;</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">973</span>               <span class="k">raise</span> <span class="n">e</span><span class="o">.</span><span class="n">ag_error_metadata</span><span class="o">.</span><span class="n">to_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">974</span>             <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">975</span>               <span class="k">raise</span>
+
+<span class="ne">ValueError</span>: in user code:
+
+    <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Public</span>\<span class="n">programs</span>\<span class="n">Anaconda3</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">tensorflow</span>\<span class="n">python</span>\<span class="n">keras</span>\<span class="n">engine</span>\<span class="n">training</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">806</span> <span class="n">train_function</span>  <span class="o">*</span>
+        <span class="k">return</span> <span class="n">step_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterator</span><span class="p">)</span>
+    <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Public</span>\<span class="n">programs</span>\<span class="n">Anaconda3</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">tensorflow</span>\<span class="n">python</span>\<span class="n">keras</span>\<span class="n">engine</span>\<span class="n">training</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">796</span> <span class="n">step_function</span>  <span class="o">**</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">distribute_strategy</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">run_step</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">data</span><span class="p">,))</span>
+    <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Public</span>\<span class="n">programs</span>\<span class="n">Anaconda3</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">tensorflow</span>\<span class="n">python</span>\<span class="n">distribute</span>\<span class="n">distribute_lib</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1211</span> <span class="n">run</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extended</span><span class="o">.</span><span class="n">call_for_each_replica</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Public</span>\<span class="n">programs</span>\<span class="n">Anaconda3</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">tensorflow</span>\<span class="n">python</span>\<span class="n">distribute</span>\<span class="n">distribute_lib</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">2585</span> <span class="n">call_for_each_replica</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_for_each_replica</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Public</span>\<span class="n">programs</span>\<span class="n">Anaconda3</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">tensorflow</span>\<span class="n">python</span>\<span class="n">distribute</span>\<span class="n">distribute_lib</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">2945</span> <span class="n">_call_for_each_replica</span>
+        <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Public</span>\<span class="n">programs</span>\<span class="n">Anaconda3</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">tensorflow</span>\<span class="n">python</span>\<span class="n">keras</span>\<span class="n">engine</span>\<span class="n">training</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">789</span> <span class="n">run_step</span>  <span class="o">**</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">train_step</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Public</span>\<span class="n">programs</span>\<span class="n">Anaconda3</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">tensorflow</span>\<span class="n">python</span>\<span class="n">keras</span>\<span class="n">engine</span>\<span class="n">training</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">747</span> <span class="n">train_step</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Public</span>\<span class="n">programs</span>\<span class="n">Anaconda3</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">tensorflow</span>\<span class="n">python</span>\<span class="n">keras</span>\<span class="n">engine</span>\<span class="n">base_layer</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">975</span> <span class="fm">__call__</span>
+        <span class="n">input_spec</span><span class="o">.</span><span class="n">assert_input_compatibility</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span>
+    <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Public</span>\<span class="n">programs</span>\<span class="n">Anaconda3</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">tensorflow</span>\<span class="n">python</span>\<span class="n">keras</span>\<span class="n">engine</span>\<span class="n">input_spec</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">191</span> <span class="n">assert_input_compatibility</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Input &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_index</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; of layer &#39;</span> <span class="o">+</span>
+
+    <span class="ne">ValueError</span><span class="p">:</span> <span class="n">Input</span> <span class="mi">0</span> <span class="n">of</span> <span class="n">layer</span> <span class="n">sequential</span> <span class="ow">is</span> <span class="n">incompatible</span> <span class="k">with</span> <span class="n">the</span> <span class="n">layer</span><span class="p">:</span> <span class="p">:</span> <span class="n">expected</span> <span class="n">min_ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">found</span> <span class="n">ndim</span><span class="o">=</span><span class="mf">2.</span> <span class="n">Full</span> <span class="n">shape</span> <span class="n">received</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./contents\codes"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="xgb_rnn_pytorch.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">New Section</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="rnn_tensorflow.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">RNN ARIMA Modeling</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By wengang.mao@chalmers.se<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
