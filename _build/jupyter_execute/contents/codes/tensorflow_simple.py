@@ -7,6 +7,7 @@
 
 
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pandas.plotting import register_matplotlib_converters
@@ -30,15 +31,13 @@ import tensorflow as tf
 #drive.flush_and_unmount()
 #print('NB: Unmount the google cloud driver')
 
-import numpy as np
-
-df = pd.read_csv('vattenfall_turbine.csv')
+df = pd.read_csv(r'E:\FEM\Python\bitbucket\Vattenfall_rnn\vattenfall_turbine.csv')
 keys = df.keys().values
 feature_keys = keys[np.arange(1,5).tolist() + np.arange(7,10).tolist()]
 time_key = keys[0]
 
 
-# In[13]:
+# In[3]:
 
 
 plot_cols = feature_keys[0:len(feature_keys):2]
@@ -61,24 +60,28 @@ fig2 = plot_features.plot(subplots=True, figsize=(15, 10))
 
 # ### 2.1, resample the data with low-resolution
 
-# df_train = df[feature_keys[0:7:2]][int(len(df)/4):int(len(df)/2):100]
-# display(Markdown('<span style="color:red; font-size:30px">**No. of the values in the training dataset is: %d**</span>' %len(df_train)))
-# 
-# # plot the data and check their variations along time
-# df_train.plot(subplots=True, figsize=(15, 10))
-# plt.show()
-# #print('No. of the values in the training dataset is: %d' %len(df_train))
-# 
-# display(Markdown('<span style="color:blue; font-size:20px">**Plot the heatmap for variation of standard deviation**</span>'))
-# # check he correlation
-# import seaborn as sns
-# plt.figure(figsize=(12, 6))
-# sns.heatmap(df_train.corr(), annot=True, fmt=".2f")
-# plt.show()
+# In[4]:
+
+
+df_train = df[feature_keys[0:7:2]][int(len(df)/4):int(len(df)/2):100]
+display(Markdown('<span style="color:red; font-size:30px">**No. of the values in the training dataset is: %d**</span>' %len(df_train)))
+
+# plot the data and check their variations along time
+df_train.plot(subplots=True, figsize=(15, 10))
+plt.show()
+#print('No. of the values in the training dataset is: %d' %len(df_train))
+
+display(Markdown('<span style="color:blue; font-size:20px">**Plot the heatmap for variation of standard deviation**</span>'))
+# check he correlation
+import seaborn as sns
+plt.figure(figsize=(12, 6))
+sns.heatmap(df_train.corr(), annot=True, fmt=".2f")
+plt.show()
+
 
 # ### 2.2, autocorrelation function (ACF) and (PACF) to check time dependence
 
-# In[101]:
+# In[5]:
 
 
 def autocorr(x):
@@ -112,7 +115,7 @@ plt.show()
 
 # ### 2.3 crossing autocorrelationship for various parameters
 
-# In[151]:
+# In[6]:
 
 
 # NB: we have resampled the data for the autocorreltion analysis
