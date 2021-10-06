@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.e2363ea40746bee74734a24ffefccd78.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -208,6 +208,11 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#meeting-minutes">
+     Meeting minutes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#general-update-of-research-activities">
      General update of research activities
     </a>
@@ -244,7 +249,20 @@
   1. Continue to preprocessing data <br />
   2. convert into Tensorflow dataset format for time series analysis <br />
   3. Looking for possiblies to apply other modelling techniques <br />
+  4. Next week: probably at the end of October <br />
 </span>
+</div>
+<div class="section" id="meeting-minutes">
+<h3>Meeting minutes<a class="headerlink" href="#meeting-minutes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Week 44, Chalmers will get transient test data from Vattenfall. Currently, Vattenfall is busy in their testing for an EU project.</p></li>
+<li><p>Soon, Vattenfall will deliver some stationary BEP data to Chalmers for analysis</p></li>
+<li><p>Delay between pump_set and pump_speed due to control setting, but the ML methods cannot consider the delay time for the perfomrance modelling because the setting parameters from control mechanism are not happening to the actual turbine running system, but we can consider that when we implement own MPC control algorithms. Therefore, Vattenfall will try to deliver the data with slow control variation.</p></li>
+<li><p>Discharge_rate is a consequency of pump_speed and guide-open, blade_angle, tanker pressure, etc. One can model it, but should not use it as a feature to describe other parameters</p></li>
+<li><p><span style = "font-weight: 400; font-size: 25px; color: blue">Clear objective: keep head_gross constant by adjust pump_speed, guide_open, blade_angle, and tank pressure.</span></p></li>
+<li><p><span style = "font-weight: 400; font-size: 25px; color: blue">Tasks: getting data from vattenfall for various stationary conditions to model turbine efficiency/BEP</span></p></li>
+<li><p>Probably we need to talk to Berhanu in a late stage how to get the turbine efficiency from the data. Then, we can build BEP ML model to be compared with the conventional BEP figure.</p></li>
+</ul>
 </div>
 <div class="section" id="general-update-of-research-activities">
 <h3>General update of research activities<a class="headerlink" href="#general-update-of-research-activities" title="Permalink to this headline">¶</a></h3>

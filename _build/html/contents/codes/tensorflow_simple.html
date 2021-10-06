@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e2363ea40746bee74734a24ffefccd78.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
@@ -230,6 +230,11 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#first-attemp-to-get-the-model-head-net-t-f-guide-open-t-1-t-2-pump01-speed-t-t-t-2-discharge-rate-t-1-t-2">
+     2.3, First attemp to get the model Head_net_t = f(guide_open_{t-1, t-2, …}, pump01_speed_{t-t, t-2, …}, discharge_rate_{t-1, t-2, …},…)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#autocorrelation-function-acf-and-pacf-to-check-time-dependence">
      2.2, autocorrelation function (ACF) and (PACF) to check time dependence
     </a>
@@ -372,6 +377,151 @@
 <img alt="../../_images/tensorflow_simple_7_3.png" src="../../_images/tensorflow_simple_7_3.png" />
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">df_train</span><span class="p">[</span><span class="s1">&#39;guide_open&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Head_</span><span class="si">{net}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Guide_</span><span class="si">{open}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Guide_{open}&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/tensorflow_simple_8_1.png" src="../../_images/tensorflow_simple_8_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="first-attemp-to-get-the-model-head-net-t-f-guide-open-t-1-t-2-pump01-speed-t-t-t-2-discharge-rate-t-1-t-2">
+<h3>2.3, First attemp to get the model Head_net_t = f(guide_open_{t-1, t-2, …}, pump01_speed_{t-t, t-2, …}, discharge_rate_{t-1, t-2, …},…)<a class="headerlink" href="#first-attemp-to-get-the-model-head-net-t-f-guide-open-t-1-t-2-pump01-speed-t-t-t-2-discharge-rate-t-1-t-2" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;head_net&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pre-normalize the features for ML analysis</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">#normalizer.adapt(df_train)</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="c1"># normalize the target (output)</span>
+<span class="n">norm_target</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">norm_target</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+<span class="n">tf_target</span> <span class="o">=</span> <span class="n">norm_target</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_basic_model</span><span class="p">():</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">norm</span><span class="p">,</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">])</span>
+
+  <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+                <span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">BinaryCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+  <span class="k">return</span> <span class="n">model</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">get_basic_model</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_train</span><span class="p">,</span> <span class="n">tf_target</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
+10/10 [==============================] - 1s 4ms/step - loss: 0.7272 - accuracy: 0.0000e+00
+Epoch 2/10
+10/10 [==============================] - 0s 4ms/step - loss: 0.6067 - accuracy: 0.0000e+00
+Epoch 3/10
+10/10 [==============================] - 0s 3ms/step - loss: 0.5668 - accuracy: 0.0000e+00
+Epoch 4/10
+10/10 [==============================] - 0s 4ms/step - loss: 0.5587 - accuracy: 0.0000e+00
+Epoch 5/10
+10/10 [==============================] - 0s 4ms/step - loss: 0.5307 - accuracy: 0.0000e+00
+Epoch 6/10
+10/10 [==============================] - 0s 3ms/step - loss: 0.5034 - accuracy: 0.0000e+00
+Epoch 7/10
+10/10 [==============================] - 0s 3ms/step - loss: 0.4841 - accuracy: 0.0000e+00
+Epoch 8/10
+10/10 [==============================] - 0s 4ms/step - loss: 0.4918 - accuracy: 0.0000e+00
+Epoch 9/10
+10/10 [==============================] - 0s 4ms/step - loss: 0.4378 - accuracy: 0.0000e+00
+Epoch 10/10
+10/10 [==============================] - 0s 4ms/step - loss: 0.4524 - accuracy: 0.0000e+00
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x1e4a83fe460&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">tf_train</span><span class="p">),</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tf_target</span><span class="p">,</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/tensorflow_simple_12_0.png" src="../../_images/tensorflow_simple_12_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span> <span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">norm1</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
+<span class="n">tf_train</span> <span class="o">=</span> <span class="n">norm1</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
+
+<span class="n">norm2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">norm2</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+<span class="n">tf_target</span><span class="o">=</span> <span class="n">norm2</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+<span class="n">dataset_df</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">tf_train</span><span class="p">,</span> <span class="n">tf_target</span><span class="p">))</span>
+<span class="n">dataset_batches</span> <span class="o">=</span> <span class="n">dataset_df</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">get_basic_model</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset_batches</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/5
+10/10 [==============================] - 0s 4ms/step - loss: 0.6726 - accuracy: 0.0000e+00
+Epoch 2/5
+10/10 [==============================] - 0s 3ms/step - loss: 0.6170 - accuracy: 0.0000e+00
+Epoch 3/5
+10/10 [==============================] - 0s 3ms/step - loss: 0.5652 - accuracy: 0.0000e+00
+Epoch 4/5
+10/10 [==============================] - 0s 4ms/step - loss: 0.5186 - accuracy: 0.0000e+00
+Epoch 5/5
+10/10 [==============================] - 0s 3ms/step - loss: 0.4813 - accuracy: 0.0000e+00
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x1e4a0f2c6d0&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rankdir</span><span class="o">=</span><span class="s2">&quot;LR&quot;</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;You must install pydot (`pip install pydot`) and install graphviz (see instructions at https://graphviz.gitlab.io/download/) &#39;, &#39;for plot_model/model_to_dot to work.&#39;)
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="autocorrelation-function-acf-and-pacf-to-check-time-dependence">
 <h3>2.2, autocorrelation function (ACF) and (PACF) to check time dependence<a class="headerlink" href="#autocorrelation-function-acf-and-pacf-to-check-time-dependence" title="Permalink to this headline">¶</a></h3>
@@ -408,7 +558,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_9_0.png" src="../../_images/tensorflow_simple_9_0.png" />
+<img alt="../../_images/tensorflow_simple_17_0.png" src="../../_images/tensorflow_simple_17_0.png" />
 </div>
 </div>
 </div>
@@ -458,19 +608,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span><span class="o">/</span><span class="n">ipykernel_1688</span><span class="o">/</span><span class="mf">3112472716.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">34</span> <span class="n">ax3</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">35</span> <span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;ACF ofHead_net&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">36</span> <span class="n">ax4</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 5000&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">37</span> 
-<span class="g g-Whitespace">     </span><span class="mi">38</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="ne">NameError</span>: name &#39;ax4&#39; is not defined
-</pre></div>
-</div>
-<img alt="../../_images/tensorflow_simple_11_1.png" src="../../_images/tensorflow_simple_11_1.png" />
+<img alt="../../_images/tensorflow_simple_19_0.png" src="../../_images/tensorflow_simple_19_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -519,7 +657,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_12_0.png" src="../../_images/tensorflow_simple_12_0.png" />
+<img alt="../../_images/tensorflow_simple_20_0.png" src="../../_images/tensorflow_simple_20_0.png" />
 </div>
 </div>
 </div>
@@ -543,8 +681,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_14_0.png" src="../../_images/tensorflow_simple_14_0.png" />
-<img alt="../../_images/tensorflow_simple_14_1.png" src="../../_images/tensorflow_simple_14_1.png" />
+<img alt="../../_images/tensorflow_simple_22_0.png" src="../../_images/tensorflow_simple_22_0.png" />
+<img alt="../../_images/tensorflow_simple_22_1.png" src="../../_images/tensorflow_simple_22_1.png" />
 </div>
 </div>
 <div class="cell docutils container">

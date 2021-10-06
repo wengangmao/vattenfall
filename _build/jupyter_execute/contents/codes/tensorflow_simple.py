@@ -79,9 +79,95 @@ sns.heatmap(df_train.corr(), annot=True, fmt=".2f")
 plt.show()
 
 
+# In[51]:
+
+
+plt.hist2d(target, df_train['guide_open'], bins=(50, 50))
+plt.colorbar()
+plt.xlabel('Head_{net}')
+plt.ylabel('Guide_{open}')
+
+
+# ### 2.3, First attemp to get the model Head_net_t = f(guide_open_{t-1, t-2, ...}, pump01_speed_{t-t, t-2, ...}, discharge_rate_{t-1, t-2, ...},...)
+
+# In[9]:
+
+
+df_train = df_train.reset_index(drop=True)
+target = df_train.pop('head_net')
+
+
+# In[42]:
+
+
+# Pre-normalize the features for ML analysis
+norm = tf.keras.layers.Normalization(axis=-1)
+#normalizer.adapt(df_train)
+BATCH_SIZE = 200
+
+# normalize the target (output)
+norm_target = tf.keras.layers.Normalization(axis=None)
+norm_target.adapt(target)
+tf_target = norm_target(target)
+
+def get_basic_model():
+  model = tf.keras.Sequential([
+    norm,
+    tf.keras.layers.Dense(10, activation='relu'),
+    tf.keras.layers.Dense(10, activation='relu'),
+    tf.keras.layers.Dense(1)
+  ])
+
+  model.compile(optimizer='adam',
+                loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+                metrics=['accuracy'])
+  return model
+
+model = get_basic_model()
+model.fit(df_train, tf_target, epochs=10, batch_size=BATCH_SIZE)
+
+
+# In[44]:
+
+
+plt.plot(model.predict(tf_train),'b')
+plt.plot(tf_target,'k')
+plt.show()
+
+
+# In[45]:
+
+
+norm1 = tf.keras.layers.Normalization(axis =-1)
+norm1.adapt(df_train)
+tf_train = norm1(df_train)
+
+norm2 = tf.keras.layers.Normalization(axis = None)
+norm2.adapt(target)
+tf_target= norm2(target)
+
+dataset_df = tf.data.Dataset.from_tensor_slices((tf_train, tf_target))
+dataset_batches = dataset_df.shuffle(1000).batch(BATCH_SIZE)
+
+model = get_basic_model()
+model.fit(dataset_batches, epochs=5)
+
+
+# In[48]:
+
+
+tf.keras.utils.plot_model(model, rankdir="LR", show_shapes=True)
+
+
+# In[102]:
+
+
+
+
+
 # ### 2.2, autocorrelation function (ACF) and (PACF) to check time dependence
 
-# In[5]:
+# In[101]:
 
 
 def autocorr(x):
@@ -115,7 +201,7 @@ plt.show()
 
 # ### 2.3 crossing autocorrelationship for various parameters
 
-# In[6]:
+# In[151]:
 
 
 # NB: we have resampled the data for the autocorreltion analysis
