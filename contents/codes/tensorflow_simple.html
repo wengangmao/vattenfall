@@ -42,6 +42,8 @@
     <script src="../../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -230,11 +232,6 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#first-attemp-to-get-the-model-head-net-t-f-guide-open-t-1-t-2-pump01-speed-t-t-t-2-discharge-rate-t-1-t-2">
-     2.3, First attemp to get the model Head_net_t = f(guide_open_{t-1, t-2, …}, pump01_speed_{t-t, t-2, …}, discharge_rate_{t-1, t-2, …},…)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#autocorrelation-function-acf-and-pacf-to-check-time-dependence">
      2.2, autocorrelation function (ACF) and (PACF) to check time dependence
     </a>
@@ -246,24 +243,63 @@
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#normalize-the-data">
-     2.3, normalize the data
+     2.4, normalize the data
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset">
-   Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset
+  <a class="reference internal nav-link" href="#rnn-deep-learning-to-build-the-model-by-three-different-approaches">
+   3, RNN deep learning to build the model by three different approaches.
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#first-attemp-to-the-model-head-net-t-f-guide-open-t-1-t-2-pump-speed-t-1-t-2-discharge-rate-t-1-t-2">
+     3.1, First attemp to the model
+     <span class="math notranslate nohighlight">
+      \(Head\_net_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#understand-datastructure-of-the-tensorflow-package-formulate-rolling-windowed-dataset-for-model-in-section-4">
+     3.2, Understand datastructure of the tensorflow package –&gt; formulate rolling windowed dataset –&gt; for model in Section 4
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-blue-font-size-25px-3-3-get-the-rolling-windowed-dataset-span">
+     <span style="color:blue; font-size:25px">
+      <strong>
+       3.3, get the rolling/windowed dataset
+      </strong>
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#span-style-color-blue-font-size-25px-3-4-create-tf-data-datasets-span">
+     <span style="color:blue; font-size:25px">
+      <strong>
+       3.4, Create tf.data.Datasets
+      </strong>
+     </span>
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#span-style-color-blue-font-size-25px-3-nb-get-the-rolling-windowed-dataset-span">
-   <span style="color:blue; font-size:25px">
-    <strong>
-     3, NB: get the rolling/windowed dataset
-    </strong>
-   </span>
+  <a class="reference internal nav-link" href="#preliminary-model-construction">
+   4,
+   <strong>
+    Preliminary model construction
+   </strong>
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#single-step-model-similar-as-the-conventional-independent-ml-methods">
+     4.1, single step model (similar as the conventional independent ML methods)
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-construction">
@@ -379,145 +415,51 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">df_train</span><span class="p">[</span><span class="s1">&#39;guide_open&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpl_toolkits.axes_grid1</span> <span class="kn">import</span> <span class="n">make_axes_locatable</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span><span class="p">,</span> <span class="n">ticker</span><span class="p">,</span> <span class="n">cm</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">131</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;head_gross&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;guide_open&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;head_gross&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;guide_open&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Head_</span><span class="si">{net}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Guide_</span><span class="si">{open}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">132</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;head_gross&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pump101_speed&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;head_gross&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;pump101_speed&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">133</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;head_gross&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;discharge_rate&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;head_gross&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;discharge_rate&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Guide_{open}&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar at 0x2140e57b610&gt;
 </pre></div>
 </div>
 <img alt="../../_images/tensorflow_simple_8_1.png" src="../../_images/tensorflow_simple_8_1.png" />
 </div>
 </div>
-</div>
-<div class="section" id="first-attemp-to-get-the-model-head-net-t-f-guide-open-t-1-t-2-pump01-speed-t-t-t-2-discharge-rate-t-1-t-2">
-<h3>2.3, First attemp to get the model Head_net_t = f(guide_open_{t-1, t-2, …}, pump01_speed_{t-t, t-2, …}, discharge_rate_{t-1, t-2, …},…)<a class="headerlink" href="#first-attemp-to-get-the-model-head-net-t-f-guide-open-t-1-t-2-pump01-speed-t-t-t-2-discharge-rate-t-1-t-2" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">target</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;head_net&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pre-normalize the features for ML analysis</span>
-<span class="n">norm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="c1">#normalizer.adapt(df_train)</span>
-<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">200</span>
-
-<span class="c1"># normalize the target (output)</span>
-<span class="n">norm_target</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">norm_target</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-<span class="n">tf_target</span> <span class="o">=</span> <span class="n">norm_target</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">get_basic_model</span><span class="p">():</span>
-  <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
-    <span class="n">norm</span><span class="p">,</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-  <span class="p">])</span>
-
-  <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
-                <span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">BinaryCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
-  <span class="k">return</span> <span class="n">model</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">get_basic_model</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_train</span><span class="p">,</span> <span class="n">tf_target</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">features</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
-10/10 [==============================] - 1s 4ms/step - loss: 0.7272 - accuracy: 0.0000e+00
-Epoch 2/10
-10/10 [==============================] - 0s 4ms/step - loss: 0.6067 - accuracy: 0.0000e+00
-Epoch 3/10
-10/10 [==============================] - 0s 3ms/step - loss: 0.5668 - accuracy: 0.0000e+00
-Epoch 4/10
-10/10 [==============================] - 0s 4ms/step - loss: 0.5587 - accuracy: 0.0000e+00
-Epoch 5/10
-10/10 [==============================] - 0s 4ms/step - loss: 0.5307 - accuracy: 0.0000e+00
-Epoch 6/10
-10/10 [==============================] - 0s 3ms/step - loss: 0.5034 - accuracy: 0.0000e+00
-Epoch 7/10
-10/10 [==============================] - 0s 3ms/step - loss: 0.4841 - accuracy: 0.0000e+00
-Epoch 8/10
-10/10 [==============================] - 0s 4ms/step - loss: 0.4918 - accuracy: 0.0000e+00
-Epoch 9/10
-10/10 [==============================] - 0s 4ms/step - loss: 0.4378 - accuracy: 0.0000e+00
-Epoch 10/10
-10/10 [==============================] - 0s 4ms/step - loss: 0.4524 - accuracy: 0.0000e+00
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x1e4a83fe460&gt;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">tf_train</span><span class="p">),</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tf_target</span><span class="p">,</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_12_0.png" src="../../_images/tensorflow_simple_12_0.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span> <span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">norm1</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
-<span class="n">tf_train</span> <span class="o">=</span> <span class="n">norm1</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
-
-<span class="n">norm2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
-<span class="n">norm2</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-<span class="n">tf_target</span><span class="o">=</span> <span class="n">norm2</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-
-<span class="n">dataset_df</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">tf_train</span><span class="p">,</span> <span class="n">tf_target</span><span class="p">))</span>
-<span class="n">dataset_batches</span> <span class="o">=</span> <span class="n">dataset_df</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">get_basic_model</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset_batches</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/5
-10/10 [==============================] - 0s 4ms/step - loss: 0.6726 - accuracy: 0.0000e+00
-Epoch 2/5
-10/10 [==============================] - 0s 3ms/step - loss: 0.6170 - accuracy: 0.0000e+00
-Epoch 3/5
-10/10 [==============================] - 0s 3ms/step - loss: 0.5652 - accuracy: 0.0000e+00
-Epoch 4/5
-10/10 [==============================] - 0s 4ms/step - loss: 0.5186 - accuracy: 0.0000e+00
-Epoch 5/5
-10/10 [==============================] - 0s 3ms/step - loss: 0.4813 - accuracy: 0.0000e+00
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x1e4a0f2c6d0&gt;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">rankdir</span><span class="o">=</span><span class="s2">&quot;LR&quot;</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;You must install pydot (`pip install pydot`) and install graphviz (see instructions at https://graphviz.gitlab.io/download/) &#39;, &#39;for plot_model/model_to_dot to work.&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;time&#39;, &#39;guide_open&#39;, &#39;running_speed&#39;, &#39;pump101_speed&#39;, &#39;pump102_speed&#39;,
+       &#39;pump101_set&#39;, &#39;pump102_set&#39;, &#39;head_net&#39;, &#39;head_gross&#39;,
+       &#39;discharge_rate&#39;, &#39;unknow_Hg&#39;, &#39;unknow_Hst&#39;, &#39;unknow_Qt&#39;,
+       &#39;unknown_Pabs&#39;],
+      dtype=&#39;object&#39;)
 </pre></div>
 </div>
 </div>
@@ -558,7 +500,7 @@ Epoch 5/5
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_17_0.png" src="../../_images/tensorflow_simple_17_0.png" />
+<img alt="../../_images/tensorflow_simple_11_0.png" src="../../_images/tensorflow_simple_11_0.png" />
 </div>
 </div>
 </div>
@@ -608,7 +550,7 @@ Epoch 5/5
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_19_0.png" src="../../_images/tensorflow_simple_19_0.png" />
+<img alt="../../_images/tensorflow_simple_13_0.png" src="../../_images/tensorflow_simple_13_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -657,12 +599,12 @@ Epoch 5/5
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_20_0.png" src="../../_images/tensorflow_simple_20_0.png" />
+<img alt="../../_images/tensorflow_simple_14_0.png" src="../../_images/tensorflow_simple_14_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="normalize-the-data">
-<h3>2.3, normalize the data<a class="headerlink" href="#normalize-the-data" title="Permalink to this headline">¶</a></h3>
+<h3>2.4, normalize the data<a class="headerlink" href="#normalize-the-data" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, we assume all data are used for the training (the time series is not that stationary for the prediction)</span>
@@ -681,8 +623,8 @@ Epoch 5/5
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_22_0.png" src="../../_images/tensorflow_simple_22_0.png" />
-<img alt="../../_images/tensorflow_simple_22_1.png" src="../../_images/tensorflow_simple_22_1.png" />
+<img alt="../../_images/tensorflow_simple_16_0.png" src="../../_images/tensorflow_simple_16_0.png" />
+<img alt="../../_images/tensorflow_simple_16_1.png" src="../../_images/tensorflow_simple_16_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -702,46 +644,521 @@ Epoch 5/5
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">new_df</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_keys</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;TensorSliceDataset shapes: (3,), types: tf.float64&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;guide_open&#39;, &#39;running_speed&#39;, &#39;pump101_speed&#39;, &#39;pump102_speed&#39;,
+       &#39;head_net&#39;, &#39;head_gross&#39;, &#39;discharge_rate&#39;], dtype=object)
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="section" id="test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset">
-<h2>Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset<a class="headerlink" href="#test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rnn-deep-learning-to-build-the-model-by-three-different-approaches">
+<h2>3, RNN deep learning to build the model by three different approaches.<a class="headerlink" href="#rnn-deep-learning-to-build-the-model-by-three-different-approaches" title="Permalink to this headline">¶</a></h2>
+<p><strong>1. normal deep learning network</strong><br />
+<strong>2. RNN</strong><br />
+<strong>3. ARIMA model</strong><br /></p>
+<div class="section" id="first-attemp-to-the-model-head-net-t-f-guide-open-t-1-t-2-pump-speed-t-1-t-2-discharge-rate-t-1-t-2">
+<h3>3.1, First attemp to the model <span class="math notranslate nohighlight">\(Head\_net_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)\)</span><a class="headerlink" href="#first-attemp-to-the-model-head-net-t-f-guide-open-t-1-t-2-pump-speed-t-1-t-2-discharge-rate-t-1-t-2" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">train_df</span><span class="p">)</span>
-<span class="n">train_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">feature_keys</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span><span class="mi">100</span><span class="p">]</span>
+
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#df_train.pop(&#39;time&#39;)</span>
+<span class="n">df_train</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;head_net&#39;</span><span class="p">)</span>
+<span class="n">df_target</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;head_gross&#39;</span><span class="p">)</span>
+<span class="n">df_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 1967 entries, 196607 to 393207
-Data columns (total 4 columns):
- #   Column          Non-Null Count  Dtype  
----  ------          --------------  -----  
- 0   guide_open      1967 non-null   float64
- 1   pump101_speed   1967 non-null   float64
- 2   head_net        1967 non-null   float64
- 3   discharge_rate  1967 non-null   float64
-dtypes: float64(4)
-memory usage: 61.6 KB
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>guide_open</th>
+      <th>running_speed</th>
+      <th>pump101_speed</th>
+      <th>pump102_speed</th>
+      <th>discharge_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>10.258026</td>
+      <td>883.147506</td>
+      <td>424.766713</td>
+      <td>423.792913</td>
+      <td>0.175680</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10.220808</td>
+      <td>883.147506</td>
+      <td>424.633645</td>
+      <td>424.918785</td>
+      <td>0.176028</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10.313853</td>
+      <td>882.934738</td>
+      <td>423.968301</td>
+      <td>425.084355</td>
+      <td>0.176227</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10.302687</td>
+      <td>883.041122</td>
+      <td>424.567110</td>
+      <td>424.422077</td>
+      <td>0.176376</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>10.354793</td>
+      <td>883.041122</td>
+      <td>424.866515</td>
+      <td>424.157165</td>
+      <td>0.176774</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pre-normalize the features for ML analysis</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">norm</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
+<span class="n">tf_train</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
+
+<span class="c1"># normalize the target (output)</span>
+<span class="n">norm_target</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">norm_target</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">df_target</span><span class="p">)</span>
+<span class="n">tf_target</span> <span class="o">=</span> <span class="n">norm_target</span><span class="p">(</span><span class="n">df_target</span><span class="p">)</span>
+
+<span class="c1"># configure the model</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="k">def</span> <span class="nf">get_basic_model</span><span class="p">():</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">norm</span><span class="p">,</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">])</span>
+
+  <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
+                <span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">BinaryCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+  <span class="k">return</span> <span class="n">model</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">get_basic_model</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tf_train</span><span class="p">,</span> <span class="n">tf_target</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
+4/4 [==============================] - 0s 4ms/step - loss: 231.8849 - accuracy: 0.0000e+00
+Epoch 2/10
+4/4 [==============================] - 0s 4ms/step - loss: -0.4137 - accuracy: 0.0000e+00
+Epoch 3/10
+4/4 [==============================] - 0s 4ms/step - loss: 1.2709 - accuracy: 0.0000e+00
+Epoch 4/10
+4/4 [==============================] - 0s 4ms/step - loss: 0.3186 - accuracy: 0.0000e+00
+Epoch 5/10
+4/4 [==============================] - 0s 4ms/step - loss: 2.9762 - accuracy: 0.0000e+00
+Epoch 6/10
+4/4 [==============================] - 0s 4ms/step - loss: 2.1575 - accuracy: 0.0000e+00
+Epoch 7/10
+4/4 [==============================] - 0s 4ms/step - loss: 2.1842 - accuracy: 0.0000e+00
+Epoch 8/10
+4/4 [==============================] - 0s 4ms/step - loss: 2.0297 - accuracy: 0.0000e+00
+Epoch 9/10
+4/4 [==============================] - 0s 4ms/step - loss: 1.7910 - accuracy: 0.0000e+00
+Epoch 10/10
+4/4 [==============================] - 0s 4ms/step - loss: 1.3941 - accuracy: 0.0000e+00
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x214ad6c7c40&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">df_train</span><span class="p">),</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tf_target</span><span class="p">,</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/tensorflow_simple_23_0.png" src="../../_images/tensorflow_simple_23_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span> <span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">norm1</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
+<span class="n">tf_train</span> <span class="o">=</span> <span class="n">norm1</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
+
+<span class="n">norm2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Normalization</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">norm2</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">df_target</span><span class="p">)</span>
+<span class="n">tf_target</span><span class="o">=</span> <span class="n">norm2</span><span class="p">(</span><span class="n">df_target</span><span class="p">)</span>
+
+<span class="n">dataset_df</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">tf_train</span><span class="p">,</span> <span class="n">tf_target</span><span class="p">))</span>
+<span class="n">dataset_batches</span> <span class="o">=</span> <span class="n">dataset_df</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">get_basic_model</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset_batches</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
+4/4 [==============================] - 0s 4ms/step - loss: 0.8128 - accuracy: 0.0000e+00
+Epoch 2/10
+4/4 [==============================] - 0s 4ms/step - loss: 0.7112 - accuracy: 0.0000e+00
+Epoch 3/10
+4/4 [==============================] - 0s 4ms/step - loss: 0.6347 - accuracy: 0.0000e+00
+Epoch 4/10
+4/4 [==============================] - 0s 4ms/step - loss: 0.5635 - accuracy: 0.0000e+00
+Epoch 5/10
+4/4 [==============================] - 0s 4ms/step - loss: 0.4945 - accuracy: 0.0000e+00
+Epoch 6/10
+4/4 [==============================] - 0s 4ms/step - loss: 0.4262 - accuracy: 0.0000e+00
+Epoch 7/10
+4/4 [==============================] - 0s 5ms/step - loss: 0.3584 - accuracy: 0.0000e+00
+Epoch 8/10
+4/4 [==============================] - 0s 4ms/step - loss: 0.2882 - accuracy: 0.0000e+00
+Epoch 9/10
+4/4 [==============================] - 0s 4ms/step - loss: 0.2174 - accuracy: 0.0000e+00
+Epoch 10/10
+4/4 [==============================] - ETA: 0s - loss: -1.1885 - accuracy: 0.0000e+0 - 0s 5ms/step - loss: 0.1469 - accuracy: 0.0000e+00
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x214ac4e4ac0&gt;
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="section" id="span-style-color-blue-font-size-25px-3-nb-get-the-rolling-windowed-dataset-span">
-<h2><span style ="color:blue; font-size:25px"> <strong>3, NB: get the rolling/windowed dataset</strong></span><a class="headerlink" href="#span-style-color-blue-font-size-25px-3-nb-get-the-rolling-windowed-dataset-span" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="understand-datastructure-of-the-tensorflow-package-formulate-rolling-windowed-dataset-for-model-in-section-4">
+<h3>3.2, Understand datastructure of the tensorflow package –&gt; formulate rolling windowed dataset –&gt; for model in Section 4<a class="headerlink" href="#understand-datastructure-of-the-tensorflow-package-formulate-rolling-windowed-dataset-for-model-in-section-4" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># split the time series of data into train (70%), test (20%) and validation (10%)</span>
+<span class="c1">#n = len(df_train)</span>
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">feature_keys</span><span class="p">]</span>
+<span class="n">df_train</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;head_net&#39;</span><span class="p">)</span>
+<span class="n">df_train</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;discharge_rate&#39;</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
+<span class="c1"># start to divide them</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="mf">0.7</span><span class="p">)]</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="mf">0.7</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="mf">0.9</span><span class="p">)]</span>
+<span class="n">val_df</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="mf">0.9</span><span class="p">):]</span>
+<span class="n">df_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">## Tensorflow dataset donot have buildin functions to estimate the mean and standard deviation</span>
+<span class="c1">#normalizer = tf.keras.layers.Normalization(axis=-1)</span>
+<span class="c1">#normalizer.adapt(train_df)</span>
+<span class="c1">#train_df = normalizer(train_df)</span>
+
+<span class="n">train_mean</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">train_std</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="n">train_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_df</span> <span class="o">-</span> <span class="n">train_mean</span><span class="p">)</span><span class="o">/</span><span class="n">train_std</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_df</span> <span class="o">-</span> <span class="n">train_mean</span><span class="p">)</span><span class="o">/</span><span class="n">train_std</span>
+<span class="n">val_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">val_df</span> <span class="o">-</span> <span class="n">train_mean</span><span class="p">)</span><span class="o">/</span><span class="n">train_std</span>
+
+<span class="n">df_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_train</span> <span class="o">-</span> <span class="n">train_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">train_std</span>
+<span class="n">df_std</span> <span class="o">=</span> <span class="n">df_std</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Column&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Normalized&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Column&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Normalized&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_std</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">(),</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yticks</span><span class="p">(),</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-121-bf96d0c125a6&gt;:31: UserWarning: FixedFormatter should only be used together with FixedLocator
+  ax.set_yticklabels(ax.get_yticks(), size = 30)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0, -6.0, &#39;-6.0&#39;),
+ Text(0, -4.0, &#39;-4.0&#39;),
+ Text(0, -2.0, &#39;-2.0&#39;),
+ Text(0, 0.0, &#39;0.0&#39;),
+ Text(0, 2.0, &#39;2.0&#39;),
+ Text(0, 4.0, &#39;4.0&#39;)]
+</pre></div>
+</div>
+<img alt="../../_images/tensorflow_simple_26_2.png" src="../../_images/tensorflow_simple_26_2.png" />
+</div>
+</div>
+</div>
+<div class="section" id="span-style-color-blue-font-size-25px-3-3-get-the-rolling-windowed-dataset-span">
+<h3><span style ="color:blue; font-size:25px"> <strong>3.3, get the rolling/windowed dataset</strong></span><a class="headerlink" href="#span-style-color-blue-font-size-25px-3-3-get-the-rolling-windowed-dataset-span" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3.3.1, Indexes and offsets</span>
+<span class="k">class</span> <span class="nc">WindowGenerator</span><span class="p">():</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_width</span><span class="p">,</span> <span class="n">label_width</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span>
+               <span class="n">train_df</span><span class="o">=</span><span class="n">train_df</span><span class="p">,</span> <span class="n">val_df</span><span class="o">=</span><span class="n">val_df</span><span class="p">,</span> <span class="n">test_df</span><span class="o">=</span><span class="n">test_df</span><span class="p">,</span>
+               <span class="n">label_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Store the raw data.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">train_df</span> <span class="o">=</span> <span class="n">train_df</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">val_df</span> <span class="o">=</span> <span class="n">val_df</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">test_df</span> <span class="o">=</span> <span class="n">test_df</span>
+
+    <span class="c1"># Work out the label column indices.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">label_columns</span> <span class="o">=</span> <span class="n">label_columns</span>
+    <span class="k">if</span> <span class="n">label_columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">label_columns_indices</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span>
+                                    <span class="nb">enumerate</span><span class="p">(</span><span class="n">label_columns</span><span class="p">)}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">column_indices</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span>
+                           <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)}</span>
+
+    <span class="c1"># Work out the window parameters.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_width</span> <span class="o">=</span> <span class="n">input_width</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">label_width</span> <span class="o">=</span> <span class="n">label_width</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">shift</span> <span class="o">=</span> <span class="n">shift</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">total_window_size</span> <span class="o">=</span> <span class="n">input_width</span> <span class="o">+</span> <span class="n">shift</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">input_width</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">total_window_size</span><span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">input_slice</span><span class="p">]</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">label_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_window_size</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_width</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">labels_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_start</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">label_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">total_window_size</span><span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">labels_slice</span><span class="p">]</span>
+
+  <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+        <span class="sa">f</span><span class="s1">&#39;Total window size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_window_size</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">&#39;Input indices: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">input_indices</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">&#39;Label indices: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label_indices</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">&#39;Label column name(s): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label_columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">])</span>
+
+<span class="c1"># 3.3.2, Split the window</span>
+<span class="k">def</span> <span class="nf">split_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">):</span>
+  <span class="n">inputs</span> <span class="o">=</span> <span class="n">features</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_slice</span><span class="p">,</span> <span class="p">:]</span>
+  <span class="n">labels</span> <span class="o">=</span> <span class="n">features</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_slice</span><span class="p">,</span> <span class="p">:]</span>
+  <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">labels</span><span class="p">[:,</span> <span class="p">:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_indices</span><span class="p">[</span><span class="n">name</span><span class="p">]]</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_columns</span><span class="p">],</span>
+        <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># Slicing doesn&#39;t preserve static shape information, so set the shapes</span>
+  <span class="c1"># manually. This way the `tf.data.Datasets` are easier to inspect.</span>
+  <span class="n">inputs</span><span class="o">.</span><span class="n">set_shape</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_width</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+  <span class="n">labels</span><span class="o">.</span><span class="n">set_shape</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_width</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+
+  <span class="k">return</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span>
+
+<span class="n">WindowGenerator</span><span class="o">.</span><span class="n">split_window</span> <span class="o">=</span> <span class="n">split_window</span>
+
+
+<span class="c1"># 3.3.3, plot the time series</span>
+<span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot_col</span><span class="o">=</span><span class="s1">&#39;head_gross&#39;</span><span class="p">,</span> <span class="n">max_subplots</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+  <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">example</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+  <span class="n">plot_col_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_indices</span><span class="p">[</span><span class="n">plot_col</span><span class="p">]</span>
+  <span class="n">max_n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">max_subplots</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_n</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">max_n</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">plot_col</span><span class="si">}</span><span class="s1"> [normed]&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_indices</span><span class="p">,</span> <span class="n">inputs</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="p">:,</span> <span class="n">plot_col_index</span><span class="p">],</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Inputs&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_columns</span><span class="p">:</span>
+      <span class="n">label_col_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_columns_indices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">plot_col</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">label_col_index</span> <span class="o">=</span> <span class="n">plot_col_index</span>
+
+    <span class="k">if</span> <span class="n">label_col_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="k">continue</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_indices</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="p">:,</span> <span class="n">label_col_index</span><span class="p">],</span>
+                <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Labels&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;#2ca02c&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_indices</span><span class="p">,</span> <span class="n">predictions</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="p">:,</span> <span class="n">label_col_index</span><span class="p">],</span>
+                  <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Predictions&#39;</span><span class="p">,</span>
+                  <span class="n">c</span><span class="o">=</span><span class="s1">&#39;#ff7f0e&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [h]&#39;</span><span class="p">)</span>
+
+<span class="n">WindowGenerator</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test of windowed dataset </span>
+
+<span class="n">w0</span> <span class="o">=</span> <span class="n">WindowGenerator</span><span class="p">(</span><span class="n">input_width</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">label_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">label_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;head_gross&#39;</span><span class="p">])</span>
+<span class="n">w1</span> <span class="o">=</span> <span class="n">WindowGenerator</span><span class="p">(</span><span class="n">input_width</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">label_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">label_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">w</span><span class="o">=</span><span class="n">w1</span>
+
+<span class="c1"># Stack three slices, the length of the total window.</span>
+<span class="n">example_window</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">train_df</span><span class="p">[:</span><span class="n">w</span><span class="o">.</span><span class="n">total_window_size</span><span class="p">]),</span>
+                           <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">train_df</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">100</span><span class="o">+</span><span class="n">w</span><span class="o">.</span><span class="n">total_window_size</span><span class="p">]),</span>
+                           <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">train_df</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">200</span><span class="o">+</span><span class="n">w</span><span class="o">.</span><span class="n">total_window_size</span><span class="p">])])</span>
+
+<span class="n">example_inputs</span><span class="p">,</span> <span class="n">example_labels</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">split_window</span><span class="p">(</span><span class="n">example_window</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;All shapes are: (batch, time, features)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Window shape: </span><span class="si">{</span><span class="n">example_window</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inputs shape: </span><span class="si">{</span><span class="n">example_inputs</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Labels shape: </span><span class="si">{</span><span class="n">example_labels</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All shapes are: (batch, time, features)
+Window shape: (3, 48, 5)
+Inputs shape: (3, 24, 5)
+Labels shape: (3, 1, 5)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span><span class="o">.</span><span class="n">example</span> <span class="o">=</span> <span class="n">example_inputs</span><span class="p">,</span> <span class="n">example_labels</span>
+<span class="n">w</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_col</span><span class="o">=</span><span class="s1">&#39;guide_open&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/tensorflow_simple_30_0.png" src="../../_images/tensorflow_simple_30_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="span-style-color-blue-font-size-25px-3-4-create-tf-data-datasets-span">
+<h3><span style ="color:blue; font-size:25px"> <strong>3.4, Create tf.data.Datasets</strong></span><a class="headerlink" href="#span-style-color-blue-font-size-25px-3-4-create-tf-data-datasets-span" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+  <span class="n">ds</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">timeseries_dataset_from_array</span><span class="p">(</span>
+      <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+      <span class="n">targets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+      <span class="n">sequence_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">total_window_size</span><span class="p">,</span>
+      <span class="n">sequence_stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+      <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+      <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,)</span>
+
+  <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">split_window</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">ds</span>
+
+<span class="n">WindowGenerator</span><span class="o">.</span><span class="n">make_dataset</span> <span class="o">=</span> <span class="n">make_dataset</span>
+
+<span class="c1"># add properties to the dataset</span>
+<span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_df</span><span class="p">)</span>
+
+<span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">val</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val_df</span><span class="p">)</span>
+
+<span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test_df</span><span class="p">)</span>
+
+<span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">example</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Get and cache an example batch of `inputs, labels` for plotting.&quot;&quot;&quot;</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_example&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># No example batch was found, so get one from the `.train` dataset</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">))</span>
+    <span class="c1"># And cache it for next time</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_example</span> <span class="o">=</span> <span class="n">result</span>
+  <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">WindowGenerator</span><span class="o">.</span><span class="n">train</span> <span class="o">=</span> <span class="n">train</span>
+<span class="n">WindowGenerator</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">val</span>
+<span class="n">WindowGenerator</span><span class="o">.</span><span class="n">test</span> <span class="o">=</span> <span class="n">test</span>
+<span class="n">WindowGenerator</span><span class="o">.</span><span class="n">example</span> <span class="o">=</span> <span class="n">example</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">example_inputs</span><span class="p">,</span> <span class="n">example_labels</span> <span class="ow">in</span> <span class="n">w</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inputs shape (batch, time, features): </span><span class="si">{</span><span class="n">example_inputs</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Labels shape (batch, time, features): </span><span class="si">{</span><span class="n">example_labels</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Inputs shape (batch, time, features): (32, 24, 5)
+Labels shape (batch, time, features): (32, 1, 5)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="preliminary-model-construction">
+<h2>4, <strong>Preliminary model construction</strong><a class="headerlink" href="#preliminary-model-construction" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="single-step-model-similar-as-the-conventional-independent-ml-methods">
+<h3>4.1, single step model (similar as the conventional independent ML methods)<a class="headerlink" href="#single-step-model-similar-as-the-conventional-independent-ml-methods" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the first dataset</span>
+<span class="n">single_step_window</span> <span class="o">=</span> <span class="n">WindowGenerator</span><span class="p">(</span>
+    <span class="n">input_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">label_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;head_gross&#39;</span><span class="p">])</span>
+<span class="n">single_step_window</span>
+
+<span class="k">for</span> <span class="n">example_inputs</span><span class="p">,</span> <span class="n">example_labels</span> <span class="ow">in</span> <span class="n">single_step_window</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inputs shape (batch, time, features): </span><span class="si">{</span><span class="n">example_inputs</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Labels shape (batch, time, features): </span><span class="si">{</span><span class="n">example_labels</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Inputs shape (batch, time, features): (32, 1, 5)
+Labels shape (batch, time, features): (32, 1, 1)
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">windowed_dataset</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle_buffer</span><span class="p">):</span>
@@ -1448,6 +1865,7 @@ array([0.7675804 , 0.76488996, 0.76488996, 0.76152706, 0.7628723 ,
 
 <span class="ne">TypeError</span>: The added layer must be an instance of class Layer. Found: &lt;TensorSliceDataset shapes: (3,), types: tf.float64&gt;
 </pre></div>
+</div>
 </div>
 </div>
 </div>
