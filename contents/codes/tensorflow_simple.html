@@ -298,6 +298,18 @@
     <a class="reference internal nav-link" href="#single-step-model-similar-as-the-conventional-independent-ml-methods">
      4.1, single step model (similar as the conventional independent ML methods)
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#test-1-single-output-window">
+       Test 1: single output window
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#test-2-wide-output-window">
+       Test 2: wide output window
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -441,7 +453,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar at 0x2140e57b610&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar at 0x214b727e3a0&gt;
 </pre></div>
 </div>
 <img alt="../../_images/tensorflow_simple_8_1.png" src="../../_images/tensorflow_simple_8_1.png" />
@@ -543,7 +555,7 @@
     <span class="n">i</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
 <span class="n">ax3</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;ACF ofHead_net&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
-<span class="n">ax4</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 5000&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time Lag: sample frequency $\times$ 5000&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -782,28 +794,28 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
-4/4 [==============================] - 0s 4ms/step - loss: 231.8849 - accuracy: 0.0000e+00
+4/4 [==============================] - 1s 4ms/step - loss: 2848.4448 - accuracy: 0.0000e+00
 Epoch 2/10
-4/4 [==============================] - 0s 4ms/step - loss: -0.4137 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 4ms/step - loss: 2181.9502 - accuracy: 0.0000e+00
 Epoch 3/10
-4/4 [==============================] - 0s 4ms/step - loss: 1.2709 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 4ms/step - loss: 1536.2311 - accuracy: 0.0000e+00
 Epoch 4/10
-4/4 [==============================] - 0s 4ms/step - loss: 0.3186 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 4ms/step - loss: 934.1426 - accuracy: 0.0000e+00
 Epoch 5/10
-4/4 [==============================] - 0s 4ms/step - loss: 2.9762 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 4ms/step - loss: 412.7400 - accuracy: 0.0000e+00
 Epoch 6/10
-4/4 [==============================] - 0s 4ms/step - loss: 2.1575 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 5ms/step - loss: 13.3311 - accuracy: 0.0000e+00
 Epoch 7/10
-4/4 [==============================] - 0s 4ms/step - loss: 2.1842 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 5ms/step - loss: 3.4299 - accuracy: 0.0000e+00
 Epoch 8/10
-4/4 [==============================] - 0s 4ms/step - loss: 2.0297 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 4ms/step - loss: 2.8673 - accuracy: 0.0000e+00
 Epoch 9/10
-4/4 [==============================] - 0s 4ms/step - loss: 1.7910 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 4ms/step - loss: -0.2837 - accuracy: 0.0000e+00
 Epoch 10/10
-4/4 [==============================] - 0s 4ms/step - loss: 1.3941 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 4ms/step - loss: 0.1623 - accuracy: 0.0000e+00
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x214ad6c7c40&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x214b75b4790&gt;
 </pre></div>
 </div>
 </div>
@@ -840,28 +852,28 @@ Epoch 10/10
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
-4/4 [==============================] - 0s 4ms/step - loss: 0.8128 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 6ms/step - loss: 1200.5618 - accuracy: 0.0000e+00
 Epoch 2/10
-4/4 [==============================] - 0s 4ms/step - loss: 0.7112 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 5ms/step - loss: 789.3683 - accuracy: 0.0000e+00
 Epoch 3/10
-4/4 [==============================] - 0s 4ms/step - loss: 0.6347 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 5ms/step - loss: 416.6983 - accuracy: 0.0000e+00
 Epoch 4/10
-4/4 [==============================] - 0s 4ms/step - loss: 0.5635 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 5ms/step - loss: 107.9802 - accuracy: 0.0000e+00
 Epoch 5/10
-4/4 [==============================] - 0s 4ms/step - loss: 0.4945 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 5ms/step - loss: 45.6023 - accuracy: 0.0000e+00
 Epoch 6/10
-4/4 [==============================] - 0s 4ms/step - loss: 0.4262 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 5ms/step - loss: 29.0022 - accuracy: 0.0000e+00
 Epoch 7/10
-4/4 [==============================] - 0s 5ms/step - loss: 0.3584 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 5ms/step - loss: 17.4580 - accuracy: 0.0000e+00
 Epoch 8/10
-4/4 [==============================] - 0s 4ms/step - loss: 0.2882 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 6ms/step - loss: 11.7437 - accuracy: 0.0000e+00
 Epoch 9/10
-4/4 [==============================] - 0s 4ms/step - loss: 0.2174 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 6ms/step - loss: 7.8442 - accuracy: 0.0000e+00
 Epoch 10/10
-4/4 [==============================] - ETA: 0s - loss: -1.1885 - accuracy: 0.0000e+0 - 0s 5ms/step - loss: 0.1469 - accuracy: 0.0000e+00
+4/4 [==============================] - 0s 5ms/step - loss: 5.2152 - accuracy: 0.0000e+00
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x214ac4e4ac0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.callbacks.History at 0x214b85a8b50&gt;
 </pre></div>
 </div>
 </div>
@@ -906,7 +918,7 @@ Epoch 10/10
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-121-bf96d0c125a6&gt;:31: UserWarning: FixedFormatter should only be used together with FixedLocator
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipython-input-18-bf96d0c125a6&gt;:31: UserWarning: FixedFormatter should only be used together with FixedLocator
   ax.set_yticklabels(ax.get_yticks(), size = 30)
 </pre></div>
 </div>
@@ -927,6 +939,8 @@ Epoch 10/10
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3.3.1, Indexes and offsets</span>
+
+<span class="c1">## NB: the data for training, testing and validation should be store here first!!</span>
 <span class="k">class</span> <span class="nc">WindowGenerator</span><span class="p">():</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_width</span><span class="p">,</span> <span class="n">label_width</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span>
                <span class="n">train_df</span><span class="o">=</span><span class="n">train_df</span><span class="p">,</span> <span class="n">val_df</span><span class="o">=</span><span class="n">val_df</span><span class="p">,</span> <span class="n">test_df</span><span class="o">=</span><span class="n">test_df</span><span class="p">,</span>
@@ -1015,7 +1029,7 @@ Epoch 10/10
     <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
       <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 
-  <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [h]&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [minisecond]&#39;</span><span class="p">)</span>
 
 <span class="n">WindowGenerator</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span>
 </pre></div>
@@ -1026,7 +1040,7 @@ Epoch 10/10
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test of windowed dataset </span>
 
-<span class="n">w0</span> <span class="o">=</span> <span class="n">WindowGenerator</span><span class="p">(</span><span class="n">input_width</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">label_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">label_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;head_gross&#39;</span><span class="p">])</span>
+<span class="c1">#w0 = WindowGenerator(input_width=24, label_width=1, shift=24, label_columns=[&#39;head_gross&#39;])</span>
 <span class="n">w1</span> <span class="o">=</span> <span class="n">WindowGenerator</span><span class="p">(</span><span class="n">input_width</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">label_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">label_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="n">w</span><span class="o">=</span><span class="n">w1</span>
 
@@ -1113,6 +1127,17 @@ Labels shape: (3, 1, 5)
 <span class="n">WindowGenerator</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">val</span>
 <span class="n">WindowGenerator</span><span class="o">.</span><span class="n">test</span> <span class="o">=</span> <span class="n">test</span>
 <span class="n">WindowGenerator</span><span class="o">.</span><span class="n">example</span> <span class="o">=</span> <span class="n">example</span>
+
+<span class="c1"># Run the example to get the index</span>
+<span class="k">for</span> <span class="n">example_inputs</span><span class="p">,</span> <span class="n">example_labels</span> <span class="ow">in</span> <span class="n">w</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inputs shape (batch, time, features): </span><span class="si">{</span><span class="n">example_inputs</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Labels shape (batch, time, features): </span><span class="si">{</span><span class="n">example_labels</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Inputs shape (batch, time, features): (32, 24, 5)
+Labels shape (batch, time, features): (32, 1, 5)
 </pre></div>
 </div>
 </div>
@@ -1138,17 +1163,21 @@ Labels shape (batch, time, features): (32, 1, 5)
 <h2>4, <strong>Preliminary model construction</strong><a class="headerlink" href="#preliminary-model-construction" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="single-step-model-similar-as-the-conventional-independent-ml-methods">
 <h3>4.1, single step model (similar as the conventional independent ML methods)<a class="headerlink" href="#single-step-model-similar-as-the-conventional-independent-ml-methods" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="test-1-single-output-window">
+<h4>Test 1: single output window<a class="headerlink" href="#test-1-single-output-window" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the first dataset</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the first dataset (all features as output)</span>
 <span class="n">single_step_window</span> <span class="o">=</span> <span class="n">WindowGenerator</span><span class="p">(</span>
     <span class="n">input_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">label_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;head_gross&#39;</span><span class="p">])</span>
+    <span class="n">label_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;head_gross&#39;</span><span class="p">])</span> <span class="c1"># we can set &quot;label_columns=None&quot;</span>
 <span class="n">single_step_window</span>
 
 <span class="k">for</span> <span class="n">example_inputs</span><span class="p">,</span> <span class="n">example_labels</span> <span class="ow">in</span> <span class="n">single_step_window</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inputs shape (batch, time, features): </span><span class="si">{</span><span class="n">example_inputs</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Labels shape (batch, time, features): </span><span class="si">{</span><span class="n">example_labels</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+<span class="n">single_step_window</span><span class="o">.</span><span class="n">label_columns</span><span class="p">,</span> <span class="n">single_step_window</span><span class="o">.</span><span class="n">column_indices</span>
 </pre></div>
 </div>
 </div>
@@ -1157,714 +1186,75 @@ Labels shape (batch, time, features): (32, 1, 5)
 Labels shape (batch, time, features): (32, 1, 1)
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">windowed_dataset</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle_buffer</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Function for creating a windowed dataset for sequence training&quot;&quot;&quot;</span>
-  <span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
-  <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="n">window_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">drop_remainder</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-  <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">flat_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">window</span><span class="p">:</span> <span class="n">window</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">window_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">shuffle_buffer</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">window</span><span class="p">:</span> <span class="p">(</span><span class="n">window</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">window</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-  <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">dataset</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&#39;head_gross&#39;],
+ {&#39;guide_open&#39;: 0,
+  &#39;running_speed&#39;: 1,
+  &#39;pump101_speed&#39;: 2,
+  &#39;pump102_speed&#39;: 3,
+  &#39;head_gross&#39;: 4})
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">)</span>
-<span class="n">series</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Baseline model</span>
+<span class="k">class</span> <span class="nc">Baseline</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">label_index</span> <span class="o">=</span> <span class="n">label_index</span>
+
+  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">inputs</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[:,</span> <span class="p">:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_index</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">tf</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+<span class="c1"># Build the model</span>
+<span class="c1">#baseline = Baseline(label_index=single_step_window.column_indices[&#39;head_gross&#39;])</span>
+
+<span class="n">baseline</span> <span class="o">=</span> <span class="n">Baseline</span><span class="p">(</span><span class="n">label_index</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">baseline</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">MeanSquaredError</span><span class="p">(),</span>
+                 <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">MeanAbsoluteError</span><span class="p">()])</span>
+
+<span class="n">val_performance</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">performance</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">val_performance</span><span class="p">[</span><span class="s1">&#39;Baseline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">baseline</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">single_step_window</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+<span class="n">performance</span><span class="p">[</span><span class="s1">&#39;Baseline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">baseline</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">single_step_window</span><span class="o">.</span><span class="n">test</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.29050317,  0.11212805,  1.25079512, -1.36088997,  0.09993288,
-       -0.0479911 , -0.35622969, -1.08855909, -0.3510177 ,  2.58839995,
-       -0.50565079, -0.58430921, -1.27309938,  0.74678304, -0.55834612,
-       -0.11080156, -1.18733663, -1.00822592, -0.68986173])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2458/2458 [==============================] - 6s 2ms/step - loss: 3.5710 - mean_absolute_error: 1.6346
 </pre></div>
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="test-2-wide-output-window">
+<h4>Test 2: wide output window<a class="headerlink" href="#test-2-wide-output-window" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">train_df</span><span class="o">.</span><span class="n">guide_open</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wide_window</span> <span class="o">=</span> <span class="n">WindowGenerator</span><span class="p">(</span>
+    <span class="n">input_width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">label_width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">label_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="c1">#[&#39;head_gross&#39;])    ################# NB: it is very important to choose the parameters here ##############</span>
+<span class="c1">###################################################################################################################################</span>
 
-<span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">clear_session</span><span class="p">()</span>
-<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">51</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">51</span><span class="p">)</span>
-<span class="n">shuffle_buffer_size</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">window_size</span> <span class="o">=</span> <span class="mi">80</span>
-<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">150</span>
-<span class="n">train_set</span>  <span class="o">=</span> <span class="n">windowed_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle_buffer_size</span><span class="p">)</span>
-<span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="n">train_set</span><span class="p">:</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span><span class="mi">1</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
 
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s1">&#39;&lt;span style=&quot;color:blue; font-size:20px&quot;&gt;The windowed size is: </span><span class="si">%d</span><span class="s1">, and raw datashape is (</span><span class="si">%d</span><span class="s1">)&lt;/span&gt;&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
-
-<span class="c1">#(f&#39;The windowed size and raw datashape:{n, data.shape}&#39;)</span>
+<span class="n">wide_window</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Input shape:&#39;</span><span class="p">,</span> <span class="n">wide_window</span><span class="o">.</span><span class="n">example</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Output shape:&#39;</span><span class="p">,</span> <span class="n">baseline</span><span class="p">(</span><span class="n">wide_window</span><span class="o">.</span><span class="n">example</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">wide_window</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">baseline</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:tensorflow:AutoGraph could not transform &lt;function windowed_dataset.&lt;locals&gt;.&lt;lambda&gt; at 0x000002588B3D9280&gt; and will run it as-is.
-Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
-Cause: module &#39;gast&#39; has no attribute &#39;Index&#39;
-To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
-WARNING: AutoGraph could not transform &lt;function windowed_dataset.&lt;locals&gt;.&lt;lambda&gt; at 0x000002588B3D9280&gt; and will run it as-is.
-Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
-Cause: module &#39;gast&#39; has no attribute &#39;Index&#39;
-To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[-2.3410695, -2.3477952, -2.3309808, ..., -2.0975974, -2.0834734,
-        -2.087509 ],
-       [-2.3329988, -2.3235826, -2.3329988, ..., -2.0807831, -2.0747302,
-        -2.0733848],
-       [-2.3477952, -2.3309808, -2.3329988, ..., -2.0834734, -2.087509 ,
-        -2.0807831],
-       ...,
-       [-1.8729576, -1.8695947, -1.8716123, ..., -1.6341933, -1.6274676,
-        -1.6247773],
-       [-1.867577 , -1.8521076, -1.8568157, ..., -1.6133436, -1.5998919,
-        -1.6012372],
-       [-1.8521076, -1.8568157, -1.858161 , ..., -1.5998919, -1.6012372,
-        -1.5958564]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([-2.0807831, -2.071367 , -2.0747302, -2.070022 , -2.0646412,
-       -2.0706947, -2.0686767, -2.0484996, -2.0471544, -2.0518625,
-       -2.0733848, -2.0390835, -2.0417738, -2.033703 , -2.0256321,
-       -2.0249596, -2.020924 , -2.0505173, -2.0404286, -2.0202515,
-       -2.0189064, -2.0000741, -1.9920033, -2.002092 , -2.0068   ,
-       -2.016216 , -1.9913307, -2.003437 , -1.9886404, -1.9819145,
-       -1.9832598, -1.9798969, -1.9778793, -1.9677905, -1.9899855,
-       -1.9946935, -1.9610648, -1.9651003, -1.9610648, -1.9529939,
-       -1.9590472, -1.9455956, -1.9496311, -1.9415601, -1.9381973,
-       -1.9341618, -1.9435779, -1.9139847, -1.9267634, -1.935507 ,
-       -1.9260908, -1.9139847, -1.9193652, -1.9018782, -1.9079313,
-       -1.9052411, -1.9126394, -1.908604 , -1.8917897, -1.8837187,
-       -1.8890992, -1.8884268, -1.8729576, -1.9018782, -1.8729576,
-       -1.8716123, -1.8695947, -1.8709397, -1.8655592, -1.858161 ,
-       -1.8521076, -1.858161 , -1.867577 , -1.8379836, -1.8433642,
-       -1.837311 , -1.8568157, -1.8265499, -1.832603 , -1.837311 ,
-       -1.8285676, -1.818479 , -1.8211691, -1.8097355, -1.8225144,
-       -1.8023372, -1.8137709, -1.809063 , -1.8050275, -1.8016646,
-       -1.7942663, -1.7922485, -1.7734164, -1.7801421, -1.788213 ,
-       -1.7700535, -1.7713988, -1.7640004, -1.7814873, -1.764673 ,
-       -1.751894 , -1.7774519, -1.76131  , -1.7465134, -1.7424779,
-       -1.7384425, -1.7364248, -1.7492038, -1.7357521, -1.7384425,
-       -1.7364248, -1.7283539, -1.7202829, -1.7182653, -1.7135572,
-       -1.7142298, -1.7236458, -1.7061589, -1.7068315, -1.7061589,
-       -1.7014508, -1.6846365, -1.7068315, -1.6812737, -1.6738753,
-       -1.6765656, -1.6853092, -1.6859815, -1.6584061, -1.6577334,
-       -1.6563883, -1.6792558, -1.6765656, -1.6604238, -1.6617689,
-       -1.6510078, -1.6503352, -1.6469723, -1.6368835, -1.6341933,
-       -1.6200693, -1.6274676, -1.6328481, -1.6254498, -1.6113257,
-       -1.6247773, -1.6133436, -1.6241047, -1.5958564, -1.5891308],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[-1.8568157, -1.858161 , -1.8433642, ..., -1.6012372, -1.5958564,
-        -1.5891308],
-       [-1.858161 , -1.867577 , -1.8521076, ..., -1.6113257, -1.6133436,
-        -1.5998919],
-       [-1.858161 , -1.8433642, -1.8379836, ..., -1.5958564, -1.5891308,
-        -1.5924937],
-       ...,
-       [-1.3873581, -1.3833226, -1.3765969, ..., -1.1432129, -1.1391774,
-        -1.1317792],
-       [-1.3765969, -1.3772695, -1.377942 , ..., -1.1317792, -1.1364872,
-        -1.1156373],
-       [-1.3833226, -1.3765969, -1.3772695, ..., -1.1391774, -1.1317792,
-        -1.1364872]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([-1.5924937, -1.6012372, -1.5857679, -1.5938388, -1.5998919,
-       -1.5850953, -1.577697 , -1.5803872, -1.5662632, -1.5575197,
-       -1.5770243, -1.5662632, -1.5568472, -1.5709713, -1.5487763,
-       -1.5474311, -1.5528117, -1.5467585, -1.5521392, -1.5481037,
-       -1.5326345, -1.5353247, -1.5245636, -1.5326345, -1.5178378,
-       -1.5306166, -1.5205281, -1.5050588, -1.5252361, -1.501696 ,
-       -1.4976605, -1.5164926, -1.506404 , -1.4969879, -1.4929525,
-       -1.4868993, -1.4714301, -1.4801736, -1.479501 , -1.4774832,
-       -1.466722 , -1.4855541, -1.452598 , -1.4613415, -1.4539431,
-       -1.465377 , -1.4478899, -1.462014 , -1.4364561, -1.4425094,
-       -1.4828639, -1.4418368, -1.4404916, -1.4337659, -1.4189692,
-       -1.4189692, -1.4250224, -1.4156064, -1.4451996, -1.409553 ,
-       -1.4075354, -1.4014821, -1.4149338, -1.4055176, -1.3887033,
-       -1.3873581, -1.395429 , -1.3833226, -1.3940839, -1.3772695,
-       -1.3873581, -1.377942 , -1.368526 , -1.3611276, -1.3792871,
-       -1.3597825, -1.3618003, -1.3765969, -1.3402778, -1.3496939,
-       -1.3456584, -1.341623 , -1.354402 , -1.333552 , -1.3348973,
-       -1.3362423, -1.3174102, -1.325481 , -1.3274989, -1.3201005,
-       -1.3140473, -1.306649 , -1.3005959, -1.3564196, -1.3153925,
-       -1.2972329, -1.298578 , -1.2750379, -1.2864717, -1.285799 ,
-       -1.2797459, -1.2918524, -1.2662944, -1.2757105, -1.2757105,
-       -1.258896 , -1.258896 , -1.2541882, -1.2508253, -1.2514977,
-       -1.2467898, -1.2481349, -1.2420818, -1.2629315, -1.2481349,
-       -1.2427543, -1.2373737, -1.2232497, -1.2279575, -1.222577 ,
-       -1.223922 , -1.2138335, -1.2017272, -1.2145061, -1.197019 ,
-       -1.2091254, -1.1929836, -1.1842402, -1.1916386, -1.197019 ,
-       -1.1849128, -1.1862578, -1.1694436, -1.1734791, -1.1802047,
-       -1.1627177, -1.1943288, -1.1586822, -1.1506113, -1.1519566,
-       -1.1546468, -1.1613727, -1.1445582, -1.1432129, -1.1459033,
-       -1.1391774, -1.1499388, -1.1364872, -1.1230358, -1.1156373],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[-1.377942  , -1.368526  , -1.3792871 , ..., -1.1156373 ,
-        -1.1230358 , -1.121018  ],
-       [-1.3772695 , -1.377942  , -1.368526  , ..., -1.1364872 ,
-        -1.1156373 , -1.1230358 ],
-       [-1.368526  , -1.3792871 , -1.3611276 , ..., -1.1230358 ,
-        -1.121018  , -1.1163099 ],
-       ...,
-       [-0.90713876, -0.9010855 , -0.9017581 , ..., -0.6562675 ,
-        -0.65761274, -0.65155965],
-       [-0.9010855 , -0.9017581 , -0.89839524, ..., -0.65761274,
-        -0.65155965, -0.6529047 ],
-       [-0.89839524, -0.89435977, -0.8923421 , ..., -0.6529047 ,
-        -0.64416116, -0.6421435 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([-1.1163099 , -1.121018  , -1.1149648 , -1.1122744 , -1.1015133 ,
-       -1.1015133 , -1.1317792 , -1.0974778 , -1.0860441 , -1.0934423 ,
-       -1.1008407 , -1.0826812 , -1.0853714 , -1.079991  , -1.0725926 ,
-       -1.0914247 , -1.0699022 , -1.0503975 , -1.0584683 , -1.0564507 ,
-       -1.067212  , -1.0571233 , -1.0571233 , -1.0356008 , -1.0356008 ,
-       -1.0376186 , -1.053088  , -1.0564507 , -1.0282025 , -1.0282025 ,
-       -1.0174413 , -1.0335832 , -1.0261847 , -1.019459  , -1.00668   ,
-       -1.0127332 , -1.0006268 , -1.0187863 , -0.98852044, -1.00668   ,
-       -0.9851576 , -0.9838124 , -0.9925559 , -0.97708666, -0.9764141 ,
-       -0.9663255 , -0.98986566, -0.96834314, -0.9663255 , -0.957582  ,
-       -0.9656529 , -0.95085627, -0.9602722 , -0.9427853 , -0.96834314,
-       -0.94614816, -0.94614816, -0.9427853 , -0.93336916, -0.9138645 ,
-       -0.9152097 , -0.9380773 , -0.9266435 , -0.9138645 , -0.91991776,
-       -0.9145371 , -0.909829  , -0.90713876, -0.9017581 , -0.9010855 ,
-       -0.89839524, -0.89435977, -0.8923421 , -0.89435977, -0.88897926,
-       -0.8809083 , -0.87620026, -0.88023573, -0.87081957, -0.8795631 ,
-       -0.8661115 , -0.8647665 , -0.8519875 , -0.8580406 , -0.8418989 ,
-       -0.847952  , -0.86140364, -0.835173  , -0.8445892 , -0.8345004 ,
-       -0.8331554 , -0.8284473 , -0.8318102 , -0.81768614, -0.81096023,
-       -0.8163409 , -0.81970376, -0.80154425, -0.8163409 , -0.80019903,
-       -0.7914555 , -0.8062523 , -0.7914555 , -0.8116328 , -0.78876525,
-       -0.7988538 , -0.7928007 , -0.7840572 , -0.76320726, -0.76657027,
-       -0.77598625, -0.75715417, -0.77396864, -0.75715417, -0.7537913 ,
-       -0.76320726, -0.7403397 , -0.7551365 , -0.73764944, -0.73226875,
-       -0.7517735 , -0.7363042 , -0.725543  , -0.7363042 , -0.7161269 ,
-       -0.72621566, -0.7181447 , -0.71410924, -0.6972948 , -0.69864   ,
-       -0.6966222 , -0.71881735, -0.70065767, -0.6872062 , -0.7094012 ,
-       -0.699985  , -0.68787867, -0.67173696, -0.6912417 , -0.66635627,
-       -0.67039174, -0.66635627, -0.6616482 , -0.6562675 , -0.65761274,
-       -0.6744272 , -0.6596306 , -0.6529047 , -0.64416116, -0.63676286],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[-0.89435977, -0.90713876, -0.9010855 , ..., -0.6596306 ,
-        -0.6562675 , -0.65761274],
-       [-0.89435977, -0.8923421 , -0.8809083 , ..., -0.64416116,
-        -0.6421435 , -0.63676286],
-       [-0.8923421 , -0.8809083 , -0.88023573, ..., -0.6421435 ,
-        -0.63676286, -0.6407983 ],
-       ...,
-       [-0.4282639 , -0.41884795, -0.420193  , ..., -0.17537487,
-        -0.18613605, -0.17604747],
-       [-0.420193  , -0.40875918, -0.4114496 , ..., -0.17604747,
-        -0.16461352, -0.16932158],
-       [-0.40875918, -0.4114496 , -0.40674156, ..., -0.16461352,
-        -0.16932158, -0.15250711]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([-0.65155965, -0.6407983 , -0.6327274 , -0.63878065, -0.62398404,
-       -0.6179307 , -0.6421435 , -0.60582435, -0.61725813, -0.6159131 ,
-       -0.60716957, -0.61255   , -0.60582435, -0.60246146, -0.5910277 ,
-       -0.57623106, -0.5957358 , -0.5943906 , -0.5789213 , -0.58362937,
-       -0.57488585, -0.5789213 , -0.5681601 , -0.55874395, -0.5526907 ,
-       -0.56210685, -0.55067307, -0.5661423 , -0.55672616, -0.54394734,
-       -0.56345206, -0.54058427, -0.5358764 , -0.5345312 , -0.51973456,
-       -0.5230974 , -0.51502645, -0.52377003, -0.5083008 , -0.5116636 ,
-       -0.5049377 , -0.50762814, -0.5412569 , -0.5015749 , -0.4975394 ,
-       -0.50224745, -0.48879588, -0.4914863 , -0.47803468, -0.48207015,
-       -0.4968668 , -0.47332662, -0.48408797, -0.47332662, -0.46861854,
-       -0.46391067, -0.45583972, -0.45180425, -0.44978645, -0.46323806,
-       -0.44440576, -0.43835264, -0.44844124, -0.43297198, -0.4289365 ,
-       -0.42557365, -0.4282639 , -0.4215382 , -0.420193  , -0.41884795,
-       -0.4114496 , -0.4403703 , -0.397998  , -0.40875918, -0.40136087,
-       -0.39261734, -0.40606895, -0.38925448, -0.39530775, -0.40674156,
-       -0.3663869 , -0.3771481 , -0.37513044, -0.3717674 , -0.3670595 ,
-       -0.37378523, -0.35697076, -0.35226268, -0.37580287, -0.35226268,
-       -0.3670595 , -0.34284672, -0.3515901 , -0.3401563 , -0.33813867,
-       -0.3280499 , -0.33208537, -0.32334185, -0.3421741 , -0.32535964,
-       -0.310563  , -0.32334185, -0.31459847, -0.30047426, -0.30450973,
-       -0.29643878, -0.31190804, -0.31930637, -0.29912904, -0.2957662 ,
-       -0.28635022, -0.2836598 , -0.285005  , -0.26953575, -0.2950936 ,
-       -0.26146483, -0.28904048, -0.26751795, -0.26213744, -0.26011962,
-       -0.2641551 , -0.25070348, -0.24868584, -0.2527213 , -0.23523423,
-       -0.23725204, -0.22783591, -0.24465036, -0.23254398, -0.24801323,
-       -0.21909237, -0.22918113, -0.2157295 , -0.2137117 , -0.20362312,
-       -0.21909237, -0.21505691, -0.19958766, -0.17941034, -0.20026027,
-       -0.18680866, -0.19218934, -0.18277319, -0.22447304, -0.18613605,
-       -0.17604747, -0.17806512, -0.16461352, -0.15250711, -0.1578878 ],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[-0.42557365, -0.4289365 , -0.4215382 , ..., -0.18277319,
-        -0.19218934, -0.17806512],
-       [-0.4114496 , -0.40674156, -0.397998  , ..., -0.16932158,
-        -0.15250711, -0.1578878 ],
-       [-0.40674156, -0.397998  , -0.40136087, ..., -0.15250711,
-        -0.1578878 , -0.16461352],
-       ...,
-       [ 0.05800963,  0.06742577,  0.06540813, ...,  0.30753636,
-         0.30888137,  0.31224424],
-       [ 0.05397417,  0.05128392,  0.06002745, ...,  0.29946542,
-         0.31224424,  0.29946542],
-       [ 0.05128392,  0.06002745,  0.05800963, ...,  0.31224424,
-         0.29946542,  0.30753636]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([-0.17537487, -0.16461352, -0.14914426, -0.14040072, -0.14914426,
-       -0.13636526, -0.1457814 , -0.16932158, -0.1451088 , -0.13098477,
-       -0.12627669, -0.12493148, -0.13703787, -0.11282508, -0.11551533,
-       -0.11013483, -0.10744441, -0.1013913 , -0.10677198, -0.09399298,
-       -0.09735584, -0.09466559, -0.08659466, -0.08524944, -0.08188658,
-       -0.06910758, -0.13031216, -0.07852355, -0.06439951, -0.06305429,
-       -0.08659466, -0.05969144, -0.05431076, -0.04758505, -0.05296573,
-       -0.04354958, -0.05162051, -0.02942537, -0.02068201, -0.02942537,
-       -0.03144319, -0.05498337, -0.03144319, -0.03884151, -0.02068201,
-       -0.01126587, -0.00924805, -0.01328351, -0.00050451, -0.00050451,
-       -0.00184973, -0.00992065,  0.01025667,  0.01294692,  0.02303567,
-        0.02774374, -0.0072304 ,  0.01630977,  0.02841635,  0.0317792 ,
-        0.03312424,  0.03783231,  0.04052274,  0.0438856 ,  0.0317792 ,
-        0.05397417,  0.05128392,  0.06002745,  0.05195653,  0.05800963,
-        0.06540813,  0.0694436 ,  0.07146124,  0.06742577,  0.07818713,
-        0.08962092,  0.07751453,  0.08424024,  0.10374495,  0.10105471,
-        0.07751453,  0.09096596,  0.08625806,  0.11786917,  0.10778042,
-        0.1138337 ,  0.11047085,  0.10441756,  0.12459488,  0.13132077,
-        0.12459488,  0.13333842,  0.1393917 ,  0.12190463,  0.14880785,
-        0.13670127,  0.14477238,  0.15082549,  0.15687877,  0.15418835,
-        0.1649497 ,  0.16293189,  0.16629474,  0.15956903,  0.1824366 ,
-        0.18647206,  0.1703302 ,  0.19656081,  0.1898351 ,  0.18109156,
-        0.19185273,  0.19857864,  0.20194149,  0.20463175,  0.21001242,
-        0.2079946 ,  0.21606553,  0.17571089,  0.22749949,  0.22279142,
-        0.22548167,  0.21673813,  0.2342252 ,  0.22884452,  0.24229613,
-        0.24767682,  0.23624302,  0.24700421,  0.25642034,  0.2665089 ,
-        0.24498639,  0.258438  ,  0.25238487,  0.26852673,  0.2846686 ,
-        0.27659768,  0.28130573,  0.26987195,  0.2907219 ,  0.28063312,
-        0.28937668,  0.29408473,  0.29946542,  0.28937668,  0.31224424,
-        0.29946542,  0.31224424,  0.31695232,  0.30753636,  0.30888137],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[0.06540813, 0.0694436 , 0.07751453, ..., 0.31224424, 0.31695232,
-        0.31829754],
-       [0.07751453, 0.07146124, 0.07818713, ..., 0.31829754, 0.3162799 ,
-        0.32704106],
-       [0.0694436 , 0.07751453, 0.07146124, ..., 0.31695232, 0.31829754,
-        0.3162799 ],
-       ...,
-       [0.52814204, 0.54428405, 0.5456291 , ..., 0.7662352 , 0.75412875,
-        0.7642175 ],
-       [0.5456291 , 0.54764694, 0.5483195 , ..., 0.75211096, 0.76488996,
-        0.76825297],
-       [0.54764694, 0.5483195 , 0.55437267, ..., 0.76488996, 0.76825297,
-        0.7621997 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([0.3162799 , 0.33040392, 0.32704106, 0.31829754, 0.3465458 ,
-       0.32704106, 0.34318292, 0.34587318, 0.34385553, 0.35327166,
-       0.35865217, 0.36201522, 0.36470544, 0.37613925, 0.37210378,
-       0.3801747 , 0.3801747 , 0.3855554 , 0.38219252, 0.3936263 ,
-       0.38421017, 0.35932478, 0.3996796 , 0.39631674, 0.38891825,
-       0.39833438, 0.40976816, 0.41514885, 0.41851172, 0.41716668,
-       0.42725524, 0.4306181 , 0.43734398, 0.39766178, 0.43734398,
-       0.42792785, 0.43532616, 0.44070685, 0.45550367, 0.45348585,
-       0.44608754, 0.4622294 , 0.42994568, 0.45819393, 0.46761006,
-       0.46693745, 0.46626484, 0.4830793 , 0.4817341 , 0.49182284,
-       0.48442453, 0.47971645, 0.49316806, 0.49115026, 0.50594705,
-       0.5052745 , 0.48980504, 0.5032566 , 0.51872605, 0.514018  ,
-       0.5126728 , 0.5328501 , 0.52814204, 0.526797  , 0.51065516,
-       0.52814204, 0.54428405, 0.55302763, 0.5456291 , 0.5456291 ,
-       0.5483195 , 0.55437267, 0.54764694, 0.5644614 , 0.51738083,
-       0.55504525, 0.56984204, 0.5584081 , 0.57455015, 0.58194846,
-       0.57993066, 0.5785856 , 0.5886742 , 0.57455015, 0.5987629 ,
-       0.5980903 , 0.59472746, 0.59472746, 0.5913646 , 0.6122145 ,
-       0.6229757 , 0.6155774 , 0.60616124, 0.6229757 , 0.61894023,
-       0.6263388 , 0.6357547 , 0.629029  , 0.6391178 , 0.64517087,
-       0.64517087, 0.6411354 , 0.6572772 , 0.66333055, 0.62499356,
-       0.67072886, 0.66198534, 0.66871125, 0.6666934 , 0.6680386 ,
-       0.6828352 , 0.67610955, 0.6821628 , 0.6882159 , 0.6861983 ,
-       0.69090617, 0.6828352 , 0.6989773 , 0.6989773 , 0.70906585,
-       0.70032233, 0.7225175 , 0.71444654, 0.7245353 , 0.7178094 ,
-       0.7063756 , 0.7245353 , 0.7406771 , 0.7379869 , 0.72857076,
-       0.7393319 , 0.7534562 , 0.74874806, 0.7258803 , 0.7642175 ,
-       0.75480133, 0.756819  , 0.7702706 , 0.76556253, 0.76018184,
-       0.76690775, 0.7642175 , 0.7662352 , 0.75412875, 0.7642175 ,
-       0.75211096, 0.76488996, 0.76825297, 0.7621997 , 0.7621997 ],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[0.5483195 , 0.55437267, 0.5644614 , ..., 0.76825297, 0.7621997 ,
-        0.7621997 ],
-       [0.5328501 , 0.5126728 , 0.52814204, ..., 0.7702706 , 0.76556253,
-        0.76018184],
-       [0.55437267, 0.5644614 , 0.55504525, ..., 0.7621997 , 0.7621997 ,
-        0.75950944],
-       ...,
-       [0.76152706, 0.76488996, 0.76488996, ..., 0.76018184, 0.7702706 ,
-        0.7608545 ],
-       [0.76488996, 0.76488996, 0.7581642 , ..., 0.7702706 , 0.7608545 ,
-        0.76825297],
-       [0.76488996, 0.7635449 , 0.756819  , ..., 0.76690775, 0.76690775,
-        0.7702706 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([0.75950944, 0.75412875, 0.7709432 , 0.76556253, 0.76825297,
-       0.76825297, 0.7621997 , 0.7709432 , 0.76825297, 0.76825297,
-       0.7581642 , 0.7621997 , 0.7588368 , 0.7507659 , 0.7588368 ,
-       0.7581642 , 0.76690775, 0.7662352 , 0.75278354, 0.76892537,
-       0.7621997 , 0.7608545 , 0.75950944, 0.76892537, 0.76892537,
-       0.7621997 , 0.755474  , 0.75211096, 0.76152706, 0.76825297,
-       0.7662352 , 0.76488996, 0.756819  , 0.7621997 , 0.7608545 ,
-       0.7608545 , 0.76825297, 0.7581642 , 0.76488996, 0.76152706,
-       0.7662352 , 0.7608545 , 0.7702706 , 0.77228844, 0.7756513 ,
-       0.76152706, 0.7635449 , 0.7635449 , 0.76825297, 0.77901417,
-       0.7736335 , 0.7608545 , 0.76690775, 0.77296084, 0.7635449 ,
-       0.7635449 , 0.756819  , 0.7675804 , 0.756819  , 0.76488996,
-       0.77430606, 0.7642175 , 0.7608545 , 0.7716158 , 0.7621997 ,
-       0.76152706, 0.7642175 , 0.76892537, 0.76488996, 0.76488996,
-       0.75950944, 0.76152706, 0.76018184, 0.7635449 , 0.7581642 ,
-       0.76825297, 0.7608545 , 0.756819  , 0.7642175 , 0.76152706,
-       0.7642175 , 0.76488996, 0.76690775, 0.7581642 , 0.7628723 ,
-       0.756819  , 0.7608545 , 0.76825297, 0.75412875, 0.76152706,
-       0.76892537, 0.76690775, 0.76018184, 0.769598  , 0.76488996,
-       0.7608545 , 0.7675804 , 0.7581642 , 0.76018184, 0.7749787 ,
-       0.75950944, 0.7662352 , 0.7662352 , 0.76690775, 0.7675804 ,
-       0.7662352 , 0.7621997 , 0.76892537, 0.7702706 , 0.75278354,
-       0.7628723 , 0.75950944, 0.7534562 , 0.7662352 , 0.76018184,
-       0.7662352 , 0.7608545 , 0.7581642 , 0.76152706, 0.7675804 ,
-       0.7749787 , 0.7635449 , 0.7702706 , 0.7675804 , 0.7662352 ,
-       0.7621997 , 0.7662352 , 0.7534562 , 0.75950944, 0.7608545 ,
-       0.76690775, 0.7574916 , 0.7702706 , 0.76690775, 0.7628723 ,
-       0.76892537, 0.7662352 , 0.7635449 , 0.7642175 , 0.77296084,
-       0.7702706 , 0.75950944, 0.75950944, 0.76556253, 0.76690775,
-       0.7702706 , 0.76018184, 0.76825297, 0.76018184, 0.76556253],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[0.76892537, 0.76152706, 0.76488996, ..., 0.76690775, 0.76018184,
-        0.7702706 ],
-       [0.76825297, 0.76018184, 0.7635449 , ..., 0.76018184, 0.7642175 ,
-        0.7716158 ],
-       [0.76018184, 0.7635449 , 0.7608545 , ..., 0.7642175 , 0.7716158 ,
-        0.7534562 ],
-       ...,
-       [0.7702706 , 0.755474  , 0.7642175 , ..., 0.7736335 , 0.7716158 ,
-        0.76556253],
-       [0.76892537, 0.7608545 , 0.7702706 , ..., 0.7588368 , 0.76018184,
-        0.7736335 ],
-       [0.7642175 , 0.7675804 , 0.77228844, ..., 0.76556253, 0.76556253,
-        0.76825297]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([0.7608545 , 0.7534562 , 0.76892537, 0.7608545 , 0.7581642 ,
-       0.76825297, 0.7642175 , 0.7716158 , 0.7675804 , 0.76690775,
-       0.75412875, 0.7675804 , 0.7736335 , 0.7628723 , 0.7628723 ,
-       0.7642175 , 0.7628723 , 0.7581642 , 0.7621997 , 0.7608545 ,
-       0.7574916 , 0.7702706 , 0.7702706 , 0.7621997 , 0.7642175 ,
-       0.7642175 , 0.76825297, 0.76018184, 0.7709432 , 0.76825297,
-       0.7534562 , 0.7702706 , 0.7588368 , 0.7561464 , 0.7749787 ,
-       0.7608545 , 0.7642175 , 0.76892537, 0.7702706 , 0.77430606,
-       0.76892537, 0.7628723 , 0.7702706 , 0.75950944, 0.76018184,
-       0.77228844, 0.7675804 , 0.7608545 , 0.77430606, 0.76018184,
-       0.7702706 , 0.7709432 , 0.7642175 , 0.76825297, 0.7621997 ,
-       0.7769965 , 0.76152706, 0.7621997 , 0.7628723 , 0.7709432 ,
-       0.76018184, 0.76825297, 0.7675804 , 0.75278354, 0.75950944,
-       0.76892537, 0.75480133, 0.7621997 , 0.7608545 , 0.7702706 ,
-       0.755474  , 0.77228844, 0.7635449 , 0.7675804 , 0.76690775,
-       0.7675804 , 0.7635449 , 0.7642175 , 0.77430606, 0.7642175 ,
-       0.7736335 , 0.75950944, 0.7662352 , 0.7608545 , 0.76556253,
-       0.7628723 , 0.75278354, 0.77296084, 0.7662352 , 0.76690775,
-       0.755474  , 0.7588368 , 0.7716158 , 0.7635449 , 0.7642175 ,
-       0.76825297, 0.76825297, 0.7628723 , 0.76690775, 0.76892537,
-       0.769598  , 0.7702706 , 0.75950944, 0.7662352 , 0.76825297,
-       0.7608545 , 0.7574916 , 0.76690775, 0.7628723 , 0.76152706,
-       0.7709432 , 0.7642175 , 0.76690775, 0.7662352 , 0.76152706,
-       0.7608545 , 0.77228844, 0.7608545 , 0.76018184, 0.7642175 ,
-       0.7608545 , 0.7574916 , 0.76825297, 0.7662352 , 0.76690775,
-       0.7642175 , 0.76825297, 0.7716158 , 0.76488996, 0.7621997 ,
-       0.77430606, 0.7702706 , 0.76488996, 0.7635449 , 0.75412875,
-       0.7561464 , 0.7608545 , 0.76892537, 0.7628723 , 0.7702706 ,
-       0.76825297, 0.7702706 , 0.7628723 , 0.76018184, 0.77901417,
-       0.7736335 , 0.7588368 , 0.76556253, 0.7716158 , 0.76556253],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[0.7608545 , 0.7702706 , 0.755474  , ..., 0.76018184, 0.7736335 ,
-        0.7716158 ],
-       [0.7675804 , 0.77228844, 0.7635449 , ..., 0.76556253, 0.76825297,
-        0.76556253],
-       [0.77228844, 0.7635449 , 0.7635449 , ..., 0.76825297, 0.76556253,
-        0.7716158 ],
-       ...,
-       [0.76690775, 0.76488996, 0.7662352 , ..., 0.7628723 , 0.76892537,
-        0.7621997 ],
-       [0.76488996, 0.7662352 , 0.7635449 , ..., 0.76892537, 0.7621997 ,
-        0.7635449 ],
-       [0.7635449 , 0.77296084, 0.76825297, ..., 0.7635449 , 0.756819  ,
-        0.7716158 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([0.76556253, 0.7716158 , 0.76825297, 0.7642175 , 0.7588368 ,
-       0.75950944, 0.76825297, 0.769598  , 0.7675804 , 0.7628723 ,
-       0.76892537, 0.7561464 , 0.76825297, 0.76892537, 0.7635449 ,
-       0.76690775, 0.7675804 , 0.76556253, 0.75480133, 0.7803594 ,
-       0.769598  , 0.7621997 , 0.76825297, 0.76488996, 0.7621997 ,
-       0.7574916 , 0.76488996, 0.76892537, 0.7635449 , 0.76556253,
-       0.7621997 , 0.76892537, 0.76018184, 0.7675804 , 0.76488996,
-       0.77834153, 0.7621997 , 0.769598  , 0.7662352 , 0.7642175 ,
-       0.7662352 , 0.76152706, 0.756819  , 0.7588368 , 0.7716158 ,
-       0.76152706, 0.7675804 , 0.76556253, 0.75278354, 0.7702706 ,
-       0.76488996, 0.7628723 , 0.7635449 , 0.7662352 , 0.76556253,
-       0.76152706, 0.7588368 , 0.75480133, 0.76152706, 0.76825297,
-       0.75950944, 0.76152706, 0.769598  , 0.76488996, 0.76018184,
-       0.75950944, 0.76690775, 0.76488996, 0.77228844, 0.7662352 ,
-       0.7608545 , 0.76825297, 0.7635449 , 0.7642175 , 0.76152706,
-       0.769598  , 0.77296084, 0.76892537, 0.7642175 , 0.76690775,
-       0.76556253, 0.7588368 , 0.7662352 , 0.76152706, 0.76018184,
-       0.7621997 , 0.7635449 , 0.7675804 , 0.7662352 , 0.7642175 ,
-       0.7662352 , 0.7716158 , 0.7621997 , 0.76892537, 0.7702706 ,
-       0.76892537, 0.7608545 , 0.7642175 , 0.756819  , 0.76825297,
-       0.76556253, 0.7635449 , 0.7608545 , 0.75412875, 0.7635449 ,
-       0.7769965 , 0.76018184, 0.7702706 , 0.76488996, 0.7702706 ,
-       0.7635449 , 0.77430606, 0.76488996, 0.7635449 , 0.76488996,
-       0.77296084, 0.7662352 , 0.76892537, 0.7621997 , 0.7702706 ,
-       0.7662352 , 0.76152706, 0.7635449 , 0.76892537, 0.7709432 ,
-       0.7608545 , 0.7574916 , 0.7628723 , 0.755474  , 0.76690775,
-       0.76018184, 0.769598  , 0.76488996, 0.7621997 , 0.7621997 ,
-       0.7662352 , 0.77901417, 0.76825297, 0.7702706 , 0.7749787 ,
-       0.7642175 , 0.76556253, 0.7621997 , 0.75412875, 0.7662352 ,
-       0.7628723 , 0.7621997 , 0.7635449 , 0.756819  , 0.7675804 ],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[0.76018184, 0.7608545 , 0.76690775, ..., 0.76556253, 0.75412875,
-        0.7628723 ],
-       [0.76825297, 0.7642175 , 0.76892537, ..., 0.7716158 , 0.7675804 ,
-        0.7716158 ],
-       [0.7642175 , 0.76892537, 0.76152706, ..., 0.7675804 , 0.7716158 ,
-        0.77228844],
-       ...,
-       [0.769598  , 0.77430606, 0.7621997 , ..., 0.7716158 , 0.7702706 ,
-        0.76690775],
-       [0.7702706 , 0.7662352 , 0.7675804 , ..., 0.76892537, 0.76690775,
-        0.755474  ],
-       [0.7621997 , 0.7635449 , 0.7702706 , ..., 0.76892537, 0.76690775,
-        0.76892537]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([0.76892537, 0.77228844, 0.76488996, 0.7716158 , 0.7662352 ,
-       0.7635449 , 0.7716158 , 0.769598  , 0.7662352 , 0.77228844,
-       0.7628723 , 0.7763239 , 0.7608545 , 0.76018184, 0.76690775,
-       0.7675804 , 0.76488996, 0.76152706, 0.769598  , 0.76018184,
-       0.7642175 , 0.7621997 , 0.76556253, 0.77430606, 0.7716158 ,
-       0.76488996, 0.7749787 , 0.76018184, 0.7662352 , 0.7561464 ,
-       0.76018184, 0.7635449 , 0.7716158 , 0.76892537, 0.76690775,
-       0.75950944, 0.7769965 , 0.7662352 , 0.7642175 , 0.76152706,
-       0.76556253, 0.7621997 , 0.769598  , 0.7581642 , 0.77296084,
-       0.76152706, 0.7662352 , 0.76152706, 0.76892537, 0.7574916 ,
-       0.7642175 , 0.76892537, 0.769598  , 0.75950944, 0.75480133,
-       0.7675804 , 0.77228844, 0.76892537, 0.7642175 , 0.7642175 ,
-       0.77430606, 0.7642175 , 0.76825297, 0.7635449 , 0.7702706 ,
-       0.7662352 , 0.7621997 , 0.7675804 , 0.77430606, 0.7621997 ,
-       0.7642175 , 0.769598  , 0.7675804 , 0.76556253, 0.76556253,
-       0.7621997 , 0.77296084, 0.7574916 , 0.7635449 , 0.769598  ,
-       0.76152706, 0.76488996, 0.77430606, 0.7635449 , 0.7716158 ,
-       0.7662352 , 0.77296084, 0.7608545 , 0.77430606, 0.769598  ,
-       0.76556253, 0.769598  , 0.76556253, 0.7561464 , 0.7608545 ,
-       0.76690775, 0.7608545 , 0.769598  , 0.7642175 , 0.7581642 ,
-       0.76690775, 0.7716158 , 0.7675804 , 0.7662352 , 0.76690775,
-       0.7662352 , 0.7709432 , 0.769598  , 0.7621997 , 0.76892537,
-       0.7621997 , 0.769598  , 0.7608545 , 0.77766895, 0.7628723 ,
-       0.7608545 , 0.7709432 , 0.76892537, 0.7709432 , 0.7621997 ,
-       0.769598  , 0.76825297, 0.7628723 , 0.7763239 , 0.76488996,
-       0.77430606, 0.76892537, 0.7675804 , 0.7608545 , 0.76152706,
-       0.7675804 , 0.7662352 , 0.7621997 , 0.77968675, 0.7749787 ,
-       0.76825297, 0.76825297, 0.76825297, 0.7662352 , 0.769598  ,
-       0.76690775, 0.76892537, 0.76892537, 0.7642175 , 0.755474  ,
-       0.7702706 , 0.76690775, 0.76488996, 0.7716158 , 0.76690775],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[0.77430606, 0.7621997 , 0.7642175 , ..., 0.7702706 , 0.76690775,
-        0.76488996],
-       [0.7621997 , 0.7642175 , 0.76556253, ..., 0.76690775, 0.76488996,
-        0.76892537],
-       [0.7642175 , 0.76556253, 0.7675804 , ..., 0.76488996, 0.76892537,
-        0.7642175 ],
-       ...,
-       [0.76488996, 0.7716158 , 0.76690775, ..., 0.7642175 , 0.7561464 ,
-        0.77430606],
-       [0.7716158 , 0.76690775, 0.7635449 , ..., 0.7561464 , 0.77430606,
-        0.7709432 ],
-       [0.76556253, 0.76488996, 0.7716158 , ..., 0.76825297, 0.7642175 ,
-        0.7561464 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([0.76892537, 0.7642175 , 0.76825297, 0.7763239 , 0.7628723 ,
-       0.7635449 , 0.76488996, 0.7716158 , 0.7675804 , 0.77228844,
-       0.769598  , 0.76152706, 0.7702706 , 0.7702706 , 0.7702706 ,
-       0.76892537, 0.76556253, 0.7662352 , 0.76152706, 0.76892537,
-       0.76825297, 0.7642175 , 0.76152706, 0.7628723 , 0.755474  ,
-       0.76690775, 0.7675804 , 0.7662352 , 0.76690775, 0.755474  ,
-       0.7716158 , 0.76825297, 0.75412875, 0.7662352 , 0.7621997 ,
-       0.7628723 , 0.76825297, 0.7608545 , 0.77228844, 0.7628723 ,
-       0.7662352 , 0.7628723 , 0.76488996, 0.76892537, 0.7662352 ,
-       0.76892537, 0.7628723 , 0.7662352 , 0.7621997 , 0.76892537,
-       0.7662352 , 0.7662352 , 0.76825297, 0.7675804 , 0.7581642 ,
-       0.7608545 , 0.76892537, 0.7709432 , 0.7662352 , 0.7581642 ,
-       0.76488996, 0.76152706, 0.7635449 , 0.7635449 , 0.76690775,
-       0.75412875, 0.76556253, 0.7635449 , 0.7716158 , 0.76488996,
-       0.76018184, 0.7581642 , 0.7621997 , 0.7635449 , 0.7675804 ,
-       0.7621997 , 0.756819  , 0.7621997 , 0.7588368 , 0.76690775,
-       0.7635449 , 0.7769965 , 0.76556253, 0.76488996, 0.7621997 ,
-       0.7608545 , 0.7574916 , 0.76892537, 0.7662352 , 0.7642175 ,
-       0.7675804 , 0.7756513 , 0.7702706 , 0.7675804 , 0.77766895,
-       0.756819  , 0.76556253, 0.76488996, 0.769598  , 0.7628723 ,
-       0.77430606, 0.76152706, 0.77296084, 0.76488996, 0.76556253,
-       0.7709432 , 0.77296084, 0.7675804 , 0.76892537, 0.769598  ,
-       0.7709432 , 0.7635449 , 0.7628723 , 0.7749787 , 0.7709432 ,
-       0.7702706 , 0.7675804 , 0.7628723 , 0.7621997 , 0.7702706 ,
-       0.7588368 , 0.76825297, 0.76152706, 0.7716158 , 0.7534562 ,
-       0.7581642 , 0.76152706, 0.7561464 , 0.7642175 , 0.76892537,
-       0.7621997 , 0.755474  , 0.7635449 , 0.76152706, 0.7709432 ,
-       0.75950944, 0.7635449 , 0.76690775, 0.7621997 , 0.76825297,
-       0.7621997 , 0.7574916 , 0.76152706, 0.76825297, 0.76556253,
-       0.7642175 , 0.756819  , 0.7709432 , 0.77228844, 0.77430606],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(150, 80), dtype=float32, numpy=
-array([[0.7635449 , 0.7581642 , 0.7621997 , ..., 0.7709432 , 0.77228844,
-        0.76152706],
-       [0.76690775, 0.7635449 , 0.7581642 , ..., 0.77430606, 0.7709432 ,
-        0.77228844],
-       [0.7621997 , 0.7621997 , 0.7675804 , ..., 0.76152706, 0.7561464 ,
-        0.7709432 ],
-       ...,
-       [0.76892537, 0.76892537, 0.76892537, ..., 0.7675804 , 0.7608545 ,
-        0.76556253],
-       [0.7635449 , 0.756819  , 0.7662352 , ..., 0.7628723 , 0.76825297,
-        0.7675804 ],
-       [0.756819  , 0.7662352 , 0.7635449 , ..., 0.76825297, 0.7675804 ,
-        0.76152706]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(150,), dtype=float32, numpy=
-array([0.7561464 , 0.76152706, 0.76488996, 0.7561464 , 0.7709432 ,
-       0.76892537, 0.7716158 , 0.7642175 , 0.77228844, 0.76018184,
-       0.76018184, 0.7702706 , 0.7675804 , 0.76488996, 0.7621997 ,
-       0.769598  , 0.7621997 , 0.76892537, 0.7588368 , 0.7581642 ,
-       0.77766895, 0.75480133, 0.76018184, 0.7628723 , 0.76690775,
-       0.7588368 , 0.76488996, 0.76892537, 0.7642175 , 0.7588368 ,
-       0.7662352 , 0.76152706, 0.7608545 , 0.7635449 , 0.7635449 ,
-       0.76690775, 0.77228844, 0.76690775, 0.76825297, 0.7763239 ,
-       0.7608545 , 0.7675804 , 0.7662352 , 0.76152706, 0.7662352 ,
-       0.7635449 , 0.76556253, 0.7749787 , 0.7635449 , 0.7675804 ,
-       0.75950944, 0.76690775, 0.77228844, 0.7642175 , 0.7608545 ,
-       0.7635449 , 0.76825297, 0.7621997 , 0.7574916 , 0.7621997 ,
-       0.7574916 , 0.769598  , 0.7709432 , 0.76892537, 0.76018184,
-       0.7581642 , 0.76892537, 0.76892537, 0.76892537, 0.7635449 ,
-       0.77228844, 0.7662352 , 0.756819  , 0.7635449 , 0.7675804 ,
-       0.77228844, 0.76690775, 0.7588368 , 0.769598  , 0.77296084,
-       0.7635449 , 0.77834153, 0.7702706 , 0.7608545 , 0.77296084,
-       0.7635449 , 0.7675804 , 0.7635449 , 0.76488996, 0.7581642 ,
-       0.7628723 , 0.7574916 , 0.7561464 , 0.7749787 , 0.7662352 ,
-       0.769598  , 0.76018184, 0.76690775, 0.76690775, 0.76152706,
-       0.7662352 , 0.75950944, 0.7709432 , 0.7769965 , 0.75480133,
-       0.7702706 , 0.7662352 , 0.7702706 , 0.77296084, 0.7534562 ,
-       0.7635449 , 0.76488996, 0.7642175 , 0.7716158 , 0.7702706 ,
-       0.7702706 , 0.76825297, 0.7702706 , 0.76892537, 0.76556253,
-       0.76152706, 0.76825297, 0.7608545 , 0.7635449 , 0.76690775,
-       0.76892537, 0.7574916 , 0.7675804 , 0.7635449 , 0.77228844,
-       0.76690775, 0.7662352 , 0.76018184, 0.76825297, 0.76690775,
-       0.7716158 , 0.7581642 , 0.7642175 , 0.7716158 , 0.76892537,
-       0.77430606, 0.7675804 , 0.7662352 , 0.7608545 , 0.76556253,
-       0.7675804 , 0.7635449 , 0.7628723 , 0.76152706, 0.76690775],
-      dtype=float32)&gt;)
-(&lt;tf.Tensor: shape=(87, 80), dtype=float32, numpy=
-array([[0.76892537, 0.7635449 , 0.756819  , ..., 0.76556253, 0.7628723 ,
-        0.76825297],
-       [0.7662352 , 0.7635449 , 0.77228844, ..., 0.7675804 , 0.76152706,
-        0.76690775],
-       [0.77228844, 0.7675804 , 0.7588368 , ..., 0.76690775, 0.76488996,
-        0.7628723 ],
-       ...,
-       [0.76488996, 0.76152706, 0.7769965 , ..., 0.77968675, 0.7608545 ,
-        0.76556253],
-       [0.7769965 , 0.76018184, 0.7642175 , ..., 0.76556253, 0.7635449 ,
-        0.7716158 ],
-       [0.76690775, 0.76488996, 0.7628723 , ..., 0.76825297, 0.76018184,
-        0.7628723 ]], dtype=float32)&gt;, &lt;tf.Tensor: shape=(87,), dtype=float32, numpy=
-array([0.7675804 , 0.76488996, 0.76488996, 0.76152706, 0.7628723 ,
-       0.76825297, 0.7642175 , 0.76018184, 0.77430606, 0.76488996,
-       0.7769965 , 0.7749787 , 0.769598  , 0.7635449 , 0.75412875,
-       0.76892537, 0.769598  , 0.769598  , 0.76488996, 0.76690775,
-       0.7635449 , 0.7716158 , 0.76892537, 0.7635449 , 0.76892537,
-       0.7581642 , 0.7709432 , 0.769598  , 0.7709432 , 0.7675804 ,
-       0.7763239 , 0.7675804 , 0.7702706 , 0.7769965 , 0.7635449 ,
-       0.76892537, 0.77228844, 0.769598  , 0.7716158 , 0.7635449 ,
-       0.7662352 , 0.756819  , 0.7675804 , 0.77296084, 0.7675804 ,
-       0.7635449 , 0.7716158 , 0.75412875, 0.7736335 , 0.7675804 ,
-       0.7621997 , 0.7702706 , 0.76152706, 0.76825297, 0.77901417,
-       0.7628723 , 0.7635449 , 0.7662352 , 0.7702706 , 0.7662352 ,
-       0.7716158 , 0.7581642 , 0.76892537, 0.769598  , 0.7662352 ,
-       0.76825297, 0.7769965 , 0.76825297, 0.75950944, 0.7662352 ,
-       0.7662352 , 0.77834153, 0.7608545 , 0.76152706, 0.76825297,
-       0.7635449 , 0.76825297, 0.76018184, 0.76690775, 0.7628723 ,
-       0.7608545 , 0.7628723 , 0.76556253, 0.7716158 , 0.7635449 ,
-       0.7628723 , 0.77968675], dtype=float32)&gt;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input shape: (32, 300, 5)
+Output shape: (32, 300, 5)
 </pre></div>
 </div>
-<p><span style="color:blue; font-size:20px">The windowed size is: 13, and raw datashape is (1967)</span></p>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_basic_model</span><span class="p">():</span>
-  <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">new_df</span><span class="p">),</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-  <span class="p">])</span>
-
-  <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span>
-                <span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">BinaryCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
-  <span class="k">return</span> <span class="n">model</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">get_basic_model</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_df</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">new_df</span><span class="p">),</span> <span class="n">target</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span><span class="o">/</span><span class="n">ipykernel_32756</span><span class="o">/</span><span class="mf">2725428979.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span>   <span class="k">return</span> <span class="n">model</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> 
-<span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">model</span> <span class="o">=</span> <span class="n">get_basic_model</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_df</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">new_df</span><span class="p">),</span> <span class="n">target</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
-
-<span class="nn">~\AppData\Local\Temp/ipykernel_32756/2725428979.py</span> in <span class="ni">get_basic_model</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">get_basic_model</span><span class="p">():</span>
-<span class="ne">----&gt; </span><span class="mi">2</span>   <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">new_df</span><span class="p">),</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
-
-<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\training\tracking\base.py</span> in <span class="ni">_method_wrapper</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">455</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># pylint: disable=protected-access</span>
-<span class="g g-Whitespace">    </span><span class="mi">456</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">457</span>       <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">458</span>     <span class="k">finally</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">459</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="n">previous_value</span>  <span class="c1"># pylint: disable=protected-access</span>
-
-<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\engine\sequential.py</span> in <span class="ni">__init__</span><span class="nt">(self, layers, name)</span>
-<span class="g g-Whitespace">    </span><span class="mi">140</span>         <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">layers</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">141</span>       <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">142</span>         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">143</span> 
-<span class="g g-Whitespace">    </span><span class="mi">144</span>   <span class="nd">@property</span>
-
-<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\training\tracking\base.py</span> in <span class="ni">_method_wrapper</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">455</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># pylint: disable=protected-access</span>
-<span class="g g-Whitespace">    </span><span class="mi">456</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">457</span>       <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">458</span>     <span class="k">finally</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">459</span>       <span class="bp">self</span><span class="o">.</span><span class="n">_self_setattr_tracking</span> <span class="o">=</span> <span class="n">previous_value</span>  <span class="c1"># pylint: disable=protected-access</span>
-
-<span class="nn">C:\Users\Public\programs\Anaconda3\lib\site-packages\tensorflow\python\keras\engine\sequential.py</span> in <span class="ni">add</span><span class="nt">(self, layer)</span>
-<span class="g g-Whitespace">    </span><span class="mi">178</span> 
-<span class="g g-Whitespace">    </span><span class="mi">179</span>     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">base_layer</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">180</span>       <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The added layer must be &#39;</span>
-<span class="g g-Whitespace">    </span><span class="mi">181</span>                       <span class="s1">&#39;an instance of class Layer. &#39;</span>
-<span class="g g-Whitespace">    </span><span class="mi">182</span>                       <span class="s1">&#39;Found: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">layer</span><span class="p">))</span>
-
-<span class="ne">TypeError</span>: The added layer must be an instance of class Layer. Found: &lt;TensorSliceDataset shapes: (3,), types: tf.float64&gt;
-</pre></div>
+<img alt="../../_images/tensorflow_simple_41_1.png" src="../../_images/tensorflow_simple_41_1.png" />
 </div>
 </div>
 </div>
