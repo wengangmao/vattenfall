@@ -457,7 +457,7 @@ def split_window(self, features):
 WindowGenerator.split_window = split_window
 
 
-# 3.3.3, plot the time series
+# 3.3.3, plot the time series  ################# NB: this also needs to set up the label/output parameter
 def plot(self, model=None, plot_col='head_gross', max_subplots=3):
   inputs, labels = self.example
   plt.figure(figsize=(12, 8))
@@ -592,13 +592,13 @@ for example_inputs, example_labels in w.train.take(1):
 
 # #### Test 1: single output window
 
-# In[57]:
+# In[105]:
 
 
 # Get the first dataset (all features as output)
 single_step_window = WindowGenerator(
     input_width=1, label_width=1, shift=1,
-    label_columns=['head_gross']) # we can set "label_columns=None"
+    label_columns = ['head_gross']) # we can set "label_columns=None"
 single_step_window
 
 for example_inputs, example_labels in single_step_window.train.take(1):
@@ -608,7 +608,7 @@ for example_inputs, example_labels in single_step_window.train.take(1):
 single_step_window.label_columns, single_step_window.column_indices
 
 
-# In[80]:
+# In[109]:
 
 
 # Baseline model
@@ -624,9 +624,9 @@ class Baseline(tf.keras.Model):
     return result[:, :, tf.newaxis]
 
 # Build the model
-#baseline = Baseline(label_index=single_step_window.column_indices['head_gross'])
+baseline = Baseline(label_index=single_step_window.column_indices['head_gross'])
 
-baseline = Baseline(label_index=None)
+#baseline = Baseline(label_index=None)
 
 baseline.compile(loss=tf.losses.MeanSquaredError(),
                  metrics=[tf.metrics.MeanAbsoluteError()])
@@ -637,59 +637,111 @@ val_performance['Baseline'] = baseline.evaluate(single_step_window.val)
 performance['Baseline'] = baseline.evaluate(single_step_window.test, verbose=0)
 
 
-# In[ ]:
+# In[107]:
 
 
-
+single_step_window.test
 
 
 # #### Test 2: wide output window
 
-# In[97]:
+# In[110]:
 
 
 wide_window = WindowGenerator(
     input_width=300, label_width=300, shift=2,
-    label_columns=None) #['head_gross'])    ################# NB: it is very important to choose the parameters here ##############
+    label_columns=['head_gross'])    ################# NB: it is very important to choose the parameters here ##############
 ###################################################################################################################################
 
-
-wide_window
-print('Input shape:', wide_window.example[0].shape)
-print('Output shape:', baseline(wide_window.example[0]).shape)
 wide_window.plot(baseline)
 
 
-# In[ ]:
+
+# ### ***From above analysis, it should be remarked that it is important to keep "baseline = Baseline(label_index=single_step_window.column_indices['head_gross'])" the index should be the smae as the WindowGenerator function!!***
+
+# ## **4, Selection of various modelling methods**
+
+# ### 4.1, Linear learning model for estimation
+
+# In[132]:
 
 
+# define linear model from the package
+linear = tf.keras.Sequential([
+    tf.keras.layers.Dense(units=1)
+])
+
+# Check the linear model
+print('Input shape:', single_step_window.example[0].shape)
+print('Output shape:', linear(single_step_window.example[0]).shape)
+
+# Plot the result to check the linear model
+plt.plot(linear(single_step_window.example[0]).numpy().flatten(), 'b') 
+plt.plot(single_step_window.example[1].numpy().flatten(), 'k')
+plt.show()
 
 
-
-# ## **4, Model construction**
-
-# In[193]:
+# In[155]:
 
 
-tf.keras.backend.clear_session()
+MAX_EPOCHS = 3
 
-model = tf.keras.models.Sequential([tf.keras.layers.Conv1D(filters=32, kernel_size = 5, strides=1, padding="causal", activation="relu", input_shape=[None, 1]),
-                                    tf.keras.layers.LSTM(60, return_sequences=True),
-                                    tf.keras.layers.LSTM(60, return_sequences=True),
-                                    tf.keras.layers.Dense(30, activation="relu"),
-                                    tf.keras.layers.Dense(10, activation ="relu"),
-                                    tf.keras.layers.Dense(1),
-                                    tf.keras.layers.Lambda(lambda x: x * 400)
-                                    ])
+def compile_and_fit(model, window, patience=2):
+  early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
+                                                    patience=patience,
+                                                    mode='min')
 
-#input_shape=[None, 1]
-#model.build(input_shape)
+  model.compile(loss=tf.losses.MeanSquaredError(),
+                optimizer=tf.optimizers.Adam(),
+                metrics=[tf.metrics.MeanAbsoluteError()])
+
+  history = model.fit(window.train, epochs=MAX_EPOCHS,
+                      validation_data=window.val,
+                      callbacks=[early_stopping])
+  return history
+
+history = compile_and_fit(linear, single_step_window)
+
+val_performance['Linear'] = linear.evaluate(single_step_window.val)
+performance['Linear'] = linear.evaluate(single_step_window.test, verbose=0)
 
 
-# In[184]:
+# In[160]:
 
 
-optimizer = tf.keras.optimizers.SGD(lr=1e-3,momentum=0.9)
-model.compile(loss=tf.keras.losses.Huber(), optimizer = optimizer, metrics=["mae"])
-history = model.fit(train_set, epochs = 5)
+# Two ways to plot the results
+
+fig, (ax1, ax2) = plt.subplots(1,2, figsize = [15, 10])
+# first plot based on the iteractive model
+ax1.plot(history.model.predict(single_step_window.example[0]).flatten(),'b')
+ax1.plot(single_step_window.example[1].numpy().flatten(), 'k')
+
+# second plot based on the 
+ax2.plot(linear(single_step_window.example[0]).numpy().flatten(), 'b') 
+ax2.plot(single_step_window.example[1].numpy().flatten(), 'k')
+
+
+# ### 4.2, linear model for wide window data inputs
+
+# In[171]:
+
+
+# Plot the result to check the linear model
+fig, (ax1, ax2) = plt.subplots(1,2,figsize=(25,5))
+ax1.plot(linear(wide_window.example[0]).numpy().flatten(), 'b') 
+ax1.plot(wide_window.example[1].numpy().flatten(), 'k')
+
+
+# plot the weight bars used in this model
+ax2.bar(x = range(len(train_df.columns)),
+        height=linear.layers[0].kernel[:,0].numpy())
+#axis = plt.gca()
+ax2.set_xticks(range(len(train_df.columns)))
+_ = ax2.set_xticklabels(train_df.columns, rotation=90)
+#plt.show()
+
+# Lets make the wider window dataset
+wide_window.plot(linear)
+print('Input shape:', wide_window.example[0].shape)
+print('Output shape:', baseline(wide_window.example[0]).shape)
 
