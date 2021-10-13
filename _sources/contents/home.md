@@ -25,11 +25,11 @@ So far, we test the Tensorflow deep learning model, which seems work well for th
 
     
 ```{admonition}  <span style = "color: blue; font-weight: 600; font-size: 25px">Remarks</span>
-<span style = "color: blue; font-weight: 400; font-size: 20px">* The $Head_{gross}$ is more autocorrelated rather than correlated with other parameters</span><br />
-<span style = "color: blue; font-weight: 400; font-size: 20px">* Worth to revisit the standard ML models treating data as indepdent</span><br />
-<span style = "color: blue; font-weight: 400; font-size: 20px">* The strong autocorrelation structure of $Head_{gross}$ may suggest a statistical ARIMA model for fast estimation</span><br />
-<span style = "color: blue; font-weight: 400; font-size: 20px">* More thorough check when more data is available</span><br />
-<span style = "color: red; font-weight: 500; font-size: 20px">* Maybe an issue for signals of transients lasting very short time (e.g., caused by cavitation, ...) </span><br />
+*  <span style = "color: blue; font-weight: 400; font-size: 20px">The $Head_{gross}$ is more autocorrelated rather than correlated with other parameters</span><br />
+*  <span style = "color: blue; font-weight: 400; font-size: 20px">Worth to revisit the standard ML models treating data as indepdent</span><br />
+*  <span style = "color: blue; font-weight: 400; font-size: 20px">The strong autocorrelation structure of $Head_{gross}$ may suggest a statistical ARIMA model for fast estimation</span><br />
+*  <span style = "color: blue; font-weight: 400; font-size: 20px">More thorough check when more data is available</span><br />
+*  <span style = "color: red; font-weight: 500; font-size: 20px">Maybe an issue for signals of transients lasting very short time (e.g., caused by cavitation, ...) </span><br />
 
 
 
