@@ -13,10 +13,10 @@
     
 ---
   
-### General update
-    
-#### October 2021
+### General update: October 2021
 So far, we test the Tensorflow deep learning model, which seems work well for the prediction the dynamics of normalized $head_{gross}$ as shown below
+
+
 |Optimised Linear model| Multi-step dense model | CNN model wider window|
 |:----:|:----:|:----:|
 |![linear](./images/optimised_linear_model.png)|![linear](./images/multi_step_dense_model.png)|![linear](./images/cnn_wide_window.png)|    
