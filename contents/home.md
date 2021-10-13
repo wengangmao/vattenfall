@@ -1,25 +1,38 @@
 # Logbook for Vattenfall project
 +++
 ---
+
 ### Participants
-* <span style = "color: blue; font-weight: 400; font-size:20px">Håkan Nilsson, Chalmers (project leader and supervisor) 
-<br />
+* <span style = "color: blue; font-weight: 400; font-size:20px">Håkan Nilsson, Chalmers (project leader and supervisor) <br /></span>
 
 > * Xiao Lang, Chalmers (most active)  
 > * Wengang Mao, Chalmers (supervisor) 
 > * Carl-Maikel Högström, Vattenfall (active collaboration partner) 
 > * Berhanu Mulu, Vattenfall (active collaboration partner)
-
+>
+    
 ---
+  
 ### General update
-    #### October 2021
-So far, we test the Tensorflow deep learning model, which seems work well for the prediction the dynamics of normalized $$head_{gross}$$ as shown below:
     
-    
-    
+#### October 2021
+So far, we test the Tensorflow deep learning model, which seems work well for the prediction the dynamics of normalized $head_{gross}$ as shown below
+|Optimised Linear model| Multi-step dense model | CNN model wider window|
+|:----:|:----:|:----:|
+|![linear](./images/optimised_linear_model.png)|![linear](./images/multi_step_dense_model.png)|![linear](./images/cnn_wide_window.png)|    
+
+**Prediction of normlized $head_{gross}$ by various deep learning models on Google Tensorflow
+
     
 ```{admonition}  <span style = "color: blue; font-weight: 600; font-size: 25px">Remarks</span>
-<span style = "color: blue; font-weight: 400; font-size: 20px">The</span><br />
+<span style = "color: blue; font-weight: 400; font-size: 20px">* The $Head_{gross}$ is more autocorrelated rather than correlated with other parameters</span><br />
+<span style = "color: blue; font-weight: 400; font-size: 20px">* Worth to revisit the standard ML models treating data as indepdent</span><br />
+<span style = "color: blue; font-weight: 400; font-size: 20px">* The strong autocorrelation structure of $Head_{gross}$ may suggest a statistical ARIMA model for fast estimation</span><br />
+<span style = "color: blue; font-weight: 400; font-size: 20px">* More thorough check when more data is available</span><br />
+<span style = "color: red; font-weight: 500; font-size: 20px">* Maybe an issue for signals of transients lasting very short time (e.g., caused by cavitation, ...) </span><br />
+
+
+
 ```
 
 

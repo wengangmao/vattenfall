@@ -5,7 +5,7 @@
 
 # # Deep learning to model transient dynamics of hydro Turbine
 
-# In[1]:
+# In[2]:
 
 
 import pandas as pd
@@ -23,7 +23,7 @@ import tensorflow as tf
 
 # ## 1, Load the data
 
-# In[2]:
+# In[3]:
 
 
 #from tensorflow import keras
@@ -39,7 +39,7 @@ feature_keys = keys[np.arange(1,5).tolist() + np.arange(7,10).tolist()]
 time_key = keys[0]
 
 
-# In[3]:
+# In[4]:
 
 
 plot_cols = feature_keys[0:len(feature_keys):2]
@@ -62,7 +62,7 @@ fig2 = plot_features.plot(subplots=True, figsize=(15, 10))
 
 # ### 2.1, resample the data with low-resolution
 
-# In[4]:
+# In[5]:
 
 
 df_train = df[feature_keys[0:7:2]][int(len(df)/4):int(len(df)/2):100]
@@ -81,7 +81,7 @@ sns.heatmap(df_train.corr(), annot=True, fmt=".2f")
 plt.show()
 
 
-# In[5]:
+# In[6]:
 
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -108,7 +108,7 @@ plt.ylabel('discharge_rate', size=20)
 plt.colorbar()
 
 
-# In[6]:
+# In[7]:
 
 
 features = df.keys()
@@ -117,7 +117,7 @@ features
 
 # ### 2.2, autocorrelation function (ACF) and (PACF) to check time dependence
 
-# In[7]:
+# In[8]:
 
 
 def autocorr(x):
@@ -278,12 +278,9 @@ new_df = tf.convert_to_tensor(new_df)
 feature_keys
 
 
-# ## 3, RNN deep learning to build the model by three different approaches. 
-#    **1. normal deep learning network**<br />
-#    **2. RNN**<br />
-#    **3. ARIMA model**<br />
+# ## 3, Understand the dataset construction and build basic models (treated as independent dataset)
 
-# ### 3.1, First attemp to the model $Head\_net_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)$
+# 
 
 # In[14]:
 
@@ -394,12 +391,14 @@ ax.set_xticklabels(ax.get_xticks(), size = 30)
 ax.set_yticklabels(ax.get_yticks(), size = 30)
 
 
-# ### <span style ="color:blue; font-size:25px"> **3.3, get the rolling/windowed dataset**</span>
+# ## <span style ="color:blue; font-size:25px"> **4, Dataset (rolling/windowed dataset) for time series analysis**</span>
+
+# ### 4.1, Read data into the data class
 
 # In[19]:
 
 
-# 3.3.1, Indexes and offsets
+# 4.1.1, Indexes and offsets
 
 ## NB: the data for training, testing and validation should be store here first!!
 class WindowGenerator():
@@ -440,7 +439,7 @@ class WindowGenerator():
         f'Label indices: {self.label_indices}',
         f'Label column name(s): {self.label_columns}'])
 
-# 3.3.2, Split the window
+# 4.1.2, Split the window
 def split_window(self, features):
   inputs = features[:, self.input_slice, :]
   labels = features[:, self.labels_slice, :]
@@ -459,7 +458,7 @@ def split_window(self, features):
 WindowGenerator.split_window = split_window
 
 
-# 3.3.3, plot the time series  ################# NB: this also needs to set up the label/output parameter
+# 4.1.3, plot the time series  ################# NB: this also needs to set up the label/output parameter
 def plot(self, model=None, plot_col='head_gross', max_subplots=3):
   inputs, labels = self.example
   plt.figure(figsize=(12, 8))
@@ -495,7 +494,9 @@ def plot(self, model=None, plot_col='head_gross', max_subplots=3):
 WindowGenerator.plot = plot
 
 
-# In[21]:
+# ### 4.2, Check the constructed basic dataset class
+
+# In[20]:
 
 
 # Test of windowed dataset 
@@ -517,16 +518,16 @@ print(f'Inputs shape: {example_inputs.shape}')
 print(f'Labels shape: {example_labels.shape}')
 
 
-# In[23]:
+# In[21]:
 
 
 w.example = example_inputs, example_labels
 w.plot(plot_col='guide_open')
 
 
-# ### <span style ="color:blue; font-size:25px"> **3.4, Create tf.data.Datasets**</span>
+# ### <span style ="color:blue; font-size:25px"> **4.3, Formulate train, test, validation datasets in the data structure**</span>
 
-# In[28]:
+# In[22]:
 
 
 def make_dataset(self, data):
@@ -580,7 +581,7 @@ for example_inputs, example_labels in w.train.take(1):
   print(f'Labels shape (batch, time, features): {example_labels.shape}')
 
 
-# In[38]:
+# In[23]:
 
 
 for example_inputs, example_labels in w.train.take(1):
@@ -588,13 +589,17 @@ for example_inputs, example_labels in w.train.take(1):
   print(f'Labels shape (batch, time, features): {example_labels.shape}')
 
 
-# ## 4, **Preliminary model construction**
+# ## 5, **Single step model: $$Head\_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)$$**
 
-# ### 4.1, single step model (similar as the conventional independent ML methods)
+# ### 5.1, Baseline and linear models
+# | <span style = "color: red; font-weight: 500; font-size: 20px"> Baseline narrow window </span> | <span style = "color: red; font-weight: 500; font-size: 20px">Baseline wide window </span> | <span style = "color: blue; font-weight: 500; font-size: 20px">Linear model with narrow window</span> | <span style = "color: blue; font-weight: 500; font-size: 20px"> Linear model with wide window </span> |
+# |:----------:|:-------------:|:-------------:|:------:|
+# | ![baseline](./images/baseline.png) |  ![baselinenarrow](./images/baseline_wide_window.png) | ![linenarrow](./images/linear_narrow_window.png) | ![linewide](./images/linear_wide_window.png) |
+# 
 
-# #### Test 1: single output window
+# #### Test 1: narrow window dataset (single output window)
 
-# In[105]:
+# In[24]:
 
 
 # Get the first dataset (all features as output)
@@ -610,7 +615,7 @@ for example_inputs, example_labels in single_step_window.train.take(1):
 single_step_window.label_columns, single_step_window.column_indices
 
 
-# In[109]:
+# In[25]:
 
 
 # Baseline model
@@ -639,7 +644,7 @@ val_performance['Baseline'] = baseline.evaluate(single_step_window.val)
 performance['Baseline'] = baseline.evaluate(single_step_window.test, verbose=0)
 
 
-# In[107]:
+# In[26]:
 
 
 single_step_window.test
@@ -647,7 +652,7 @@ single_step_window.test
 
 # #### Test 2: wide output window
 
-# In[110]:
+# In[27]:
 
 
 wide_window = WindowGenerator(
@@ -658,14 +663,13 @@ wide_window = WindowGenerator(
 wide_window.plot(baseline)
 
 
+# **From above analysis, it should be remarked**
+# * it is important to keep "baseline = Baseline(label_index=single_step_window.column_indices['head_gross'])" 
+# * the index should be the same as the WindowGenerator function!!***
 
-# ### ***From above analysis, it should be remarked that it is important to keep "baseline = Baseline(label_index=single_step_window.column_indices['head_gross'])" the index should be the smae as the WindowGenerator function!!***
+# ### 5.2, Linear model with narrow window dataset <span style = "background: yellow">"WindowGenerator(input_width=1, label_width=1, shift=1)"</span>
 
-# ## **4, Selection of various modelling methods**
-
-# ### 4.1, Linear learning model for estimation
-
-# In[132]:
+# In[28]:
 
 
 # define linear model from the package
@@ -680,10 +684,11 @@ print('Output shape:', linear(single_step_window.example[0]).shape)
 # Plot the result to check the linear model
 plt.plot(linear(single_step_window.example[0]).numpy().flatten(), 'b') 
 plt.plot(single_step_window.example[1].numpy().flatten(), 'k')
+plt.title('The model performance might be uncertainly varied (no convergent)')
 plt.show()
 
 
-# In[155]:
+# In[29]:
 
 
 MAX_EPOCHS = 3
@@ -708,7 +713,7 @@ val_performance['Linear'] = linear.evaluate(single_step_window.val)
 performance['Linear'] = linear.evaluate(single_step_window.test, verbose=0)
 
 
-# In[160]:
+# In[30]:
 
 
 # Two ways to plot the results
@@ -721,11 +726,12 @@ ax1.plot(single_step_window.example[1].numpy().flatten(), 'k')
 # second plot based on the 
 ax2.plot(linear(single_step_window.example[0]).numpy().flatten(), 'b') 
 ax2.plot(single_step_window.example[1].numpy().flatten(), 'k')
+ax2.set_title("NB: the linear model is the same as the optimized in the history, which is diferent from the above one using only one running")
 
 
-# ### 4.2, linear model for wide window data inputs
+# ### 5.3, linear model for wide window data inputs <span style = "background: yellow">"WindowGenerator(input_width=300, label_width=300, shift=1)"</span>
 
-# In[171]:
+# In[31]:
 
 
 # Plot the result to check the linear model
@@ -748,8 +754,212 @@ print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
 
 
-# In[174]:
+# ### 5.4, Dense model (multiple layers and activation function)
+# 
+#  ![dense_dataset](./images/dense_dataset.png)
+#  
+# **Multi-step dense dataset structure** 
+# 
+# 
+# 
+
+# In[32]:
 
 
-wide_window.example
+# model construction and estimation
+dense = tf.keras.Sequential([
+    tf.keras.layers.Dense(units=64, activation='relu'),
+    tf.keras.layers.Dense(units=64, activation='relu'),
+    tf.keras.layers.Dense(units=1)
+])
+
+history = compile_and_fit(dense, single_step_window)
+
+val_performance['Dense'] = dense.evaluate(single_step_window.val)
+performance['Dense'] = dense.evaluate(single_step_window.test, verbose=0)
+
+# plot the results
+fig, (ax1, ax2) = plt.subplots(1,2, figsize = [15, 10])
+# first plot based on the iteractive model
+ax1.plot(history.model.predict(single_step_window.example[0]).flatten(),'b')
+ax1.plot(single_step_window.example[1].numpy().flatten(), 'k')
+
+# second plot based on the 
+ax2.plot(linear(single_step_window.example[0]).numpy().flatten(), 'b') 
+ax2.plot(single_step_window.example[1].numpy().flatten(), 'k')
+
+
+# ## 6, **CNN Model construction for $x_t = f(X_{t-1}, X_{t-2}, X_{t-3},...)$**
+
+# ### 6.1, Set up the convolutional neuron network (CNN) dataset.
+# ![RNN_Data_Structrue](./images/cnn_dataset.png)
+
+# In[33]:
+
+
+# Create the indexes
+CONV_WIDTH = 30
+conv_window = WindowGenerator(
+    input_width=CONV_WIDTH,
+    label_width=1,
+    shift=1,
+    label_columns=['head_gross'])
+
+print(conv_window)
+
+# plot the input data/features
+conv_window.plot()
+plt.title("Given 3 hours of inputs, predict 1 hour into the future.")
+
+
+# ### 6.2, Test for the "multiple-steps model" model (using CNN data structure) -- <span style = "color: blue; font-size: 20px"> Narrow window: input_width = 3</span>
+
+# In[34]:
+
+
+# configure the model
+multi_step_dense = tf.keras.Sequential([
+    # Shape: (time, features) => (time*features)
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(units=32, activation='relu'),
+    tf.keras.layers.Dense(units=32, activation='relu'),
+    tf.keras.layers.Dense(units=1),
+    # Add back the time dimension.
+    # Shape: (outputs) => (1, outputs)
+    tf.keras.layers.Reshape([1, -1]),
+])
+
+# Plot the result to check the linear model
+plt.plot(multi_step_dense(conv_window.example[0]).numpy().flatten(), 'b') 
+plt.plot(conv_window.example[1].numpy().flatten(), 'k')
+plt.title('The model performance might be uncertainly varied (no convergent)')
+plt.show()
+
+
+# In[ ]:
+
+
+# optimise the model through "compile_and_fit"
+import IPython
+
+history = compile_and_fit(multi_step_dense, conv_window)
+
+IPython.display.clear_output()
+val_performance['Multi step dense'] = multi_step_dense.evaluate(conv_window.val)
+performance['Multi step dense'] = multi_step_dense.evaluate(conv_window.test, verbose=0)
+
+# Plot the result to check the linear model
+plt.plot(history.model.predict(conv_window.example[0]).flatten(), 'b') 
+plt.plot(conv_window.example[1].numpy().flatten(), 'k')
+plt.title('The model performance might be uncertainly varied (no convergent)')
+plt.show()
+
+
+# ### 6.3, Convolutional Neuron Network -- <span style = "color: blue; font-size: 20px"> Narrow window: input_width = CONV_width = 3</span>
+# Difference between multi-step dense model and CNN model
+# * model construction: CNN model require input_width, but no need for layers.flatten() and layers.reshape([1, -1])
+# * data structure: output of CNN datastructure is (#input_window -1) dimensions less
+
+# In[ ]:
+
+
+# Configure the CNN model
+conv_model = tf.keras.Sequential([
+    tf.keras.layers.Conv1D(filters=32,
+                           kernel_size=(CONV_WIDTH,),
+                           activation='relu'),
+    tf.keras.layers.Dense(units=32, activation='relu'),
+    tf.keras.layers.Dense(units=1),
+])
+
+print("Conv model on `conv_window`")
+print('Input shape:', conv_window.example[0].shape)
+print('Output shape:', conv_model(conv_window.example[0]).shape)
+
+# Estimate the CNN model
+history = compile_and_fit(conv_model, conv_window)
+
+IPython.display.clear_output()
+val_performance['Conv'] = conv_model.evaluate(conv_window.val)
+performance['Conv'] = conv_model.evaluate(conv_window.test, verbose=0)
+
+
+# In[ ]:
+
+
+# Check the length difference between multiple-step-dense model and the CNN model
+print("Wide window")
+print('Input shape:', wide_window.example[0].shape)
+print('Labels shape:', wide_window.example[1].shape)
+print('Output shape:', conv_model(wide_window.example[0]).shape)
+
+#  Plot the result to check the linear model
+plt.plot(history.model.predict(wide_window.example[0]).flatten(), 'b') 
+plt.plot(wide_window.example[1].numpy().flatten(), 'k')
+plt.title('The model performance might be uncertainly varied (no convergent)')
+plt.show()
+
+
+# ### 6.4, Convolutional Neuron Network -- <span style = "color: blue; font-size: 20px"> Wide window: input_width = CONV_width = 30</span>
+# 
+
+# In[ ]:
+
+
+LABEL_WIDTH = 50
+INPUT_WIDTH = LABEL_WIDTH + (CONV_WIDTH - 1)
+wide_conv_window = WindowGenerator(
+    input_width=INPUT_WIDTH,
+    label_width=LABEL_WIDTH,
+    shift=1,
+    label_columns=['head_gross'])
+
+wide_conv_window
+print("Wide conv window")
+print('Input shape:', wide_conv_window.example[0].shape)
+print('Labels shape:', wide_conv_window.example[1].shape)
+print('Output shape:', conv_model(wide_conv_window.example[0]).shape)
+wide_conv_window.plot(conv_model)
+
+
+# ### 6.5 Recurrent Neuron Network (RNN)
+# **In this example test, we will use the LSTM of RNN for demonstration**
+# 
+# | <span style="color: red; font-size: 20px"> Input: Data structure of the RNN input</span> | <span style="font-size: 20px"> Output: only the final results </span> |  <span style="font-size: 20px; color: blue"> Output: all internal prediction results </span> |
+# |:----:|:----:|:----:|
+# |![rnn_dataset](./images/rnn_dataset.png)|![rnn_dataset](./images/rnn_output_final.png)|![rnn_dataset](./images/rnn_output_all.png)|
+# 
+# 
+# **Difference between second output and third outpus**
+# * return_sequences=False for the second figure above
+# * return_sequences=True for the third figure above
+# 
+
+# In[151]:
+
+
+# Configure the RNN (LSTM) model
+lstm_model = tf.keras.models.Sequential([
+    # Shape [batch, time, features] => [batch, time, lstm_units]
+    tf.keras.layers.LSTM(32, return_sequences=False),
+    # Shape => [batch, time, features]
+    tf.keras.layers.Dense(units=1)
+])
+
+print('Input shape:', wide_window.example[0].shape)
+#print('Output shape:', lstm_model(wide_window.example[0]).shape)
+
+
+#wide_conv_window.example
+
+
+# In[1]:
+
+
+# Estimate/construct the model
+history = compile_and_fit(lstm_model, wide_window)
+
+IPython.display.clear_output()
+val_performance['LSTM'] = lstm_model.evaluate(wide_window.val)
+performance['LSTM'] = lstm_model.evaluate(wide_window.test, verbose=0)
 
