@@ -40,6 +40,7 @@
     <script src="../../_static/togglebutton.js"></script>
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -51,6 +52,7 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../../_static/turbine.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="RNN ARIMA Modeling" href="rnn_tensorflow.html" />
@@ -134,7 +136,7 @@
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+  Visit our <a href="https://github.com/wengangmao/vattenfall">GitHub Repository</a> <div>This book is powered by <a href="https://jupyterbook.org">Jupyter Book</a></div>
 </div>
 
 </div>
@@ -180,6 +182,24 @@
 
             <!-- Source interaction buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/wengangmao/vattenfall"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/wengangmao/vattenfall/issues/new?title=Issue%20on%20page%20%2Fcontents/codes/tensorflow_simple.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/wengangmao/vattenfall/edit/master/./contents/codes/tensorflow_simple.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
             <!-- Full screen (wrap in <a> to have style consistency -->
 
 <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
@@ -194,12 +214,18 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/contents/codes/tensorflow_simple.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/wengangmao/vattenfall/master?urlpath=tree/./contents/codes/tensorflow_simple.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../../_static/images/logo_binder.svg"
                     alt="Interact on binder">Binder</button></a>
         
+        
+        <a class="jupyterhub-button" href="https://wengangmao.github.io/vattenfall//hub/user-redirect/git-pull?repo=https://github.com/wengangmao/vattenfall&urlpath=tree/vattenfall/./contents/codes/tensorflow_simple.ipynb&branch=master"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch JupyterHub" data-toggle="tooltip"
+                data-placement="left"><img class="jupyterhub-button-logo"
+                    src="../../_static/images/logo_jupyterhub.svg"
+                    alt="Interact on JupyterHub">JupyterHub</button></a>
         
         
         
@@ -216,128 +242,140 @@
             </div>
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#load-the-data">
-   1, Load the data
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Tensorflow modelling
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#preprocessing-data-normalize-train-validation-test-etc">
-   2, Preprocessing data: normalize, train, validation, test, etc.
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#deep-learning-to-model-transient-dynamics-of-hydro-turbine">
+   Deep learning to model transient dynamics of hydro Turbine
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#resample-the-data-with-low-resolution">
-     2.1, resample the data with low-resolution
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#load-the-data">
+     1, Load the data
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#autocorrelation-function-acf-and-pacf-to-check-time-dependence">
-     2.2, autocorrelation function (ACF) and (PACF) to check time dependence
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#crossing-autocorrelationship-for-various-parameters">
-     2.3 crossing autocorrelationship for various parameters
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#normalize-the-data">
-     2.4, normalize the data
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#rnn-deep-learning-to-build-the-model-by-three-different-approaches">
-   3, RNN deep learning to build the model by three different approaches.
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#first-attemp-to-the-model-head-net-t-f-guide-open-t-1-t-2-pump-speed-t-1-t-2-discharge-rate-t-1-t-2">
-     3.1, First attemp to the model
-     <span class="math notranslate nohighlight">
-      \(Head\_net_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)\)
-     </span>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#understand-datastructure-of-the-tensorflow-package-formulate-rolling-windowed-dataset-for-model-in-section-4">
-     3.2, Understand datastructure of the tensorflow package –&gt; formulate rolling windowed dataset –&gt; for model in Section 4
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#span-style-color-blue-font-size-25px-3-3-get-the-rolling-windowed-dataset-span">
-     <span style="color:blue; font-size:25px">
-      <strong>
-       3.3, get the rolling/windowed dataset
-      </strong>
-     </span>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#span-style-color-blue-font-size-25px-3-4-create-tf-data-datasets-span">
-     <span style="color:blue; font-size:25px">
-      <strong>
-       3.4, Create tf.data.Datasets
-      </strong>
-     </span>
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#preliminary-model-construction">
-   4,
-   <strong>
-    Preliminary model construction
-   </strong>
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#single-step-model-similar-as-the-conventional-independent-ml-methods">
-     4.1, single step model (similar as the conventional independent ML methods)
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preprocessing-data-normalize-train-validation-test-etc">
+     2, Preprocessing data: normalize, train, validation, test, etc.
     </a>
     <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#test-1-single-output-window">
-       Test 1: single output window
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#resample-the-data-with-low-resolution">
+       2.1, resample the data with low-resolution
       </a>
      </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#test-2-wide-output-window">
-       Test 2: wide output window
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#autocorrelation-function-acf-and-pacf-to-check-time-dependence">
+       2.2, autocorrelation function (ACF) and (PACF) to check time dependence
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#crossing-autocorrelationship-for-various-parameters">
+       2.3 crossing autocorrelationship for various parameters
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#normalize-the-data">
+       2.4, normalize the data
       </a>
      </li>
     </ul>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#from-above-analysis-it-should-be-remarked-that-it-is-important-to-keep-baseline-baseline-label-index-single-step-window-column-indices-head-gross-the-index-should-be-the-smae-as-the-windowgenerator-function">
-     <em>
-      <strong>
-       From above analysis, it should be remarked that it is important to keep “baseline = Baseline(label_index=single_step_window.column_indices[‘head_gross’])” the index should be the smae as the WindowGenerator function!!
-      </strong>
-     </em>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rnn-deep-learning-to-build-the-model-by-three-different-approaches">
+     3, RNN deep learning to build the model by three different approaches.
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#first-attemp-to-the-model-head-net-t-f-guide-open-t-1-t-2-pump-speed-t-1-t-2-discharge-rate-t-1-t-2">
+       3.1, First attemp to the model
+       <span class="math notranslate nohighlight">
+        \(Head\_net_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)\)
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#understand-datastructure-of-the-tensorflow-package-formulate-rolling-windowed-dataset-for-model-in-section-4">
+       3.2, Understand datastructure of the tensorflow package –&gt; formulate rolling windowed dataset –&gt; for model in Section 4
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-blue-font-size-25px-3-3-get-the-rolling-windowed-dataset-span">
+       <span style="color:blue; font-size:25px">
+        <strong>
+         3.3, get the rolling/windowed dataset
+        </strong>
+       </span>
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#span-style-color-blue-font-size-25px-3-4-create-tf-data-datasets-span">
+       <span style="color:blue; font-size:25px">
+        <strong>
+         3.4, Create tf.data.Datasets
+        </strong>
+       </span>
+      </a>
+     </li>
+    </ul>
    </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#selection-of-various-modelling-methods">
-   <strong>
-    4, Selection of various modelling methods
-   </strong>
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#linear-learning-model-for-estimation">
-     4.1, Linear learning model for estimation
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preliminary-model-construction">
+     4,
+     <strong>
+      Preliminary model construction
+     </strong>
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#single-step-model-similar-as-the-conventional-independent-ml-methods">
+       4.1, single step model (similar as the conventional independent ML methods)
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#test-1-single-output-window">
+         Test 1: single output window
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#test-2-wide-output-window">
+         Test 2: wide output window
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#from-above-analysis-it-should-be-remarked-that-it-is-important-to-keep-baseline-baseline-label-index-single-step-window-column-indices-head-gross-the-index-should-be-the-smae-as-the-windowgenerator-function">
+       <em>
+        <strong>
+         From above analysis, it should be remarked that it is important to keep “baseline = Baseline(label_index=single_step_window.column_indices[‘head_gross’])” the index should be the smae as the WindowGenerator function!!
+        </strong>
+       </em>
+      </a>
+     </li>
+    </ul>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#linear-model-for-wide-window-data-inputs">
-     4.2, linear model for wide window data inputs
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#selection-of-various-modelling-methods">
+     <strong>
+      4, Selection of various modelling methods
+     </strong>
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#linear-learning-model-for-estimation">
+       4.1, Linear learning model for estimation
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#linear-model-for-wide-window-data-inputs">
+       4.2, linear model for wide window data inputs
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -354,6 +392,9 @@
                 
   <div class="section" id="tensorflow-modelling">
 <h1>Tensorflow modelling<a class="headerlink" href="#tensorflow-modelling" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="deep-learning-to-model-transient-dynamics-of-hydro-turbine">
+<h1>Deep learning to model transient dynamics of hydro Turbine<a class="headerlink" href="#deep-learning-to-model-transient-dynamics-of-hydro-turbine" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -410,9 +451,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_4_0.png" src="../../_images/tensorflow_simple_4_0.png" />
+<img alt="../../_images/tensorflow_simple_5_0.png" src="../../_images/tensorflow_simple_5_0.png" />
 <p><span style="color:blue;font-size:50px"><strong>Lets take a close look at the time series.</strong></span></p>
-<img alt="../../_images/tensorflow_simple_4_2.png" src="../../_images/tensorflow_simple_4_2.png" />
+<img alt="../../_images/tensorflow_simple_5_2.png" src="../../_images/tensorflow_simple_5_2.png" />
 </div>
 </div>
 </div>
@@ -441,9 +482,9 @@
 </div>
 <div class="cell_output docutils container">
 <p><span style="color:red; font-size:30px"><strong>No. of the values in the training dataset is: 1967</strong></span></p>
-<img alt="../../_images/tensorflow_simple_7_1.png" src="../../_images/tensorflow_simple_7_1.png" />
+<img alt="../../_images/tensorflow_simple_8_1.png" src="../../_images/tensorflow_simple_8_1.png" />
 <p><span style="color:blue; font-size:20px"><strong>Plot the heatmap for variation of standard deviation</strong></span></p>
-<img alt="../../_images/tensorflow_simple_7_3.png" src="../../_images/tensorflow_simple_7_3.png" />
+<img alt="../../_images/tensorflow_simple_8_3.png" src="../../_images/tensorflow_simple_8_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -477,7 +518,7 @@
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar at 0x214b727e3a0&gt;
 </pre></div>
 </div>
-<img alt="../../_images/tensorflow_simple_8_1.png" src="../../_images/tensorflow_simple_8_1.png" />
+<img alt="../../_images/tensorflow_simple_9_1.png" src="../../_images/tensorflow_simple_9_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -533,7 +574,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_11_0.png" src="../../_images/tensorflow_simple_11_0.png" />
+<img alt="../../_images/tensorflow_simple_12_0.png" src="../../_images/tensorflow_simple_12_0.png" />
 </div>
 </div>
 </div>
@@ -583,7 +624,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_13_0.png" src="../../_images/tensorflow_simple_13_0.png" />
+<img alt="../../_images/tensorflow_simple_14_0.png" src="../../_images/tensorflow_simple_14_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -632,7 +673,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_14_0.png" src="../../_images/tensorflow_simple_14_0.png" />
+<img alt="../../_images/tensorflow_simple_15_0.png" src="../../_images/tensorflow_simple_15_0.png" />
 </div>
 </div>
 </div>
@@ -656,8 +697,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_16_0.png" src="../../_images/tensorflow_simple_16_0.png" />
-<img alt="../../_images/tensorflow_simple_16_1.png" src="../../_images/tensorflow_simple_16_1.png" />
+<img alt="../../_images/tensorflow_simple_17_0.png" src="../../_images/tensorflow_simple_17_0.png" />
+<img alt="../../_images/tensorflow_simple_17_1.png" src="../../_images/tensorflow_simple_17_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -850,7 +891,7 @@ Epoch 10/10
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_23_0.png" src="../../_images/tensorflow_simple_23_0.png" />
+<img alt="../../_images/tensorflow_simple_24_0.png" src="../../_images/tensorflow_simple_24_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -951,7 +992,7 @@ Epoch 10/10
  Text(0, 4.0, &#39;4.0&#39;)]
 </pre></div>
 </div>
-<img alt="../../_images/tensorflow_simple_26_2.png" src="../../_images/tensorflow_simple_26_2.png" />
+<img alt="../../_images/tensorflow_simple_27_2.png" src="../../_images/tensorflow_simple_27_2.png" />
 </div>
 </div>
 </div>
@@ -1096,7 +1137,7 @@ Labels shape: (3, 1, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_30_0.png" src="../../_images/tensorflow_simple_30_0.png" />
+<img alt="../../_images/tensorflow_simple_31_0.png" src="../../_images/tensorflow_simple_31_0.png" />
 </div>
 </div>
 </div>
@@ -1283,7 +1324,7 @@ Labels shape (batch, time, features): (32, 1, 1)
 Output shape: (32, 300, 1)
 </pre></div>
 </div>
-<img alt="../../_images/tensorflow_simple_41_1.png" src="../../_images/tensorflow_simple_41_1.png" />
+<img alt="../../_images/tensorflow_simple_42_1.png" src="../../_images/tensorflow_simple_42_1.png" />
 </div>
 </div>
 </div>
@@ -1319,7 +1360,7 @@ Output shape: (32, 300, 1)
 Output shape: (32, 1, 1)
 </pre></div>
 </div>
-<img alt="../../_images/tensorflow_simple_45_1.png" src="../../_images/tensorflow_simple_45_1.png" />
+<img alt="../../_images/tensorflow_simple_46_1.png" src="../../_images/tensorflow_simple_46_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1375,7 +1416,7 @@ Epoch 3/3
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/tensorflow_simple_47_0.png" src="../../_images/tensorflow_simple_47_0.png" />
+<img alt="../../_images/tensorflow_simple_48_0.png" src="../../_images/tensorflow_simple_48_0.png" />
 </div>
 </div>
 </div>
@@ -1409,8 +1450,155 @@ Epoch 3/3
 Output shape: (32, 300, 1)
 </pre></div>
 </div>
-<img alt="../../_images/tensorflow_simple_49_1.png" src="../../_images/tensorflow_simple_49_1.png" />
-<img alt="../../_images/tensorflow_simple_49_2.png" src="../../_images/tensorflow_simple_49_2.png" />
+<img alt="../../_images/tensorflow_simple_50_1.png" src="../../_images/tensorflow_simple_50_1.png" />
+<img alt="../../_images/tensorflow_simple_50_2.png" src="../../_images/tensorflow_simple_50_2.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wide_window</span><span class="o">.</span><span class="n">example</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&lt;tf.Tensor: shape=(32, 300, 5), dtype=float32, numpy=
+ array([[[-0.7915851 ,  0.55055046, -0.55646515, -0.5902038 ,
+          -2.807518  ],
+         [-0.7923175 ,  0.5494343 , -0.5545193 , -0.5940755 ,
+          -2.7543771 ],
+         [-0.78389525,  0.5499924 , -0.55646515, -0.5940755 ,
+          -2.7543771 ],
+         ...,
+         [-0.7831629 ,  0.5499924 , -0.5661948 , -0.55923057,
+          -3.1799905 ],
+         [-0.787191  ,  0.5499924 , -0.560357  , -0.56310225,
+          -3.2331314 ],
+         [-0.7879233 ,  0.5488762 , -0.5623029 , -0.55923057,
+          -3.2331314 ]],
+ 
+        [[ 1.230126  ,  0.5494343 ,  1.0781026 ,  1.1036482 ,
+           0.7572974 ],
+         [ 1.2297598 ,  0.5488762 ,  1.0858862 ,  1.093969  ,
+           0.7572974 ],
+         [ 1.2249994 ,  0.5488762 ,  1.0975617 ,  1.0862256 ,
+           0.6508536 ],
+         ...,
+         [ 1.2257318 ,  0.5488762 ,  1.0878322 ,  1.1133273 ,
+           0.7572974 ],
+         [ 1.2290275 ,  0.5488762 ,  1.0956159 ,  1.0997765 ,
+           0.7572974 ],
+         [ 1.230126  ,  0.5494343 ,  1.1053454 ,  1.093969  ,
+           0.81043833]],
+ 
+        [[ 0.9477958 ,  0.5499924 ,  0.9671854 ,  0.9739473 ,
+          -0.5197046 ],
+         [ 0.93973964,  0.5494343 ,  0.95940167,  0.97781897,
+          -0.5728455 ],
+         [ 0.94376767,  0.5494343 ,  0.9555099 ,  0.9758831 ,
+          -0.5728455 ],
+         ...,
+         [ 0.9488943 ,  0.5494343 ,  0.9730231 ,  0.9933056 ,
+          -0.5197046 ],
+         [ 0.9452325 ,  0.5488762 ,  0.9613476 ,  0.9933056 ,
+          -0.5728455 ],
+         [ 0.9488943 ,  0.5499924 ,  0.96329355,  0.9933056 ,
+          -0.5728455 ]],
+ 
+        ...,
+ 
+        [[-0.8699485 ,  0.50869447, -0.88921595, -0.9309095 ,
+          -1.8498476 ],
+         [-0.87434274,  0.50925255, -0.89116186, -0.92703784,
+          -1.9029884 ],
+         [-0.8736104 ,  0.5081364 , -0.89699966, -0.91735876,
+          -1.9029884 ],
+         ...,
+         [-0.8677514 ,  0.50925255, -0.90867513, -0.94058865,
+          -1.1049027 ],
+         [-0.8765399 ,  0.50925255, -0.9125669 , -0.936717  ,
+          -1.2113465 ],
+         [-0.86885   ,  0.50925255, -0.92035055, -0.92703784,
+          -1.2113465 ]],
+ 
+        [[ 1.2264642 ,  0.5488762 ,  1.1131291 ,  1.1714023 ,
+           0.7572974 ],
+         [ 1.2304922 ,  0.5488762 ,  1.1053454 ,  1.1752739 ,
+           0.7572974 ],
+         [ 1.2315907 ,  0.5488762 ,  1.0956159 ,  1.173338  ,
+           0.7572974 ],
+         ...,
+         [ 1.2334217 ,  0.5499924 ,  1.1325883 ,  1.1714023 ,
+           1.0764669 ],
+         [ 1.2246332 ,  0.5488762 ,  1.1209128 ,  1.1772097 ,
+           1.023326  ],
+         [ 1.2275628 ,  0.5499924 ,  1.1111832 ,  1.1772097 ,
+           0.9700231 ]],
+ 
+        [[ 0.19967732,  0.5494343 ,  0.48070654,  0.50160426,
+          -0.09409127],
+         [ 0.19345216,  0.5494343 ,  0.48654425,  0.49579674,
+          -0.14723217],
+         [ 0.19455068,  0.5488762 ,  0.5001657 ,  0.4861176 ,
+          -0.09409127],
+         ...,
+         [ 0.19967732,  0.5494343 ,  0.49238202,  0.50547594,
+           0.27838114],
+         [ 0.20407155,  0.5494343 ,  0.49627382,  0.49966842,
+           0.27838114],
+         [ 0.20370536,  0.5494343 ,  0.5060034 ,  0.49192506,
+           0.33152208]]], dtype=float32)&gt;,
+ &lt;tf.Tensor: shape=(32, 300, 1), dtype=float32, numpy=
+ array([[[-2.7543771 ],
+         [-2.7543771 ],
+         [-2.7543771 ],
+         ...,
+         [-3.2331314 ],
+         [-3.1266875 ],
+         [-3.1799905 ]],
+ 
+        [[ 0.6508536 ],
+         [ 0.7039945 ],
+         [ 0.7572974 ],
+         ...,
+         [ 0.81043833],
+         [ 0.7572974 ],
+         [ 0.8635792 ]],
+ 
+        [[-0.5728455 ],
+         [-0.5728455 ],
+         [-0.5728455 ],
+         ...,
+         [-0.5728455 ],
+         [-0.5728455 ],
+         [-0.5728455 ]],
+ 
+        ...,
+ 
+        [[-1.9029884 ],
+         [-1.9029884 ],
+         [-1.9029884 ],
+         ...,
+         [-1.2113465 ],
+         [-1.3177904 ],
+         [-1.2644874 ]],
+ 
+        [[ 0.7572974 ],
+         [ 0.7039945 ],
+         [ 0.6508536 ],
+         ...,
+         [ 0.9700231 ],
+         [ 0.9700231 ],
+         [ 0.9700231 ]],
+ 
+        [[-0.09409127],
+         [-0.2005351 ],
+         [-0.2005351 ],
+         ...,
+         [ 0.33152208],
+         [ 0.27838114],
+         [ 0.27838114]]], dtype=float32)&gt;)
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -1473,9 +1661,9 @@ Output shape: (32, 300, 1)
     <div class="container">
       <p>
         
-          By wengang.mao@chalmers.se<br/>
+          By Wengang Mao<br/>
         
-            &copy; Copyright 2021.<br/>
+            &copy; Copyright 2021-2022.<br/>
       </p>
     </div>
   </footer>

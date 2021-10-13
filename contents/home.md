@@ -11,6 +11,17 @@
 > * Berhanu Mulu, Vattenfall (active collaboration partner)
 
 ---
+### General update
+    #### October 2021
+So far, we test the Tensorflow deep learning model, which seems work well for the prediction the dynamics of normalized $$head_{gross}$$ as shown below:
+    
+    
+    
+    
+```{admonition}  <span style = "color: blue; font-weight: 600; font-size: 25px">Remarks</span>
+<span style = "color: blue; font-weight: 400; font-size: 20px">The</span><br />
+```
+
 
 
 ### Project objectives

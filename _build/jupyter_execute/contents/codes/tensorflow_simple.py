@@ -3,6 +3,8 @@
 
 # # Tensorflow modelling
 
+# # Deep learning to model transient dynamics of hydro Turbine
+
 # In[1]:
 
 
@@ -744,4 +746,10 @@ _ = ax2.set_xticklabels(train_df.columns, rotation=90)
 wide_window.plot(linear)
 print('Input shape:', wide_window.example[0].shape)
 print('Output shape:', baseline(wide_window.example[0]).shape)
+
+
+# In[174]:
+
+
+wide_window.example
 
