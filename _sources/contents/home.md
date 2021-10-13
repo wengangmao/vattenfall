@@ -21,7 +21,7 @@ So far, we test the Tensorflow deep learning model, which seems work well for th
 |:----:|:----:|:----:|
 |![linear](./images/optimised_linear_model.png)|![linear](./images/multi_step_dense_model.png)|![linear](./images/cnn_wide_window.png)|    
 
-**Prediction of normlized $head_{gross}$ by various deep learning models on Google Tensorflow
+**Prediction of normlized $head_{gross}$ by various deep learning models on Google Tensorflow**
 
     
 ```{admonition}  <span style = "color: blue; font-weight: 600; font-size: 25px">Remarks</span>
