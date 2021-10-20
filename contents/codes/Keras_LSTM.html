@@ -300,19 +300,6 @@
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
-<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mounted at /content/drive
-</pre></div>
-</div>
-</div>
-</div>
 <div class="section" id="load-the-data">
 <h1>1, Load the data<a class="headerlink" href="#load-the-data" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
@@ -333,8 +320,16 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount(&quot;/content/drive&quot;, force_remount=True).
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">################# IN case not by Colab #########</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;E:\FEM\Python\bitbucket\Vattenfall_rnn\vattenfall_turbine.csv&#39;</span><span class="p">)</span>
+<span class="n">keys</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+<span class="n">feature_keys</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+<span class="n">time_key</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -429,7 +424,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">split_fraction</span> <span class="o">=</span> <span class="mf">0.8</span>
-<span class="n">train_split</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">split_fraction</span><span class="p">)</span>
+<span class="n">train_split</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">split_fraction</span><span class="p">)</span>
 <span class="n">past</span> <span class="o">=</span> <span class="mi">1000</span>
 <span class="n">future</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">step</span> <span class="o">=</span> <span class="mi">10</span>
@@ -450,8 +445,8 @@
 <span class="n">start</span> <span class="o">=</span> <span class="n">past</span> <span class="o">+</span> <span class="n">future</span>
 <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">train_split</span>
 <span class="n">x_train</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">values</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">][</span><span class="s1">&#39;head_net&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="n">Y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">][</span><span class="s1">&#39;head_net&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
 
 <span class="n">sequence_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">past</span><span class="o">/</span><span class="n">step</span><span class="p">)</span>
 
@@ -488,10 +483,29 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 100, 4)
+(50, 1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_data</span><span class="p">),</span><span class="n">train_split</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((37748, 4), (37748, 1), 37748, 37748)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construct the model</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
 <span class="n">inputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
 <span class="n">lstm_out</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">32</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
 <span class="n">outputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="n">lstm_out</span><span class="p">)</span>
@@ -546,29 +560,45 @@ _________________________________________________________________
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
-733/733 [==============================] - 24s 24ms/step - loss: 1.2348 - val_loss: 0.0016
+753/753 [==============================] - 11s 8ms/step - loss: 1.5241 - val_loss: 0.0018
 
-Epoch 00001: val_loss improved from inf to 0.00163, saving model to model_checkpoint.h5
+Epoch 00001: val_loss improved from inf to 0.00177, saving model to model_checkpoint.h5
 Epoch 2/10
-733/733 [==============================] - 18s 24ms/step - loss: 8.8830e-04 - val_loss: 0.0018
+753/753 [==============================] - 6s 7ms/step - loss: 9.0412e-04 - val_loss: 0.0016
 
-Epoch 00002: val_loss did not improve from 0.00163
+Epoch 00002: val_loss improved from 0.00177 to 0.00158, saving model to model_checkpoint.h5
 Epoch 3/10
-733/733 [==============================] - 18s 24ms/step - loss: 7.2481e-04 - val_loss: 0.0020
+753/753 [==============================] - 5s 7ms/step - loss: 7.3961e-04 - val_loss: 0.0015
 
-Epoch 00003: val_loss did not improve from 0.00163
+Epoch 00003: val_loss improved from 0.00158 to 0.00153, saving model to model_checkpoint.h5
 Epoch 4/10
-733/733 [==============================] - 18s 24ms/step - loss: 5.2729e-04 - val_loss: 0.0022
+753/753 [==============================] - 5s 7ms/step - loss: 5.0983e-04 - val_loss: 0.0017
 
-Epoch 00004: val_loss did not improve from 0.00163
+Epoch 00004: val_loss did not improve from 0.00153
 Epoch 5/10
-733/733 [==============================] - 18s 24ms/step - loss: 3.5562e-04 - val_loss: 0.0023
+753/753 [==============================] - 5s 7ms/step - loss: 3.3994e-04 - val_loss: 0.0017
 
-Epoch 00005: val_loss did not improve from 0.00163
+Epoch 00005: val_loss did not improve from 0.00153
 Epoch 6/10
-733/733 [==============================] - 17s 24ms/step - loss: 2.2479e-04 - val_loss: 0.0023
+753/753 [==============================] - 5s 7ms/step - loss: 2.3744e-04 - val_loss: 0.0015
 
-Epoch 00006: val_loss did not improve from 0.00163
+Epoch 00006: val_loss did not improve from 0.00153
+Epoch 7/10
+753/753 [==============================] - 5s 7ms/step - loss: 1.9063e-04 - val_loss: 0.0016
+
+Epoch 00007: val_loss did not improve from 0.00153
+Epoch 8/10
+753/753 [==============================] - 5s 7ms/step - loss: 1.7878e-04 - val_loss: 0.0015
+
+Epoch 00008: val_loss improved from 0.00153 to 0.00152, saving model to model_checkpoint.h5
+Epoch 9/10
+753/753 [==============================] - 5s 7ms/step - loss: 1.9548e-04 - val_loss: 0.0015
+
+Epoch 00009: val_loss did not improve from 0.00152
+Epoch 10/10
+753/753 [==============================] - 6s 7ms/step - loss: 2.1620e-04 - val_loss: 0.0016
+
+Epoch 00010: val_loss did not improve from 0.00152
 </pre></div>
 </div>
 </div>
@@ -674,6 +704,18 @@ Sun Oct 17 17:49:11 2021
 <img alt="../../_images/Keras_LSTM_19_2.png" src="../../_images/Keras_LSTM_19_2.png" />
 <img alt="../../_images/Keras_LSTM_19_3.png" src="../../_images/Keras_LSTM_19_3.png" />
 <img alt="../../_images/Keras_LSTM_19_4.png" src="../../_images/Keras_LSTM_19_4.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dataset_train</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/Keras_LSTM_20_0.png" src="../../_images/Keras_LSTM_20_0.png" />
 </div>
 </div>
 </div>
