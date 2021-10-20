@@ -5,7 +5,7 @@
 # 
 # **Deep learning to model transient dynamics of hydro Turbine**
 
-# In[3]:
+# In[148]:
 
 
 import pandas as pd
@@ -23,7 +23,7 @@ import tensorflow as tf
 
 # ## 1, Load the data
 
-# In[4]:
+# In[3]:
 
 
 #from tensorflow import keras
@@ -39,7 +39,7 @@ feature_keys = keys[np.arange(1,5).tolist() + np.arange(7,10).tolist()]
 time_key = keys[0]
 
 
-# In[5]:
+# In[4]:
 
 
 plot_cols = feature_keys[0:len(feature_keys):2]
@@ -62,7 +62,7 @@ fig2 = plot_features.plot(subplots=True, figsize=(15, 10))
 
 # ### 2.1, resample the data with low-resolution
 
-# In[6]:
+# In[5]:
 
 
 df_train = df[feature_keys[0:7:2]][int(len(df)/4):int(len(df)/2):100]
@@ -81,7 +81,7 @@ sns.heatmap(df_train.corr(), annot=True, fmt=".2f")
 plt.show()
 
 
-# In[7]:
+# In[6]:
 
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -117,7 +117,7 @@ features
 
 # ### 2.2, autocorrelation function (ACF) and (PACF) to check time dependence
 
-# In[9]:
+# In[7]:
 
 
 def autocorr(x):
@@ -151,7 +151,7 @@ plt.show()
 
 # ### 2.3 crossing autocorrelationship for various parameters
 
-# In[10]:
+# In[8]:
 
 
 # NB: we have resampled the data for the autocorreltion analysis
@@ -194,7 +194,7 @@ ax3.set_xlabel(r'Time Lag: sample frequency $\times$ 5000', fontsize=20, color='
 plt.show()
 
 
-# In[11]:
+# In[9]:
 
 
 # Autocorrelation between guide_opan and pump101_speed
@@ -241,7 +241,7 @@ plt.show()
 
 # ### 2.4, normalize the data
 
-# In[12]:
+# In[10]:
 
 
 # First, we assume all data are used for the training (the time series is not that stationary for the prediction)
@@ -258,7 +258,7 @@ ax = sns.violinplot(x='Column', y='Normalized', data=df_std)
 fig3 = ax.set_xticklabels(train_df.keys(), rotation=90)
 
 
-# In[13]:
+# In[11]:
 
 
 # tf.convert_to_tensor(new_df)
@@ -353,9 +353,11 @@ model = get_basic_model()
 model.fit(dataset_batches, epochs=10)
 
 
-# ### 3.2, Understand datastructure of the tensorflow package --> formulate rolling windowed dataset --> for model in Section 4
+# ## 4, Dataset (rolling/windowed dataset) for time series analysis
 
-# In[19]:
+# ### 4.0, Understand datastructure of the tensorflow package --> formulate rolling windowed dataset --> for model in Section 4
+
+# In[14]:
 
 
 # split the time series of data into train (70%), test (20%) and validation (10%)
@@ -391,11 +393,9 @@ ax.set_xticklabels(ax.get_xticks(), size = 30)
 ax.set_yticklabels(ax.get_yticks(), size = 30)
 
 
-# ## 4, Dataset (rolling/windowed dataset) for time series analysis
-
 # ### 4.1, Read data into the data class
 
-# In[20]:
+# In[15]:
 
 
 # 4.1.1, Indexes and offsets
@@ -496,7 +496,7 @@ WindowGenerator.plot = plot
 
 # ### 4.2, Check the constructed basic dataset class
 
-# In[21]:
+# In[16]:
 
 
 # Test of windowed dataset 
@@ -518,7 +518,7 @@ print(f'Inputs shape: {example_inputs.shape}')
 print(f'Labels shape: {example_labels.shape}')
 
 
-# In[22]:
+# In[17]:
 
 
 w.example = example_inputs, example_labels
@@ -527,7 +527,7 @@ w.plot(plot_col='guide_open')
 
 # ### <span style ="color:blue; font-size:25px"> **4.3, Formulate train, test, validation datasets in the data structure**</span>
 
-# In[23]:
+# In[18]:
 
 
 def make_dataset(self, data):
@@ -581,7 +581,7 @@ for example_inputs, example_labels in w.train.take(1):
   print(f'Labels shape (batch, time, features): {example_labels.shape}')
 
 
-# In[24]:
+# In[19]:
 
 
 for example_inputs, example_labels in w.train.take(1):
@@ -652,7 +652,7 @@ single_step_window.test
 
 # #### Test 2: wide output window
 
-# In[28]:
+# In[20]:
 
 
 wide_window = WindowGenerator(
@@ -1206,4 +1206,183 @@ IPython.display.clear_output()
 multi_val_performance['AR LSTM'] = feedback_model.evaluate(multi_window.val)
 multi_performance['AR LSTM'] = feedback_model.evaluate(multi_window.test, verbose=0)
 multi_window.plot(feedback_model)
+
+
+# # 8, Re-construction of the LSTM model
+
+# #### 8.1, Tensorflow window (Complex but automatic) and Keras numpy (easy but flexible) to create datasets
+
+# In[172]:
+
+
+# 8.1.1, create the test window using Tensorflow libraries
+# NB: in the WindowGenerator library, data is organized as: train_df=train_df, val_df=val_df, test_df=test_df
+print(f"Train data dimension is: {train_df.shape}, validation data dimension is: {val_df.shape}, test data dimension is: {test_df.shape}.")
+
+# Create the window dataset
+test_window = WindowGenerator(
+    input_width=100, label_width=10, shift=10,
+    label_columns=['head_gross'])    
+
+for example_inputs, example_labels in test_window.train.take(1):
+  print(f'Inputs shape (batch, time, features): {example_inputs.shape}')
+
+test_window.train
+
+
+# In[248]:
+
+
+# 8.1.2, create the test dataset using keras example
+#split_fraction = 0.8
+#train_split, int(df_train.shape[0]*split_fraction)
+past = 100
+future = 10
+step = 1
+learning_rate = 0.05
+batch_size = 50
+epochs = 10
+
+datasize = len(train_df)
+x_train = train_df[:datasize-past-future].values
+y_train = train_df[past+future:]['head_gross'].values
+y_train = y_train[:, np.newaxis]
+
+
+dataset_train = keras.preprocessing.timeseries_dataset_from_array(
+    x_train,
+    y_train,
+    sequence_length = int(past/step),
+    sampling_rate=step,
+    batch_size=batch_size,
+)
+
+
+# create dataset for the validation
+x_end = len(val_df) - past - future
+label_start = past + future
+
+x_val = val_df.iloc[:x_end].values
+y_val = val_df.iloc[label_start:]['head_gross'].values
+y_val = y_val[:, np.newaxis]
+
+dataset_val = tf.keras.preprocessing.timeseries_dataset_from_array(
+    x_val,
+    y_val,
+    sequence_length = int(past/step),
+    batch_size = batch_size,
+)
+
+for batch in dataset_train.take(1):
+  inputs, targets = batch
+
+
+# In[199]:
+
+
+x_val.shape, y_val.shape
+
+
+# In[249]:
+
+
+# Configure the model
+from tensorflow import keras
+inputs = tf.keras.layers.Input(shape=(inputs.shape[1], inputs.shape[2]))
+lstm_out = keras.layers.LSTM(32)(inputs)
+outputs = keras.layers.Dense(1)(lstm_out)
+
+model = keras.Model(inputs=inputs, outputs=outputs)
+model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.01), loss="mse")
+model.summary()
+
+# estimate the model
+path_checkpoint = "model_checkpoint.h5"
+es_callback = keras.callbacks.EarlyStopping(monitor="val_loss", min_delta=0, patience=5)
+
+modelckpt_callback = keras.callbacks.ModelCheckpoint(
+    monitor="val_loss",
+    filepath=path_checkpoint,
+    verbose=1,
+    save_weights_only=True,
+    save_best_only=True,
+)
+
+history = model.fit(
+    dataset_train, #test_window.train
+    epochs=epochs,
+    validation_data=dataset_val,
+    callbacks=[es_callback, modelckpt_callback],
+)
+
+
+# In[250]:
+
+
+# Visualize the results
+def visualize_loss(history, title):
+    loss = history.history["loss"]
+    val_loss = history.history["val_loss"]
+    epochs = range(len(loss))
+    plt.figure()
+    plt.plot(epochs, loss, "b", label="Training loss")
+    plt.plot(epochs, val_loss, "r", label="Validation loss")
+    plt.title(title)
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    plt.legend()
+    plt.show()
+
+
+visualize_loss(history, "Training and Validation Loss")
+
+
+# In[254]:
+
+
+plt.plot(model.predict(dataset_val))
+plt.plot(y_val)
+plt.show()
+
+history.model.summary
+
+
+# In[255]:
+
+
+history.model.
+
+
+# In[253]:
+
+
+# Prediciton
+def show_plot(plot_data, delta, title):
+    labels = ["History", "True Future", "Model Prediction"]
+    marker = [".-", "rx", "go"]
+    time_steps = list(range(-(plot_data[0].shape[0]), 0))
+    if delta:
+        future = delta
+    else:
+        future = 0
+
+    plt.title(title)
+    for i, val in enumerate(plot_data):
+        if i:
+            plt.plot(future, plot_data[i], marker[i], markersize=10, label=labels[i])
+        else:
+            plt.plot(time_steps, plot_data[i].flatten(), marker[i], label=labels[i])
+    plt.legend()
+    plt.xlim([time_steps[0], (future + 5) * 2])
+    plt.xlabel("Time-Step")
+    plt.show()
+    return
+
+
+for x, y in dataset_val.take(3):
+    show_plot(
+        [x[0][:, 1].numpy(), y[0].numpy(), model.predict(x)[0]],
+        12,
+        "Single Step Prediction",
+    )
 

@@ -3,7 +3,7 @@
 
 # <a href="https://colab.research.google.com/github/wengangmao/vattenfall/blob/main/Keras_LSTM.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
-# In[1]:
+# In[2]:
 
 
 import pandas as pd
@@ -18,16 +18,9 @@ get_ipython().run_line_magic('autoreload', '2')
 import tensorflow as tf
 
 
-# In[2]:
-
-
-from google.colab import drive
-drive.mount('/content/drive')
-
-
 # ## 1, Load the data
 
-# In[3]:
+# In[ ]:
 
 
 from tensorflow import keras
@@ -45,7 +38,19 @@ feature_keys = keys[np.arange(1,5).tolist() + np.arange(7,10).tolist()]
 time_key = keys[0]
 
 
-# In[11]:
+# In[5]:
+
+
+################# IN case not by Colab #########
+import numpy as np
+
+df = pd.read_csv(r'E:\FEM\Python\bitbucket\Vattenfall_rnn\vattenfall_turbine.csv')
+keys = df.keys().values
+feature_keys = keys[np.arange(1,5).tolist() + np.arange(7,10).tolist()]
+time_key = keys[0]
+
+
+# In[6]:
 
 
 plot_cols = feature_keys[0:len(feature_keys):2]
@@ -68,7 +73,7 @@ fig2 = plot_features.plot(subplots=True, figsize=(15, 10))
 
 # ### 2.1, resample the data with low-resolution
 
-# In[15]:
+# In[7]:
 
 
 df_train = df[feature_keys[0:7:2]][int(len(df)*0.2):int(len(df)*0.8):10]
@@ -89,7 +94,7 @@ plt.show()
 
 # ### 2.2, normalize the data
 
-# In[16]:
+# In[8]:
 
 
 # First, we assume all data are used for the training (the time series is not that stationary for the prediction)
@@ -108,13 +113,13 @@ fig3 = ax.set_xticklabels(train_df.keys(), rotation=90)
 
 # ## Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset
 
-# In[65]:
+# In[10]:
 
 
 df_train = df_train.reset_index(drop=True)
 
 split_fraction = 0.8
-train_split, int(df_train.shape[0]*split_fraction)
+train_split = int(df_train.shape[0]*split_fraction)
 past = 1000
 future = 100
 step = 10
@@ -127,15 +132,15 @@ train_data = df_train.loc[0:train_split-1]
 val_data = df_train.loc[train_split:]
 
 
-# In[93]:
+# In[22]:
 
 
 # Prepare training dataset
 start = past + future
 end = start + train_split
 x_train = train_data.values
-y_train = train_data.iloc[start:end]['head_net'].values
-Y_train = y_train[:, np.newaxis]
+y_train = df_train.iloc[start:end]['head_net'].values
+y_train = y_train[:, np.newaxis]
 
 sequence_length = int(past/step)
 
@@ -171,16 +176,17 @@ print(inputs.numpy().shape)
 print(targets.numpy().shape)
 
 
-# In[94]:
+# In[21]:
 
 
+x_train.shape,y_train.shape, len(train_data),train_split
 
 
-
-# In[100]:
+# In[24]:
 
 
 # Construct the model
+from tensorflow import keras
 inputs = keras.layers.Input(shape=(inputs.shape[1], inputs.shape[2]))
 lstm_out = keras.layers.LSTM(32)(inputs)
 outputs = keras.layers.Dense(1)(lstm_out)
@@ -190,7 +196,7 @@ model.compile(optimizer=keras.optimizers.Adam(learning_rate=learning_rate), loss
 model.summary()
 
 
-# In[101]:
+# In[25]:
 
 
 # Estimate the LSTM model
@@ -220,7 +226,7 @@ get_ipython().system(' nvcc --version')
 get_ipython().system(' /opt/bin/nvidia-smi')
 
 
-# In[104]:
+# In[26]:
 
 
 # Visualize the results
@@ -241,7 +247,7 @@ def visualize_loss(history, title):
 visualize_loss(history, "Training and Validation Loss")
 
 
-# In[105]:
+# In[27]:
 
 
 # Prediciton
@@ -273,4 +279,12 @@ for x, y in dataset_val.take(5):
         12,
         "Single Step Prediction",
     )
+
+
+# In[33]:
+
+
+plt.plot(model.predict(dataset_train))
+plt.plot(y_train)
+plt.show()
 
