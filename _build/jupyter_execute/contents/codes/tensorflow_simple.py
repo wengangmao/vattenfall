@@ -836,7 +836,7 @@ plt.title('The model performance might be uncertainly varied (no convergent)')
 plt.show()
 
 
-# In[ ]:
+# In[35]:
 
 
 # optimise the model through "compile_and_fit"
@@ -860,7 +860,7 @@ plt.show()
 # * model construction: CNN model require input_width, but no need for layers.flatten() and layers.reshape([1, -1])
 # * data structure: output of CNN datastructure is (#input_window -1) dimensions less
 
-# In[ ]:
+# In[36]:
 
 
 # Configure the CNN model
@@ -884,7 +884,7 @@ val_performance['Conv'] = conv_model.evaluate(conv_window.val)
 performance['Conv'] = conv_model.evaluate(conv_window.test, verbose=0)
 
 
-# In[ ]:
+# In[37]:
 
 
 # Check the length difference between multiple-step-dense model and the CNN model
@@ -903,7 +903,7 @@ plt.show()
 # ### 6.4, Convolutional Neuron Network -- <span style = "color: blue; font-size: 20px"> Wide window: input_width = CONV_width = 30</span>
 # 
 
-# In[ ]:
+# In[38]:
 
 
 LABEL_WIDTH = 50

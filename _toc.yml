@@ -8,9 +8,11 @@ parts:
 
 - caption: RESEARCH CODES
   chapters:
-  - file: contents/codes/xgb_rnn_pytorch.ipynb
+  - file: contents/codes/xgb_static.ipynb
     title: Static modelling
-  - file: contents/codes/tensorflow_simple.ipynb
-    title: Tensorflow modelling
   - file: contents/codes/rnn_tensorflow.ipynb
-    title: RNN ARIMA Modeling
+    title: Tensorflow modelling
+  - file: contents/codes/Keras_LSTM.ipynb
+    title: Keras LSTM
+  - file: contents/codes/arima_pytorch.ipynb
+    title: ARIMA Pytorch Modeling
