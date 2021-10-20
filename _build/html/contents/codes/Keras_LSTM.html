@@ -272,6 +272,16 @@
    Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset
   </a>
  </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#investigation-of-dataset-structure">
+   Investigation of dataset structure
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#another-way-to-provide-dataset-to-keras-model">
+   2, Another way to provide dataset to Keras model
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -299,24 +309,30 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="load-the-data">
 <h1>1, Load the data<a class="headerlink" href="#load-the-data" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
-<span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
-<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/Data/vattenfall_turbine.csv&#39;</span><span class="p">)</span>
+<span class="c1">#from google.colab import drive</span>
+<span class="c1">#drive.mount(&#39;/content/drive&#39;)</span>
+<span class="c1">#df = pd.read_csv(&#39;/content/drive/MyDrive/Data/vattenfall_turbine.csv&#39;)</span>
 <span class="c1">#drive.flush_and_unmount()</span>
 <span class="c1">#print(&#39;NB: Unmount the google cloud driver&#39;)</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="c1">#df = pd.read_csv(&#39;vattenfall_turbine.csv&#39;)</span>
-<span class="n">keys</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
-<span class="n">feature_keys</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
-<span class="n">time_key</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1">#import numpy as np</span>
+<span class="c1">#</span>
+<span class="c1">##df = pd.read_csv(&#39;vattenfall_turbine.csv&#39;)</span>
+<span class="c1">#keys = df.keys().values</span>
+<span class="c1">#feature_keys = keys[np.arange(1,5).tolist() + np.arange(7,10).tolist()]</span>
+<span class="c1">#time_key = keys[0]</span>
 </pre></div>
 </div>
 </div>
@@ -366,7 +382,7 @@
 <h2>2.1, resample the data with low-resolution<a class="headerlink" href="#resample-the-data-with-low-resolution" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">feature_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">:</span><span class="mi">2</span><span class="p">]][</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="mf">0.2</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="mf">0.8</span><span class="p">):</span><span class="mi">10</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">feature_keys</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">5</span><span class="p">]]][</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="mf">0.2</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="mf">0.8</span><span class="p">):</span><span class="mi">10</span><span class="p">]</span>
 <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s1">&#39;&lt;span style=&quot;color:red; font-size:30px&quot;&gt;**No. of the values in the training dataset is: </span><span class="si">%d</span><span class="s1">**&lt;/span&gt;&#39;</span> <span class="o">%</span><span class="k">len</span>(df_train)))
 
 <span class="c1"># plot the data and check their variations along time</span>
@@ -425,9 +441,9 @@
 
 <span class="n">split_fraction</span> <span class="o">=</span> <span class="mf">0.8</span>
 <span class="n">train_split</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">split_fraction</span><span class="p">)</span>
-<span class="n">past</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">future</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">step</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">past</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">future</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">step</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">50</span>
 <span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
@@ -445,7 +461,7 @@
 <span class="n">start</span> <span class="o">=</span> <span class="n">past</span> <span class="o">+</span> <span class="n">future</span>
 <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">train_split</span>
 <span class="n">x_train</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">values</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">][</span><span class="s1">&#39;head_net&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">][</span><span class="s1">&#39;head_gross&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
 
 <span class="n">sequence_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">past</span><span class="o">/</span><span class="n">step</span><span class="p">)</span>
@@ -462,7 +478,7 @@
 <span class="n">label_start</span> <span class="o">=</span> <span class="n">train_split</span> <span class="o">+</span> <span class="n">past</span> <span class="o">+</span> <span class="n">future</span>
 
 <span class="n">x_val</span> <span class="o">=</span> <span class="n">val_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">x_end</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="n">y_val</span> <span class="o">=</span> <span class="n">val_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">label_start</span><span class="p">:][</span><span class="s1">&#39;head_net&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_val</span> <span class="o">=</span> <span class="n">val_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">label_start</span><span class="p">:][</span><span class="s1">&#39;head_gross&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">y_val</span> <span class="o">=</span> <span class="n">y_val</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
 
 
@@ -484,20 +500,283 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 100, 4)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 100, 6)
 (50, 1)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="investigation-of-dataset-structure">
+<h1>Investigation of dataset structure<a class="headerlink" href="#investigation-of-dataset-structure" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="nb">input</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">dataset_train</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">label</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 100, 6) (50, 1)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_data</span><span class="p">),</span><span class="n">train_split</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">115</span><span class="p">,:],</span> <span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((37748, 4), (37748, 1), 37748, 37748)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([[6.04121100e+00, 8.79211284e+02, 4.11226984e+02, 4.11408321e+02,
+         1.20010000e-01, 7.00794000e+00],
+        [6.07842900e+00, 8.79317669e+02, 4.11160450e+02, 4.11375208e+02,
+         1.19761000e-01, 7.02025500e+00],
+        [6.05609800e+00, 8.79317669e+02, 4.11060649e+02, 4.11375208e+02,
+         1.19661000e-01, 7.02271500e+00],
+        [6.10448100e+00, 8.79424053e+02, 4.10994114e+02, 4.11275866e+02,
+         1.20109000e-01, 7.02025500e+00],
+        [6.13425600e+00, 8.79211284e+02, 4.10894313e+02, 4.11275866e+02,
+         1.20109000e-01, 7.03010250e+00],
+        [6.12309100e+00, 8.79317669e+02, 4.10894313e+02, 4.11242752e+02,
+         1.20109000e-01, 7.04980500e+00],
+        [6.07470700e+00, 8.79317669e+02, 4.10794512e+02, 4.11209638e+02,
+         1.19811000e-01, 7.05473250e+00],
+        [6.03748900e+00, 8.79317669e+02, 4.10827779e+02, 4.11176524e+02,
+         1.19761000e-01, 7.05473250e+00],
+        [6.07470700e+00, 8.79211284e+02, 4.10927580e+02, 4.11209638e+02,
+         1.20109000e-01, 7.04488500e+00],
+        [6.11564700e+00, 8.79211284e+02, 4.11027382e+02, 4.11209638e+02,
+         1.20159000e-01, 7.03010250e+00],
+        [6.10448100e+00, 8.79424053e+02, 4.11060649e+02, 4.11242752e+02,
+         1.20109000e-01, 7.02764250e+00],
+        [6.15286500e+00, 8.79530437e+02, 4.11160450e+02, 4.11209638e+02,
+         1.19860000e-01, 7.01286750e+00],
+        [6.09331600e+00, 8.79317669e+02, 4.11160450e+02, 4.11242752e+02,
+         1.19761000e-01, 6.99808500e+00],
+        [6.04121100e+00, 8.79317669e+02, 4.11127183e+02, 4.11209638e+02,
+         1.20010000e-01, 6.98577000e+00],
+        [6.07470700e+00, 8.79317669e+02, 4.11093916e+02, 4.11209638e+02,
+         1.20209000e-01, 6.98577000e+00]]),
+ &lt;tf.Tensor: shape=(5, 1), dtype=float64, numpy=
+ array([[7.0276425],
+        [7.0128675],
+        [6.998085 ],
+        [6.98577  ],
+        [6.98577  ]])&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span><span class="p">[</span><span class="mi">1</span><span class="p">,:,:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;tf.Tensor: shape=(100, 6), dtype=float64, numpy=
+array([[6.11192500e+00, 8.78360209e+02, 4.10528375e+02, 4.11540777e+02,
+        1.19761000e-01, 7.12123500e+00],
+       [6.11192500e+00, 8.78466593e+02, 4.10594909e+02, 4.11507663e+02,
+        1.19562000e-01, 7.12369500e+00],
+       [6.08959400e+00, 8.78466593e+02, 4.10661443e+02, 4.11474549e+02,
+        1.19761000e-01, 7.09660500e+00],
+       [6.08215100e+00, 8.78360209e+02, 4.10628176e+02, 4.11375208e+02,
+        1.20010000e-01, 7.06951500e+00],
+       [6.05982000e+00, 8.78360209e+02, 4.10628176e+02, 4.11308980e+02,
+        1.19860000e-01, 7.02517500e+00],
+       [6.09331600e+00, 8.78572978e+02, 4.10661443e+02, 4.11143411e+02,
+        1.19612000e-01, 6.99315750e+00],
+       [6.14170000e+00, 8.78679362e+02, 4.10727977e+02, 4.11010955e+02,
+        1.19562000e-01, 6.98331000e+00],
+       [6.10448100e+00, 8.78572978e+02, 4.10761245e+02, 4.10878500e+02,
+        1.19860000e-01, 6.97838250e+00],
+       [6.10076000e+00, 8.78572978e+02, 4.10794512e+02, 4.10878500e+02,
+        1.19960000e-01, 6.97592250e+00],
+       [6.07470700e+00, 8.78466593e+02, 4.10894313e+02, 4.10779158e+02,
+        1.19910000e-01, 6.99069750e+00],
+       [6.04865400e+00, 8.78572978e+02, 4.10927580e+02, 4.10679817e+02,
+        1.19661000e-01, 6.99562500e+00],
+       [6.11192500e+00, 8.78572978e+02, 4.10960847e+02, 4.10580475e+02,
+        1.19562000e-01, 7.01286750e+00],
+       [6.13425600e+00, 8.78360209e+02, 4.11060649e+02, 4.10514247e+02,
+        1.19910000e-01, 7.02271500e+00],
+       [6.11564700e+00, 8.78466593e+02, 4.11127183e+02, 4.10481133e+02,
+        1.19960000e-01, 7.02764250e+00],
+       [6.08959400e+00, 8.78466593e+02, 4.11193717e+02, 4.10514247e+02,
+        1.19860000e-01, 7.03010250e+00],
+       [6.07098500e+00, 8.78572978e+02, 4.11260252e+02, 4.10580475e+02,
+        1.19612000e-01, 7.02517500e+00],
+       [6.06354200e+00, 8.78572978e+02, 4.11360053e+02, 4.10547361e+02,
+        1.19612000e-01, 7.01778750e+00],
+       [6.03376700e+00, 8.78466593e+02, 4.11360053e+02, 4.10580475e+02,
+        1.19811000e-01, 7.00301250e+00],
+       [6.09703800e+00, 8.78572978e+02, 4.11426587e+02, 4.10646703e+02,
+        1.19910000e-01, 6.97838250e+00],
+       [6.16775200e+00, 8.78572978e+02, 4.11426587e+02, 4.10679817e+02,
+        1.19860000e-01, 6.97838250e+00],
+       [6.08959400e+00, 8.78466593e+02, 4.11426587e+02, 4.10712930e+02,
+        1.19612000e-01, 6.98084250e+00],
+       [6.09703800e+00, 8.78572978e+02, 4.11459854e+02, 4.10812272e+02,
+        1.19512000e-01, 7.00055250e+00],
+       [6.07470700e+00, 8.78572978e+02, 4.11459854e+02, 4.10845386e+02,
+        1.19860000e-01, 7.02517500e+00],
+       [6.05237600e+00, 8.78679362e+02, 4.11459854e+02, 4.10911614e+02,
+        1.19910000e-01, 7.05966000e+00],
+       [6.11192500e+00, 8.78572978e+02, 4.11459854e+02, 4.10977841e+02,
+        1.19910000e-01, 7.09414500e+00],
+       [6.11564700e+00, 8.78679362e+02, 4.11393320e+02, 4.11010955e+02,
+        1.19661000e-01, 7.10646000e+00],
+       [6.09331600e+00, 8.78679362e+02, 4.11293519e+02, 4.11110297e+02,
+        1.19512000e-01, 7.09906500e+00],
+       [6.08587200e+00, 8.78466593e+02, 4.11193717e+02, 4.11143411e+02,
+        1.19811000e-01, 7.08183000e+00],
+       [6.08587200e+00, 8.78679362e+02, 4.11027382e+02, 4.11176524e+02,
+        1.19960000e-01, 7.05966000e+00],
+       [6.10076000e+00, 8.78679362e+02, 4.10861046e+02, 4.11275866e+02,
+        1.19960000e-01, 7.03257000e+00],
+       [6.06354200e+00, 8.78679362e+02, 4.10694710e+02, 4.11275866e+02,
+        1.19661000e-01, 7.00301250e+00],
+       [6.07842900e+00, 8.78785747e+02, 4.10628176e+02, 4.11342094e+02,
+        1.19612000e-01, 6.99069750e+00],
+       [6.11564700e+00, 8.78679362e+02, 4.10561642e+02, 4.11375208e+02,
+        1.19811000e-01, 7.00055250e+00],
+       [6.08959400e+00, 8.78785747e+02, 4.10528375e+02, 4.11441435e+02,
+        1.19910000e-01, 7.02271500e+00],
+       [6.10076000e+00, 8.78892131e+02, 4.10594909e+02, 4.11540777e+02,
+        1.19910000e-01, 7.04241750e+00],
+       [6.12309100e+00, 8.78572978e+02, 4.10661443e+02, 4.11540777e+02,
+        1.19711000e-01, 7.05227250e+00],
+       [6.07098500e+00, 8.78785747e+02, 4.10727977e+02, 4.11573891e+02,
+        1.19612000e-01, 7.05720000e+00],
+       [6.09331600e+00, 8.78679362e+02, 4.10761245e+02, 4.11573891e+02,
+        1.19910000e-01, 7.05473250e+00],
+       [6.10076000e+00, 8.78679362e+02, 4.10794512e+02, 4.11540777e+02,
+        1.20010000e-01, 7.03995750e+00],
+       [6.08587200e+00, 8.78679362e+02, 4.10827779e+02, 4.11474549e+02,
+        1.19811000e-01, 7.03995750e+00],
+       [6.10076000e+00, 8.78572978e+02, 4.10827779e+02, 4.11441435e+02,
+        1.19711000e-01, 7.03257000e+00],
+       [6.10448100e+00, 8.78785747e+02, 4.10727977e+02, 4.11308980e+02,
+        1.19512000e-01, 7.01040000e+00],
+       [6.10076000e+00, 8.78785747e+02, 4.10761245e+02, 4.11143411e+02,
+        1.19811000e-01, 6.98084250e+00],
+       [6.04121100e+00, 8.78679362e+02, 4.10761245e+02, 4.11010955e+02,
+        1.19960000e-01, 6.97838250e+00],
+       [6.07470700e+00, 8.78785747e+02, 4.10761245e+02, 4.10845386e+02,
+        1.19860000e-01, 6.99808500e+00],
+       [6.10448100e+00, 8.78785747e+02, 4.10827779e+02, 4.10779158e+02,
+        1.19661000e-01, 6.99562500e+00],
+       [6.08587200e+00, 8.78785747e+02, 4.10861046e+02, 4.10779158e+02,
+        1.19711000e-01, 6.99069750e+00],
+       [6.14542100e+00, 8.78892131e+02, 4.10894313e+02, 4.10746044e+02,
+        1.19860000e-01, 6.99808500e+00],
+       [6.10448100e+00, 8.78892131e+02, 4.10994114e+02, 4.10712930e+02,
+        1.19910000e-01, 7.01778750e+00],
+       [6.03748900e+00, 8.78785747e+02, 4.11027382e+02, 4.10746044e+02,
+        1.20010000e-01, 7.04980500e+00],
+       [6.06726300e+00, 8.78892131e+02, 4.11127183e+02, 4.10746044e+02,
+        1.19811000e-01, 7.06458750e+00],
+       [6.07470700e+00, 8.78998515e+02, 4.11193717e+02, 4.10712930e+02,
+        1.19711000e-01, 7.06212000e+00],
+       [6.11192500e+00, 8.78785747e+02, 4.11293519e+02, 4.10712930e+02,
+        1.19910000e-01, 7.04980500e+00],
+       [6.14170000e+00, 8.78785747e+02, 4.11326786e+02, 4.10712930e+02,
+        1.20059000e-01, 7.04241750e+00],
+       [6.11192500e+00, 8.78892131e+02, 4.11459854e+02, 4.10679817e+02,
+        1.20010000e-01, 7.04734500e+00],
+       [6.07098500e+00, 8.78785747e+02, 4.11426587e+02, 4.10679817e+02,
+        1.19811000e-01, 7.03010250e+00],
+       [6.02260200e+00, 8.78892131e+02, 4.11459854e+02, 4.10712930e+02,
+        1.19661000e-01, 7.00794000e+00],
+       [6.07098500e+00, 8.78892131e+02, 4.11459854e+02, 4.10679817e+02,
+        1.19910000e-01, 7.00055250e+00],
+       [6.07842900e+00, 8.78892131e+02, 4.11493121e+02, 4.10746044e+02,
+        1.20010000e-01, 7.01532750e+00],
+       [6.09703800e+00, 8.78998515e+02, 4.11493121e+02, 4.10779158e+02,
+        1.20109000e-01, 7.03995750e+00],
+       [6.17147400e+00, 8.78892131e+02, 4.11459854e+02, 4.10845386e+02,
+        1.19761000e-01, 7.04241750e+00],
+       [6.09331600e+00, 8.78892131e+02, 4.11426587e+02, 4.10944727e+02,
+        1.19661000e-01, 7.03503000e+00],
+       [6.08959400e+00, 8.78892131e+02, 4.11360053e+02, 4.10977841e+02,
+        1.19960000e-01, 7.03257000e+00],
+       [6.07842900e+00, 8.78785747e+02, 4.11260252e+02, 4.11010955e+02,
+        1.20109000e-01, 7.03995750e+00],
+       [6.05237600e+00, 8.78998515e+02, 4.11127183e+02, 4.10977841e+02,
+        1.20109000e-01, 7.03503000e+00],
+       [6.10820300e+00, 8.78892131e+02, 4.10960847e+02, 4.11010955e+02,
+        1.19761000e-01, 7.01778750e+00],
+       [6.12681200e+00, 8.78998515e+02, 4.10827779e+02, 4.11010955e+02,
+        1.19661000e-01, 7.02271500e+00],
+       [6.10076000e+00, 8.78998515e+02, 4.10727977e+02, 4.11010955e+02,
+        1.19960000e-01, 7.03749000e+00],
+       [6.09331600e+00, 8.78998515e+02, 4.10661443e+02, 4.11044069e+02,
+        1.20159000e-01, 7.04241750e+00],
+       [6.07470700e+00, 8.79104900e+02, 4.10628176e+02, 4.11110297e+02,
+        1.20109000e-01, 7.03257000e+00],
+       [6.09331600e+00, 8.78998515e+02, 4.10694710e+02, 4.11143411e+02,
+        1.19811000e-01, 7.01286750e+00],
+       [6.07842900e+00, 8.78892131e+02, 4.10727977e+02, 4.11242752e+02,
+        1.19711000e-01, 7.01778750e+00],
+       [6.10448100e+00, 8.79104900e+02, 4.10794512e+02, 4.11242752e+02,
+        1.19910000e-01, 7.01532750e+00],
+       [6.16775200e+00, 8.78892131e+02, 4.10794512e+02, 4.11308980e+02,
+        1.20010000e-01, 7.02025500e+00],
+       [6.06354200e+00, 8.78998515e+02, 4.10727977e+02, 4.11242752e+02,
+        1.20059000e-01, 7.02764250e+00],
+       [6.04865400e+00, 8.78998515e+02, 4.10727977e+02, 4.11308980e+02,
+        1.19811000e-01, 7.04241750e+00],
+       [6.10448100e+00, 8.78998515e+02, 4.10694710e+02, 4.11308980e+02,
+        1.19761000e-01, 7.04734500e+00],
+       [6.07470700e+00, 8.79211284e+02, 4.10661443e+02, 4.11275866e+02,
+        1.19960000e-01, 7.04734500e+00],
+       [6.11192500e+00, 8.79104900e+02, 4.10561642e+02, 4.11308980e+02,
+        1.20109000e-01, 7.03749000e+00],
+       [6.11936900e+00, 8.79104900e+02, 4.10528375e+02, 4.11209638e+02,
+        1.20109000e-01, 7.02764250e+00],
+       [6.08587200e+00, 8.79211284e+02, 4.10495108e+02, 4.11143411e+02,
+        1.19811000e-01, 7.01286750e+00],
+       [6.05982000e+00, 8.78998515e+02, 4.10461840e+02, 4.11143411e+02,
+        1.19711000e-01, 7.00794000e+00],
+       [6.04865400e+00, 8.79211284e+02, 4.10495108e+02, 4.11044069e+02,
+        1.19910000e-01, 7.01040000e+00],
+       [6.10820300e+00, 8.79211284e+02, 4.10461840e+02, 4.11010955e+02,
+        1.20059000e-01, 7.01286750e+00],
+       [6.14914300e+00, 8.78998515e+02, 4.10594909e+02, 4.11077183e+02,
+        1.20010000e-01, 7.02764250e+00],
+       [6.07842900e+00, 8.79104900e+02, 4.10594909e+02, 4.11077183e+02,
+        1.19860000e-01, 7.03257000e+00],
+       [6.07842900e+00, 8.79104900e+02, 4.10694710e+02, 4.11143411e+02,
+        1.19761000e-01, 7.03010250e+00],
+       [6.09331600e+00, 8.79211284e+02, 4.10761245e+02, 4.11176524e+02,
+        1.20010000e-01, 7.02025500e+00],
+       [6.07098500e+00, 8.79211284e+02, 4.10861046e+02, 4.11176524e+02,
+        1.20159000e-01, 7.00794000e+00],
+       [6.11564700e+00, 8.79211284e+02, 4.10960847e+02, 4.11209638e+02,
+        1.20109000e-01, 7.00547250e+00],
+       [6.12681200e+00, 8.79317669e+02, 4.10927580e+02, 4.11176524e+02,
+        1.19860000e-01, 7.01532750e+00],
+       [6.09703800e+00, 8.79211284e+02, 4.11093916e+02, 4.11242752e+02,
+        1.19711000e-01, 7.02764250e+00],
+       [6.07470700e+00, 8.79211284e+02, 4.11127183e+02, 4.11308980e+02,
+        1.19960000e-01, 7.03749000e+00],
+       [6.07098500e+00, 8.79317669e+02, 4.11193717e+02, 4.11375208e+02,
+        1.20109000e-01, 7.04980500e+00],
+       [6.09331600e+00, 8.79211284e+02, 4.11260252e+02, 4.11375208e+02,
+        1.20010000e-01, 7.06951500e+00],
+       [6.06726300e+00, 8.79211284e+02, 4.11260252e+02, 4.11342094e+02,
+        1.19811000e-01, 7.06704750e+00],
+       [6.10448100e+00, 8.79211284e+02, 4.11326786e+02, 4.11375208e+02,
+        1.19761000e-01, 7.04488500e+00],
+       [6.16403000e+00, 8.79104900e+02, 4.11360053e+02, 4.11375208e+02,
+        1.20059000e-01, 7.01286750e+00],
+       [6.09331600e+00, 8.79317669e+02, 4.11260252e+02, 4.11375208e+02,
+        1.20209000e-01, 6.99808500e+00],
+       [6.04121100e+00, 8.79211284e+02, 4.11226984e+02, 4.11408321e+02,
+        1.20010000e-01, 7.00794000e+00]])&gt;
 </pre></div>
 </div>
 </div>
@@ -521,14 +800,14 @@
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-input_1 (InputLayer)         [(None, 100, 4)]          0         
+input_1 (InputLayer)         [(None, 100, 6)]          0         
 _________________________________________________________________
-lstm (LSTM)                  (None, 32)                4736      
+lstm (LSTM)                  (None, 32)                4992      
 _________________________________________________________________
 dense (Dense)                (None, 1)                 33        
 =================================================================
-Total params: 4,769
-Trainable params: 4,769
+Total params: 5,025
+Trainable params: 5,025
 Non-trainable params: 0
 _________________________________________________________________
 </pre></div>
@@ -560,45 +839,45 @@ _________________________________________________________________
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
-753/753 [==============================] - 11s 8ms/step - loss: 1.5241 - val_loss: 0.0018
+753/753 [==============================] - 8s 7ms/step - loss: 2.1625 - val_loss: 1.3829
 
-Epoch 00001: val_loss improved from inf to 0.00177, saving model to model_checkpoint.h5
+Epoch 00001: val_loss improved from inf to 1.38288, saving model to model_checkpoint.h5
 Epoch 2/10
-753/753 [==============================] - 6s 7ms/step - loss: 9.0412e-04 - val_loss: 0.0016
+753/753 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 1.3904
 
-Epoch 00002: val_loss improved from 0.00177 to 0.00158, saving model to model_checkpoint.h5
+Epoch 00002: val_loss did not improve from 1.38288
 Epoch 3/10
-753/753 [==============================] - 5s 7ms/step - loss: 7.3961e-04 - val_loss: 0.0015
+753/753 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 1.3894
 
-Epoch 00003: val_loss improved from 0.00158 to 0.00153, saving model to model_checkpoint.h5
+Epoch 00003: val_loss did not improve from 1.38288
 Epoch 4/10
-753/753 [==============================] - 5s 7ms/step - loss: 5.0983e-04 - val_loss: 0.0017
+753/753 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 1.3756
 
-Epoch 00004: val_loss did not improve from 0.00153
+Epoch 00004: val_loss improved from 1.38288 to 1.37561, saving model to model_checkpoint.h5
 Epoch 5/10
-753/753 [==============================] - 5s 7ms/step - loss: 3.3994e-04 - val_loss: 0.0017
+753/753 [==============================] - 5s 7ms/step - loss: 0.0012 - val_loss: 1.3598
 
-Epoch 00005: val_loss did not improve from 0.00153
+Epoch 00005: val_loss improved from 1.37561 to 1.35982, saving model to model_checkpoint.h5
 Epoch 6/10
-753/753 [==============================] - 5s 7ms/step - loss: 2.3744e-04 - val_loss: 0.0015
+753/753 [==============================] - 5s 7ms/step - loss: 9.7645e-04 - val_loss: 1.3452
 
-Epoch 00006: val_loss did not improve from 0.00153
+Epoch 00006: val_loss improved from 1.35982 to 1.34516, saving model to model_checkpoint.h5
 Epoch 7/10
-753/753 [==============================] - 5s 7ms/step - loss: 1.9063e-04 - val_loss: 0.0016
+753/753 [==============================] - 5s 7ms/step - loss: 7.7856e-04 - val_loss: 1.3480
 
-Epoch 00007: val_loss did not improve from 0.00153
+Epoch 00007: val_loss did not improve from 1.34516
 Epoch 8/10
-753/753 [==============================] - 5s 7ms/step - loss: 1.7878e-04 - val_loss: 0.0015
+753/753 [==============================] - 5s 7ms/step - loss: 6.3582e-04 - val_loss: 1.3616
 
-Epoch 00008: val_loss improved from 0.00153 to 0.00152, saving model to model_checkpoint.h5
+Epoch 00008: val_loss did not improve from 1.34516
 Epoch 9/10
-753/753 [==============================] - 5s 7ms/step - loss: 1.9548e-04 - val_loss: 0.0015
+753/753 [==============================] - 5s 7ms/step - loss: 5.5576e-04 - val_loss: 1.3729
 
-Epoch 00009: val_loss did not improve from 0.00152
+Epoch 00009: val_loss did not improve from 1.34516
 Epoch 10/10
-753/753 [==============================] - 6s 7ms/step - loss: 2.1620e-04 - val_loss: 0.0016
+753/753 [==============================] - 5s 7ms/step - loss: 5.1949e-04 - val_loss: 1.3511
 
-Epoch 00010: val_loss did not improve from 0.00152
+Epoch 00010: val_loss did not improve from 1.34516
 </pre></div>
 </div>
 </div>
@@ -661,8 +940,122 @@ Sun Oct 17 17:49:11 2021
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/Keras_LSTM_18_0.png" src="../../_images/Keras_LSTM_18_0.png" />
+<img alt="../../_images/Keras_LSTM_21_0.png" src="../../_images/Keras_LSTM_21_0.png" />
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>guide_open</th>
+      <th>pump101_speed</th>
+      <th>head_net</th>
+      <th>discharge_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>157286</th>
+      <td>-1.113027</td>
+      <td>-1.107841</td>
+      <td>0.191400</td>
+      <td>-1.089484</td>
+    </tr>
+    <tr>
+      <th>157296</th>
+      <td>-1.109955</td>
+      <td>-1.103919</td>
+      <td>0.191485</td>
+      <td>-1.091468</td>
+    </tr>
+    <tr>
+      <th>157306</th>
+      <td>-1.109955</td>
+      <td>-1.099997</td>
+      <td>0.148472</td>
+      <td>-1.093453</td>
+    </tr>
+    <tr>
+      <th>157316</th>
+      <td>-1.112259</td>
+      <td>-1.096075</td>
+      <td>0.191485</td>
+      <td>-1.091468</td>
+    </tr>
+    <tr>
+      <th>157326</th>
+      <td>-1.113027</td>
+      <td>-1.098036</td>
+      <td>0.234476</td>
+      <td>-1.088985</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>629096</th>
+      <td>-1.652592</td>
+      <td>-1.713793</td>
+      <td>1.206000</td>
+      <td>-1.935028</td>
+    </tr>
+    <tr>
+      <th>629106</th>
+      <td>-1.651824</td>
+      <td>-1.705949</td>
+      <td>1.249072</td>
+      <td>-1.933043</td>
+    </tr>
+    <tr>
+      <th>629116</th>
+      <td>-1.643759</td>
+      <td>-1.702027</td>
+      <td>1.205962</td>
+      <td>-1.932046</td>
+    </tr>
+    <tr>
+      <th>629126</th>
+      <td>-1.648752</td>
+      <td>-1.696144</td>
+      <td>1.205975</td>
+      <td>-1.933043</td>
+    </tr>
+    <tr>
+      <th>629136</th>
+      <td>-1.648368</td>
+      <td>-1.690261</td>
+      <td>1.292194</td>
+      <td>-1.935028</td>
+    </tr>
+  </tbody>
+</table>
+<p>47186 rows × 4 columns</p>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -691,7 +1084,7 @@ Sun Oct 17 17:49:11 2021
 
 <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataset_val</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
     <span class="n">show_plot</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]],</span>
+        <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]],</span>
         <span class="mi">12</span><span class="p">,</span>
         <span class="s2">&quot;Single Step Prediction&quot;</span><span class="p">,</span>
     <span class="p">)</span>
@@ -699,25 +1092,17 @@ Sun Oct 17 17:49:11 2021
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/Keras_LSTM_19_0.png" src="../../_images/Keras_LSTM_19_0.png" />
-<img alt="../../_images/Keras_LSTM_19_1.png" src="../../_images/Keras_LSTM_19_1.png" />
-<img alt="../../_images/Keras_LSTM_19_2.png" src="../../_images/Keras_LSTM_19_2.png" />
-<img alt="../../_images/Keras_LSTM_19_3.png" src="../../_images/Keras_LSTM_19_3.png" />
-<img alt="../../_images/Keras_LSTM_19_4.png" src="../../_images/Keras_LSTM_19_4.png" />
+<img alt="../../_images/Keras_LSTM_23_0.png" src="../../_images/Keras_LSTM_23_0.png" />
+<img alt="../../_images/Keras_LSTM_23_1.png" src="../../_images/Keras_LSTM_23_1.png" />
+<img alt="../../_images/Keras_LSTM_23_2.png" src="../../_images/Keras_LSTM_23_2.png" />
+<img alt="../../_images/Keras_LSTM_23_3.png" src="../../_images/Keras_LSTM_23_3.png" />
+<img alt="../../_images/Keras_LSTM_23_4.png" src="../../_images/Keras_LSTM_23_4.png" />
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dataset_train</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../../_images/Keras_LSTM_20_0.png" src="../../_images/Keras_LSTM_20_0.png" />
-</div>
-</div>
+<div class="section" id="another-way-to-provide-dataset-to-keras-model">
+<h1>2, Another way to provide dataset to Keras model<a class="headerlink" href="#another-way-to-provide-dataset-to-keras-model" title="Permalink to this headline">¶</a></h1>
+<p>Please refer to the following link:<a class="reference external" href="https://www.machinecurve.com/index.php/2020/04/05/how-to-find-the-value-for-keras-input_shape-input_dim/">machinecurve</a>.</p>
 </div>
 
     <script type="text/x-thebe-config">

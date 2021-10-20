@@ -1230,7 +1230,7 @@ for example_inputs, example_labels in test_window.train.take(1):
 test_window.train
 
 
-# In[248]:
+# In[294]:
 
 
 # 8.1.2, create the test dataset using keras example
@@ -1238,10 +1238,10 @@ test_window.train
 #train_split, int(df_train.shape[0]*split_fraction)
 past = 100
 future = 10
-step = 1
-learning_rate = 0.05
+step = 10
+learning_rate = 0.01
 batch_size = 50
-epochs = 10
+epochs = 5
 
 datasize = len(train_df)
 x_train = train_df[:datasize-past-future].values
@@ -1277,13 +1277,21 @@ for batch in dataset_train.take(1):
   inputs, targets = batch
 
 
-# In[199]:
+# In[337]:
 
 
-x_val.shape, y_val.shape
+dataset_train.group_by_window
 
 
-# In[249]:
+# In[331]:
+
+
+for input, label in dataset_train.take(1):
+    print(input[0], label[0])
+x_train[0:200:10,]
+
+
+# In[283]:
 
 
 # Configure the model
@@ -1316,7 +1324,7 @@ history = model.fit(
 )
 
 
-# In[250]:
+# In[284]:
 
 
 # Visualize the results
@@ -1337,7 +1345,7 @@ def visualize_loss(history, title):
 visualize_loss(history, "Training and Validation Loss")
 
 
-# In[254]:
+# In[285]:
 
 
 plt.plot(model.predict(dataset_val))
@@ -1347,13 +1355,7 @@ plt.show()
 history.model.summary
 
 
-# In[255]:
-
-
-history.model.
-
-
-# In[253]:
+# In[287]:
 
 
 # Prediciton
@@ -1379,10 +1381,17 @@ def show_plot(plot_data, delta, title):
     return
 
 
-for x, y in dataset_val.take(3):
-    show_plot(
-        [x[0][:, 1].numpy(), y[0].numpy(), model.predict(x)[0]],
-        12,
-        "Single Step Prediction",
-    )
+for x, y in dataset_val.take(1):
+    for inds in np.arange(0, 50, 10):
+        show_plot([x[inds][:, 4].numpy(), y[inds].numpy(), model.predict(x)[0]],
+            12,
+            "Single Step Prediction",
+        )
+
+
+# In[277]:
+
+
+inds = np.arange(0,10, 3)
+inds
 

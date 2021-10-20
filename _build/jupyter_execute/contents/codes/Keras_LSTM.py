@@ -3,7 +3,7 @@
 
 # <a href="https://colab.research.google.com/github/wengangmao/vattenfall/blob/main/Keras_LSTM.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
-# In[2]:
+# In[3]:
 
 
 import pandas as pd
@@ -20,22 +20,22 @@ import tensorflow as tf
 
 # ## 1, Load the data
 
-# In[ ]:
+# In[4]:
 
 
 from tensorflow import keras
-from google.colab import drive
-drive.mount('/content/drive')
-df = pd.read_csv('/content/drive/MyDrive/Data/vattenfall_turbine.csv')
+#from google.colab import drive
+#drive.mount('/content/drive')
+#df = pd.read_csv('/content/drive/MyDrive/Data/vattenfall_turbine.csv')
 #drive.flush_and_unmount()
 #print('NB: Unmount the google cloud driver')
 
-import numpy as np
-
-#df = pd.read_csv('vattenfall_turbine.csv')
-keys = df.keys().values
-feature_keys = keys[np.arange(1,5).tolist() + np.arange(7,10).tolist()]
-time_key = keys[0]
+#import numpy as np
+#
+##df = pd.read_csv('vattenfall_turbine.csv')
+#keys = df.keys().values
+#feature_keys = keys[np.arange(1,5).tolist() + np.arange(7,10).tolist()]
+#time_key = keys[0]
 
 
 # In[5]:
@@ -76,7 +76,7 @@ fig2 = plot_features.plot(subplots=True, figsize=(15, 10))
 # In[7]:
 
 
-df_train = df[feature_keys[0:7:2]][int(len(df)*0.2):int(len(df)*0.8):10]
+df_train = df[feature_keys[[0, 1, 2, 3]+[6]+[5]]][int(len(df)*0.2):int(len(df)*0.8):10]
 display(Markdown('<span style="color:red; font-size:30px">**No. of the values in the training dataset is: %d**</span>' %len(df_train)))
 
 # plot the data and check their variations along time
@@ -113,16 +113,16 @@ fig3 = ax.set_xticklabels(train_df.keys(), rotation=90)
 
 # ## Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset
 
-# In[10]:
+# In[22]:
 
 
 df_train = df_train.reset_index(drop=True)
 
 split_fraction = 0.8
 train_split = int(df_train.shape[0]*split_fraction)
-past = 1000
-future = 100
-step = 10
+past = 100
+future = 10
+step = 1
 learning_rate = 0.01
 batch_size = 50
 epochs = 10
@@ -132,14 +132,14 @@ train_data = df_train.loc[0:train_split-1]
 val_data = df_train.loc[train_split:]
 
 
-# In[22]:
+# In[23]:
 
 
 # Prepare training dataset
 start = past + future
 end = start + train_split
 x_train = train_data.values
-y_train = df_train.iloc[start:end]['head_net'].values
+y_train = df_train.iloc[start:end]['head_gross'].values
 y_train = y_train[:, np.newaxis]
 
 sequence_length = int(past/step)
@@ -156,7 +156,7 @@ x_end = len(val_data) - past - future
 label_start = train_split + past + future
 
 x_val = val_data.iloc[:x_end].values
-y_val = val_data.loc[label_start:]['head_net'].values
+y_val = val_data.loc[label_start:]['head_gross'].values
 y_val = y_val[:, np.newaxis]
 
 
@@ -176,13 +176,28 @@ print(inputs.numpy().shape)
 print(targets.numpy().shape)
 
 
-# In[21]:
+# ## Investigation of dataset structure
+
+# In[34]:
 
 
-x_train.shape,y_train.shape, len(train_data),train_split
+for input, label in dataset_train.take(1):
+    print(input.shape, label.shape)
 
 
-# In[24]:
+# In[36]:
+
+
+x_train[100:115,:], label[0:5]
+
+
+# In[37]:
+
+
+input[1,:,:]
+
+
+# In[13]:
 
 
 # Construct the model
@@ -196,7 +211,7 @@ model.compile(optimizer=keras.optimizers.Adam(learning_rate=learning_rate), loss
 model.summary()
 
 
-# In[25]:
+# In[14]:
 
 
 # Estimate the LSTM model
@@ -226,7 +241,7 @@ get_ipython().system(' nvcc --version')
 get_ipython().system(' /opt/bin/nvidia-smi')
 
 
-# In[26]:
+# In[15]:
 
 
 # Visualize the results
@@ -247,7 +262,13 @@ def visualize_loss(history, title):
 visualize_loss(history, "Training and Validation Loss")
 
 
-# In[27]:
+# In[41]:
+
+
+train_df
+
+
+# In[18]:
 
 
 # Prediciton
@@ -275,16 +296,12 @@ def show_plot(plot_data, delta, title):
 
 for x, y in dataset_val.take(5):
     show_plot(
-        [x[0][:, 1].numpy(), y[0].numpy(), model.predict(x)[0]],
+        [x[0][:, 5].numpy(), y[0].numpy(), model.predict(x)[0]],
         12,
         "Single Step Prediction",
     )
 
 
-# In[33]:
+# ## 2, Another way to provide dataset to Keras model
 
-
-plt.plot(model.predict(dataset_train))
-plt.plot(y_train)
-plt.show()
-
+# Please refer to the following link:[machinecurve](https://www.machinecurve.com/index.php/2020/04/05/how-to-find-the-value-for-keras-input_shape-input_dim/).
