@@ -5,7 +5,7 @@
 # 
 # **Deep learning to model transient dynamics of hydro Turbine**
 
-# In[148]:
+# In[1]:
 
 
 import pandas as pd
@@ -23,7 +23,7 @@ import tensorflow as tf
 
 # ## 1, Load the data
 
-# In[3]:
+# In[2]:
 
 
 #from tensorflow import keras
@@ -39,7 +39,7 @@ feature_keys = keys[np.arange(1,5).tolist() + np.arange(7,10).tolist()]
 time_key = keys[0]
 
 
-# In[4]:
+# In[3]:
 
 
 plot_cols = feature_keys[0:len(feature_keys):2]
@@ -62,7 +62,7 @@ fig2 = plot_features.plot(subplots=True, figsize=(15, 10))
 
 # ### 2.1, resample the data with low-resolution
 
-# In[5]:
+# In[4]:
 
 
 df_train = df[feature_keys[0:7:2]][int(len(df)/4):int(len(df)/2):100]
@@ -81,7 +81,7 @@ sns.heatmap(df_train.corr(), annot=True, fmt=".2f")
 plt.show()
 
 
-# In[6]:
+# In[5]:
 
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -108,7 +108,7 @@ plt.ylabel('discharge_rate', size=20)
 plt.colorbar()
 
 
-# In[8]:
+# In[6]:
 
 
 features = df.keys()
@@ -272,7 +272,7 @@ new_df = tf.convert_to_tensor(new_df)
 #normalizer.adapt(numeric_features)
 
 
-# In[14]:
+# In[12]:
 
 
 feature_keys
@@ -282,7 +282,7 @@ feature_keys
 
 # 
 
-# In[15]:
+# In[13]:
 
 
 df_train = df[feature_keys][int(len(df)/4):int(len(df)/2):100]
@@ -294,7 +294,7 @@ df_target = df_train.pop('head_gross')
 df_train.head()
 
 
-# In[16]:
+# In[14]:
 
 
 # Pre-normalize the features for ML analysis
@@ -327,7 +327,7 @@ model = get_basic_model()
 model.fit(tf_train, tf_target, epochs=10, batch_size=BATCH_SIZE)
 
 
-# In[17]:
+# In[15]:
 
 
 plt.plot(model.predict(df_train),'b')
@@ -335,7 +335,7 @@ plt.plot(tf_target,'k')
 plt.show()
 
 
-# In[18]:
+# In[16]:
 
 
 norm1 = tf.keras.layers.Normalization(axis =-1)
@@ -357,7 +357,7 @@ model.fit(dataset_batches, epochs=10)
 
 # ### 4.0, Understand datastructure of the tensorflow package --> formulate rolling windowed dataset --> for model in Section 4
 
-# In[14]:
+# In[17]:
 
 
 # split the time series of data into train (70%), test (20%) and validation (10%)
@@ -395,7 +395,7 @@ ax.set_yticklabels(ax.get_yticks(), size = 30)
 
 # ### 4.1, Read data into the data class
 
-# In[15]:
+# In[18]:
 
 
 # 4.1.1, Indexes and offsets
@@ -496,7 +496,7 @@ WindowGenerator.plot = plot
 
 # ### 4.2, Check the constructed basic dataset class
 
-# In[16]:
+# In[19]:
 
 
 # Test of windowed dataset 
@@ -518,7 +518,7 @@ print(f'Inputs shape: {example_inputs.shape}')
 print(f'Labels shape: {example_labels.shape}')
 
 
-# In[17]:
+# In[20]:
 
 
 w.example = example_inputs, example_labels
@@ -527,7 +527,7 @@ w.plot(plot_col='guide_open')
 
 # ### <span style ="color:blue; font-size:25px"> **4.3, Formulate train, test, validation datasets in the data structure**</span>
 
-# In[18]:
+# In[21]:
 
 
 def make_dataset(self, data):
@@ -581,7 +581,7 @@ for example_inputs, example_labels in w.train.take(1):
   print(f'Labels shape (batch, time, features): {example_labels.shape}')
 
 
-# In[19]:
+# In[22]:
 
 
 for example_inputs, example_labels in w.train.take(1):
@@ -599,7 +599,7 @@ for example_inputs, example_labels in w.train.take(1):
 
 # #### Test 1: narrow window dataset (single output window)
 
-# In[25]:
+# In[23]:
 
 
 # Get the first dataset (all features as output)
@@ -615,7 +615,7 @@ for example_inputs, example_labels in single_step_window.train.take(1):
 single_step_window.label_columns, single_step_window.column_indices
 
 
-# In[26]:
+# In[24]:
 
 
 # Baseline model
@@ -644,7 +644,7 @@ val_performance['Baseline'] = baseline.evaluate(single_step_window.val)
 performance['Baseline'] = baseline.evaluate(single_step_window.test, verbose=0)
 
 
-# In[27]:
+# In[25]:
 
 
 single_step_window.test
@@ -652,7 +652,7 @@ single_step_window.test
 
 # #### Test 2: wide output window
 
-# In[20]:
+# In[26]:
 
 
 wide_window = WindowGenerator(
@@ -669,7 +669,7 @@ wide_window.plot(baseline)
 
 # ### 5.2, Linear model with narrow window dataset <span style = "background: yellow">"WindowGenerator(input_width=1, label_width=1, shift=1)"</span>
 
-# In[29]:
+# In[27]:
 
 
 # define linear model from the package
@@ -688,7 +688,7 @@ plt.title('The model performance might be uncertainly varied (no convergent)')
 plt.show()
 
 
-# In[30]:
+# In[28]:
 
 
 MAX_EPOCHS = 3
@@ -713,7 +713,7 @@ val_performance['Linear'] = linear.evaluate(single_step_window.val)
 performance['Linear'] = linear.evaluate(single_step_window.test, verbose=0)
 
 
-# In[31]:
+# In[29]:
 
 
 # Two ways to plot the results
@@ -731,7 +731,7 @@ ax2.set_title("NB: the linear model is the same as the optimized in the history,
 
 # ### 5.3, linear model for wide window data inputs <span style = "background: yellow">"WindowGenerator(input_width=300, label_width=300, shift=1)"</span>
 
-# In[32]:
+# In[30]:
 
 
 # Plot the result to check the linear model
@@ -763,7 +763,7 @@ print('Output shape:', baseline(wide_window.example[0]).shape)
 # 
 # 
 
-# In[33]:
+# In[31]:
 
 
 # model construction and estimation
@@ -794,7 +794,7 @@ ax2.plot(single_step_window.example[1].numpy().flatten(), 'k')
 # ### 6.1, Set up the convolutional neuron network (CNN) dataset.
 # ![RNN_Data_Structrue](./images/cnn_dataset.png)
 
-# In[34]:
+# In[32]:
 
 
 # Create the indexes
@@ -815,7 +815,7 @@ plt.title("Given 3 hours of inputs, predict 1 hour into the future.")
 # ### 6.2, Test for the "multiple-steps model" model 
 # (Using CNN data structure) -- <span style = "color: blue; font-size: 20px"> Narrow window: input_width = 3</span>
 
-# In[35]:
+# In[33]:
 
 
 # configure the model
@@ -837,7 +837,7 @@ plt.title('The model performance might be uncertainly varied (no convergent)')
 plt.show()
 
 
-# In[36]:
+# In[34]:
 
 
 # optimise the model through "compile_and_fit"
@@ -863,7 +863,7 @@ plt.show()
 # * model construction: CNN model require input_width, but no need for layers.flatten() and layers.reshape([1, -1])
 # * data structure: output of CNN datastructure is (#input_window -1) dimensions less
 
-# In[37]:
+# In[35]:
 
 
 # Configure the CNN model
@@ -887,7 +887,7 @@ val_performance['Conv'] = conv_model.evaluate(conv_window.val)
 performance['Conv'] = conv_model.evaluate(conv_window.test, verbose=0)
 
 
-# In[38]:
+# In[36]:
 
 
 # Check the length difference between multiple-step-dense model and the CNN model
@@ -908,7 +908,7 @@ plt.show()
 # <span style = "color: blue; font-size: 20px"> Wide window: input_width = CONV_width = 30</span>
 # 
 
-# In[39]:
+# In[37]:
 
 
 LABEL_WIDTH = 24
@@ -940,7 +940,7 @@ wide_conv_window.plot(conv_model)
 # * return_sequences=True for the third figure above
 # 
 
-# In[40]:
+# In[38]:
 
 
 # Configure the RNN (LSTM) model
@@ -961,7 +961,7 @@ plt.title('Remark: very good agreement. Why?')
 plt.show()
 
 
-# In[41]:
+# In[39]:
 
 
 '''
@@ -1008,7 +1008,7 @@ performance['LSTM'] = lstm_model.evaluate(wide_window.test, verbose=0)
 # ## 7.1, Generate the dataset for the modelling
 # **NB: we will skip the baseline model in this example**
 
-# In[42]:
+# In[40]:
 
 
 OUT_STEPS = 24
@@ -1027,7 +1027,7 @@ multi_window
 
 # ### 7.2.1, Linear and dense model
 
-# In[46]:
+# In[41]:
 
 
 ## Linear model
@@ -1079,7 +1079,7 @@ multi_window.plot(multi_dense_model)
 
 # ### 7.2.2, CNN model with conv length
 
-# In[47]:
+# In[ ]:
 
 
 CONV_WIDTH = 3
@@ -1212,7 +1212,7 @@ multi_window.plot(feedback_model)
 
 # #### 8.1, Tensorflow window (Complex but automatic) and Keras numpy (easy but flexible) to create datasets
 
-# In[172]:
+# In[ ]:
 
 
 # 8.1.1, create the test window using Tensorflow libraries
@@ -1230,7 +1230,7 @@ for example_inputs, example_labels in test_window.train.take(1):
 test_window.train
 
 
-# In[294]:
+# In[ ]:
 
 
 # 8.1.2, create the test dataset using keras example
@@ -1277,13 +1277,13 @@ for batch in dataset_train.take(1):
   inputs, targets = batch
 
 
-# In[337]:
+# In[ ]:
 
 
 dataset_train.group_by_window
 
 
-# In[331]:
+# In[ ]:
 
 
 for input, label in dataset_train.take(1):
@@ -1291,7 +1291,7 @@ for input, label in dataset_train.take(1):
 x_train[0:200:10,]
 
 
-# In[283]:
+# In[ ]:
 
 
 # Configure the model
@@ -1324,7 +1324,7 @@ history = model.fit(
 )
 
 
-# In[284]:
+# In[ ]:
 
 
 # Visualize the results
@@ -1345,7 +1345,7 @@ def visualize_loss(history, title):
 visualize_loss(history, "Training and Validation Loss")
 
 
-# In[285]:
+# In[ ]:
 
 
 plt.plot(model.predict(dataset_val))
@@ -1355,7 +1355,7 @@ plt.show()
 history.model.summary
 
 
-# In[287]:
+# In[ ]:
 
 
 # Prediciton
@@ -1389,7 +1389,7 @@ for x, y in dataset_val.take(1):
         )
 
 
-# In[277]:
+# In[ ]:
 
 
 inds = np.arange(0,10, 3)

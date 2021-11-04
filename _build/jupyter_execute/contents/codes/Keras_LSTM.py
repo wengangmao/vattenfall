@@ -3,7 +3,7 @@
 
 # <a href="https://colab.research.google.com/github/wengangmao/vattenfall/blob/main/Keras_LSTM.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
-# In[3]:
+# In[1]:
 
 
 import pandas as pd
@@ -20,7 +20,7 @@ import tensorflow as tf
 
 # ## 1, Load the data
 
-# In[4]:
+# In[2]:
 
 
 from tensorflow import keras
@@ -38,7 +38,7 @@ from tensorflow import keras
 #time_key = keys[0]
 
 
-# In[5]:
+# In[3]:
 
 
 ################# IN case not by Colab #########
@@ -50,7 +50,7 @@ feature_keys = keys[np.arange(1,5).tolist() + np.arange(7,10).tolist()]
 time_key = keys[0]
 
 
-# In[6]:
+# In[4]:
 
 
 plot_cols = feature_keys[0:len(feature_keys):2]
@@ -73,7 +73,7 @@ fig2 = plot_features.plot(subplots=True, figsize=(15, 10))
 
 # ### 2.1, resample the data with low-resolution
 
-# In[7]:
+# In[5]:
 
 
 df_train = df[feature_keys[[0, 1, 2, 3]+[6]+[5]]][int(len(df)*0.2):int(len(df)*0.8):10]
@@ -94,7 +94,7 @@ plt.show()
 
 # ### 2.2, normalize the data
 
-# In[8]:
+# In[6]:
 
 
 # First, we assume all data are used for the training (the time series is not that stationary for the prediction)
@@ -113,7 +113,7 @@ fig3 = ax.set_xticklabels(train_df.keys(), rotation=90)
 
 # ## Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset
 
-# In[22]:
+# In[7]:
 
 
 df_train = df_train.reset_index(drop=True)
@@ -132,7 +132,7 @@ train_data = df_train.loc[0:train_split-1]
 val_data = df_train.loc[train_split:]
 
 
-# In[23]:
+# In[8]:
 
 
 # Prepare training dataset
@@ -178,26 +178,32 @@ print(targets.numpy().shape)
 
 # ## Investigation of dataset structure
 
-# In[34]:
+# In[79]:
 
 
-for input, label in dataset_train.take(1):
-    print(input.shape, label.shape)
+input=[]
+n = 1
+for input, label in dataset_train.take(3):
+    print(n)
+    n=n+1
+
+input.shape
 
 
-# In[36]:
+# In[22]:
 
 
-x_train[100:115,:], label[0:5]
+x_train[50:55,:], label[0:5]
 
 
-# In[37]:
+# In[77]:
 
 
-input[1,:,:]
+for i, j in enumerate(input):
+    print(i,j.shape)
 
 
-# In[13]:
+# In[12]:
 
 
 # Construct the model
@@ -211,7 +217,7 @@ model.compile(optimizer=keras.optimizers.Adam(learning_rate=learning_rate), loss
 model.summary()
 
 
-# In[14]:
+# In[13]:
 
 
 # Estimate the LSTM model
@@ -234,7 +240,7 @@ history = model.fit(
 )
 
 
-# In[103]:
+# In[14]:
 
 
 get_ipython().system(' nvcc --version')
@@ -262,13 +268,13 @@ def visualize_loss(history, title):
 visualize_loss(history, "Training and Validation Loss")
 
 
-# In[41]:
+# In[16]:
 
 
 train_df
 
 
-# In[18]:
+# In[70]:
 
 
 # Prediciton
@@ -294,7 +300,7 @@ def show_plot(plot_data, delta, title):
     return
 
 
-for x, y in dataset_val.take(5):
+for x, y in dataset_val.take(1):
     show_plot(
         [x[0][:, 5].numpy(), y[0].numpy(), model.predict(x)[0]],
         12,
