@@ -268,7 +268,12 @@
   </ul>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset">
+  <a class="reference internal nav-link" href="#font-color-blue-2021-11-05-font-test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset">
+   <font color="blue">
+    <strong>
+     2021-11-05:
+    </strong>
+   </font>
    Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset
   </a>
  </li>
@@ -427,8 +432,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset">
-<h1>Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset<a class="headerlink" href="#test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="font-color-blue-2021-11-05-font-test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset">
+<h1><font color ='blue'> <strong>2021-11-05:</strong></font> Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset<a class="headerlink" href="#font-color-blue-2021-11-05-font-test-the-functions-of-the-tf-data-dataset-for-slice-data-to-formulate-rolling-windowed-dataset" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -437,7 +442,7 @@
 <span class="n">train_split</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">split_fraction</span><span class="p">)</span>
 <span class="n">past</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">future</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">step</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">step</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">50</span>
 <span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
@@ -464,6 +469,7 @@
     <span class="n">x_train</span><span class="p">,</span>
     <span class="n">y_train</span><span class="p">,</span>
     <span class="n">sequence_length</span> <span class="o">=</span> <span class="n">sequence_length</span><span class="p">,</span>
+    <span class="n">sampling_rate</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
     <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -480,6 +486,7 @@
     <span class="n">x_val</span><span class="p">,</span>
     <span class="n">y_val</span><span class="p">,</span>
     <span class="n">sequence_length</span> <span class="o">=</span> <span class="n">sequence_length</span><span class="p">,</span>
+    <span class="n">sampling_rate</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
     <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -494,7 +501,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 100, 6)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 10, 6)
 (50, 1)
 </pre></div>
 </div>
@@ -505,112 +512,82 @@
 <h1>Investigation of dataset structure<a class="headerlink" href="#investigation-of-dataset-structure" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">input</span><span class="o">=</span><span class="p">[]</span>
-<span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="k">for</span> <span class="nb">input</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">dataset_train</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span>
-
-<span class="nb">input</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
-2
-3
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TensorShape([50, 100, 6])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([6.082151, 6.074707, 6.167752, 6.10076 , 6.085872, 6.037489,
+       6.097038, 6.074707, 6.119369, 6.115647])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train</span><span class="p">[</span><span class="mi">50</span><span class="p">:</span><span class="mi">55</span><span class="p">,:],</span> <span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([[6.03748900e+00, 8.78785747e+02, 4.11027382e+02, 4.10746044e+02,
-         1.20010000e-01, 7.04980500e+00],
-        [6.06726300e+00, 8.78892131e+02, 4.11127183e+02, 4.10746044e+02,
-         1.19811000e-01, 7.06458750e+00],
-        [6.07470700e+00, 8.78998515e+02, 4.11193717e+02, 4.10712930e+02,
-         1.19711000e-01, 7.06212000e+00],
-        [6.11192500e+00, 8.78785747e+02, 4.11293519e+02, 4.10712930e+02,
-         1.19910000e-01, 7.04980500e+00],
-        [6.14170000e+00, 8.78785747e+02, 4.11326786e+02, 4.10712930e+02,
-         1.20059000e-01, 7.04241750e+00]]),
- &lt;tf.Tensor: shape=(5, 1), dtype=float64, numpy=
- array([[6.9783825],
-        [6.998085 ],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[6.082151, 6.074707, 6.167752, 6.10076 , 6.085872, 6.037489,
+        6.097038, 6.074707, 6.119369, 6.115647],
+       [6.111925, 6.048654, 6.089594, 6.063542, 6.10076 , 6.067263,
+        6.171474, 6.093316, 6.085872, 6.126812],
+       [6.111925, 6.111925, 6.097038, 6.078429, 6.104481, 6.074707,
+        6.093316, 6.078429, 6.05982 , 6.097038],
+       [6.089594, 6.134256, 6.074707, 6.115647, 6.10076 , 6.111925,
+        6.089594, 6.104481, 6.048654, 6.074707],
+       [6.082151, 6.115647, 6.052376, 6.089594, 6.041211, 6.1417  ,
+        6.078429, 6.167752, 6.108203, 6.070985],
+       [6.05982 , 6.089594, 6.111925, 6.10076 , 6.074707, 6.111925,
+        6.052376, 6.063542, 6.149143, 6.093316],
+       [6.093316, 6.070985, 6.115647, 6.123091, 6.104481, 6.070985,
+        6.108203, 6.048654, 6.078429, 6.067263],
+       [6.1417  , 6.063542, 6.093316, 6.070985, 6.085872, 6.022602,
+        6.126812, 6.104481, 6.078429, 6.104481],
+       [6.104481, 6.033767, 6.085872, 6.093316, 6.145421, 6.070985,
+        6.10076 , 6.074707, 6.093316, 6.16403 ],
+       [6.10076 , 6.097038, 6.085872, 6.10076 , 6.104481, 6.078429,
+        6.093316, 6.111925, 6.070985, 6.093316]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_train</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">targets</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">,:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([7.0276425, 7.0769025, 7.0547325, 7.0104   , 6.9783825, 6.9783825,
+        7.022715 , 7.0522725, 7.0276425, 7.047345 ]),
+ array([[7.0276425],
         [7.0128675],
-        [7.020255 ],
-        [7.025175 ]])&gt;)
+        [6.998085 ],
+        [6.98577  ],
+        [6.98577  ],
+        [7.00794  ],
+        [7.0153275],
+        [7.03257  ],
+        [7.0547325],
+        [7.071975 ]]))
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_train</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 (100, 6)
-1 (100, 6)
-2 (100, 6)
-3 (100, 6)
-4 (100, 6)
-5 (100, 6)
-6 (100, 6)
-7 (100, 6)
-8 (100, 6)
-9 (100, 6)
-10 (100, 6)
-11 (100, 6)
-12 (100, 6)
-13 (100, 6)
-14 (100, 6)
-15 (100, 6)
-16 (100, 6)
-17 (100, 6)
-18 (100, 6)
-19 (100, 6)
-20 (100, 6)
-21 (100, 6)
-22 (100, 6)
-23 (100, 6)
-24 (100, 6)
-25 (100, 6)
-26 (100, 6)
-27 (100, 6)
-28 (100, 6)
-29 (100, 6)
-30 (100, 6)
-31 (100, 6)
-32 (100, 6)
-33 (100, 6)
-34 (100, 6)
-35 (100, 6)
-36 (100, 6)
-37 (100, 6)
-38 (100, 6)
-39 (100, 6)
-40 (100, 6)
-41 (100, 6)
-42 (100, 6)
-43 (100, 6)
-44 (100, 6)
-45 (100, 6)
-46 (100, 6)
-47 (100, 6)
-48 (100, 6)
-49 (100, 6)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([7.1039925, 6.9906975, 6.9783825, 7.03257  , 7.0399575, 7.049805 ,
+        7.0399575, 7.03257  , 7.0276425, 7.0054725]),
+ array([7.0276425, 7.0769025, 7.0547325, 7.0104   , 6.9783825, 6.9783825,
+        7.022715 , 7.0522725, 7.0276425, 7.047345 ]))
 </pre></div>
 </div>
 </div>
@@ -630,15 +607,15 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model&quot;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_1&quot;
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-input_1 (InputLayer)         [(None, 100, 6)]          0         
+input_2 (InputLayer)         [(None, 100, 6)]          0         
 _________________________________________________________________
-lstm (LSTM)                  (None, 32)                4992      
+lstm_1 (LSTM)                (None, 32)                4992      
 _________________________________________________________________
-dense (Dense)                (None, 1)                 33        
+dense_1 (Dense)              (None, 1)                 33        
 =================================================================
 Total params: 5,025
 Trainable params: 5,025
@@ -673,29 +650,29 @@ _________________________________________________________________
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
-753/753 [==============================] - 9s 8ms/step - loss: 2.5249 - val_loss: 0.2452
+753/753 [==============================] - 8s 8ms/step - loss: 0.9544 - val_loss: 15.7895
 
-Epoch 00001: val_loss improved from inf to 0.24517, saving model to model_checkpoint.h5
+Epoch 00001: val_loss improved from inf to 15.78950, saving model to model_checkpoint.h5
 Epoch 2/10
-753/753 [==============================] - 5s 7ms/step - loss: 0.0012 - val_loss: 0.2484
+753/753 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 15.8118
 
-Epoch 00002: val_loss did not improve from 0.24517
+Epoch 00002: val_loss did not improve from 15.78950
 Epoch 3/10
-753/753 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 0.2542
+753/753 [==============================] - 5s 7ms/step - loss: 0.0012 - val_loss: 15.8209
 
-Epoch 00003: val_loss did not improve from 0.24517
+Epoch 00003: val_loss did not improve from 15.78950
 Epoch 4/10
-753/753 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 0.2575
+753/753 [==============================] - 5s 7ms/step - loss: 9.1091e-04 - val_loss: 15.8368
 
-Epoch 00004: val_loss did not improve from 0.24517
+Epoch 00004: val_loss did not improve from 15.78950
 Epoch 5/10
-753/753 [==============================] - 5s 7ms/step - loss: 0.0011 - val_loss: 0.2603
+753/753 [==============================] - 5s 7ms/step - loss: 7.1045e-04 - val_loss: 15.8425
 
-Epoch 00005: val_loss did not improve from 0.24517
+Epoch 00005: val_loss did not improve from 15.78950
 Epoch 6/10
-753/753 [==============================] - 5s 7ms/step - loss: 8.9060e-04 - val_loss: 0.2650
+753/753 [==============================] - 5s 7ms/step - loss: 5.7100e-04 - val_loss: 15.8410
 
-Epoch 00006: val_loss did not improve from 0.24517
+Epoch 00006: val_loss did not improve from 15.78950
 </pre></div>
 </div>
 </div>
@@ -742,7 +719,7 @@ Build cuda_11.4.r11.4/compiler.30300941_0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/Keras_LSTM_21_0.png" src="../../_images/Keras_LSTM_21_0.png" />
+<img alt="../../_images/Keras_LSTM_24_0.png" src="../../_images/Keras_LSTM_24_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -918,7 +895,7 @@ Build cuda_11.4.r11.4/compiler.30300941_0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/Keras_LSTM_23_0.png" src="../../_images/Keras_LSTM_23_0.png" />
+<img alt="../../_images/Keras_LSTM_26_0.png" src="../../_images/Keras_LSTM_26_0.png" />
 </div>
 </div>
 </div>
