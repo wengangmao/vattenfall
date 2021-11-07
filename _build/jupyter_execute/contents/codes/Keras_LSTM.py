@@ -111,9 +111,9 @@ ax = sns.violinplot(x='Column', y='Normalized', data=df_std)
 fig3 = ax.set_xticklabels(train_df.keys(), rotation=90)
 
 
-# ## Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset
+# ## <font color ='blue'> **2021-11-05:**</font> Test the functions of the tf.data.Dataset for slice data to formulate rolling windowed dataset
 
-# In[7]:
+# In[42]:
 
 
 df_train = df_train.reset_index(drop=True)
@@ -122,7 +122,7 @@ split_fraction = 0.8
 train_split = int(df_train.shape[0]*split_fraction)
 past = 100
 future = 10
-step = 1
+step = 10
 learning_rate = 0.01
 batch_size = 50
 epochs = 10
@@ -132,7 +132,7 @@ train_data = df_train.loc[0:train_split-1]
 val_data = df_train.loc[train_split:]
 
 
-# In[8]:
+# In[75]:
 
 
 # Prepare training dataset
@@ -148,6 +148,7 @@ dataset_train = tf.keras.preprocessing.timeseries_dataset_from_array(
     x_train,
     y_train,
     sequence_length = sequence_length,
+    sampling_rate=step,
     batch_size = batch_size,
 )
 
@@ -164,6 +165,7 @@ dataset_val = tf.keras.preprocessing.timeseries_dataset_from_array(
     x_val,
     y_val,
     sequence_length = sequence_length,
+    sampling_rate=step,
     batch_size = batch_size,
 )
 
@@ -178,32 +180,43 @@ print(targets.numpy().shape)
 
 # ## Investigation of dataset structure
 
-# In[79]:
+# In[82]:
 
 
-input=[]
-n = 1
-for input, label in dataset_train.take(3):
-    print(n)
-    n=n+1
-
-input.shape
+x_train[0:100:10,0]
 
 
-# In[22]:
+# In[80]:
 
 
-x_train[50:55,:], label[0:5]
+inputs.numpy()[0:10,:,0]
 
 
-# In[77]:
+# In[83]:
 
 
-for i, j in enumerate(input):
-    print(i,j.shape)
+y_train[0:100:10,0], targets.numpy()[0:10,:]
 
 
-# In[12]:
+# In[86]:
+
+
+x_train[0:100:10,-1], y_train[0:100:10,0]
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[16]:
 
 
 # Construct the model
@@ -274,7 +287,7 @@ visualize_loss(history, "Training and Validation Loss")
 train_df
 
 
-# In[70]:
+# In[15]:
 
 
 # Prediciton
