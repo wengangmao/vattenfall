@@ -43,6 +43,8 @@
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -115,7 +117,7 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="xgb_static.html">
-   Static modelling
+   Colab RNN for Vattenfall project by GPU
   </a>
  </li>
  <li class="toctree-l1">
@@ -308,8 +310,19 @@
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#another-way-to-provide-dataset-to-keras-model">
-   2, Another way to provide dataset to Keras model
+  <a class="reference internal nav-link" href="#here-we-will-try-to-resample-the-data-with-interval-10-and-set-step-1">
+   7, Here we will try to resample the data with
+   <span class="math notranslate nohighlight">
+    \(interval =10\)
+   </span>
+   and set step =1
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#span-style-color-blue-font-size-30px-font-weight-800-2-complete-procedure-to-run-keras-model-span">
+   <span style="color: blue; font-size: 30px;  font-weight: 800">
+    2, Complete procedure to run Keras model
+   </span>
   </a>
  </li>
 </ul>
@@ -547,15 +560,15 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model_7&quot;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model&quot;
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-input_8 (InputLayer)         [(None, 100, 6)]          0         
+input_1 (InputLayer)         [(None, 100, 6)]          0         
 _________________________________________________________________
-lstm_7 (LSTM)                (None, 32)                4992      
+lstm (LSTM)                  (None, 32)                4992      
 _________________________________________________________________
-dense_7 (Dense)              (None, 1)                 33        
+dense (Dense)                (None, 1)                 33        
 =================================================================
 Total params: 5,025
 Trainable params: 5,025
@@ -590,29 +603,29 @@ _________________________________________________________________
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/10
-753/753 [==============================] - 7s 8ms/step - loss: 1.8105 - val_loss: 8.4277
+753/753 [==============================] - 8s 7ms/step - loss: 3.1805 - val_loss: 1.3407
 
-Epoch 00001: val_loss improved from inf to 8.42770, saving model to model_checkpoint.h5
+Epoch 00001: val_loss improved from inf to 1.34072, saving model to model_checkpoint.h5
 Epoch 2/10
-753/753 [==============================] - 5s 7ms/step - loss: 0.0012 - val_loss: 8.4490
+753/753 [==============================] - 5s 7ms/step - loss: 0.0012 - val_loss: 1.3457
 
-Epoch 00002: val_loss did not improve from 8.42770
+Epoch 00002: val_loss did not improve from 1.34072
 Epoch 3/10
-753/753 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 8.4722
+753/753 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 1.3575
 
-Epoch 00003: val_loss did not improve from 8.42770
+Epoch 00003: val_loss did not improve from 1.34072
 Epoch 4/10
-753/753 [==============================] - 5s 7ms/step - loss: 0.0012 - val_loss: 8.4811
+753/753 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 1.3697
 
-Epoch 00004: val_loss did not improve from 8.42770
+Epoch 00004: val_loss did not improve from 1.34072
 Epoch 5/10
-753/753 [==============================] - 5s 7ms/step - loss: 9.9291e-04 - val_loss: 8.4981
+753/753 [==============================] - 5s 7ms/step - loss: 0.0012 - val_loss: 1.3746
 
-Epoch 00005: val_loss did not improve from 8.42770
+Epoch 00005: val_loss did not improve from 1.34072
 Epoch 6/10
-753/753 [==============================] - 5s 7ms/step - loss: 7.8732e-04 - val_loss: 8.5134
+753/753 [==============================] - 5s 7ms/step - loss: 9.9973e-04 - val_loss: 1.3843
 
-Epoch 00006: val_loss did not improve from 8.42770
+Epoch 00006: val_loss did not improve from 1.34072
 </pre></div>
 </div>
 </div>
@@ -699,23 +712,23 @@ Build cuda_11.4.r11.4/compiler.30300941_0
 </div>
 <div class="cell_output docutils container">
 <img alt="../../_images/Keras_LSTM_18_0.png" src="../../_images/Keras_LSTM_18_0.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The actual value is: [7.03749], while the predicted value is: [7.0221114]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The actual value is: [7.03749], while the predicted value is: [7.029217]
 </pre></div>
 </div>
 <img alt="../../_images/Keras_LSTM_18_2.png" src="../../_images/Keras_LSTM_18_2.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The actual value is: [7.0276425], while the predicted value is: [7.0221114]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The actual value is: [7.0276425], while the predicted value is: [7.029217]
 </pre></div>
 </div>
 <img alt="../../_images/Keras_LSTM_18_4.png" src="../../_images/Keras_LSTM_18_4.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The actual value is: [7.049805], while the predicted value is: [7.0221114]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The actual value is: [7.049805], while the predicted value is: [7.029217]
 </pre></div>
 </div>
 <img alt="../../_images/Keras_LSTM_18_6.png" src="../../_images/Keras_LSTM_18_6.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The actual value is: [7.06212], while the predicted value is: [7.0221114]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The actual value is: [7.06212], while the predicted value is: [7.029217]
 </pre></div>
 </div>
 <img alt="../../_images/Keras_LSTM_18_8.png" src="../../_images/Keras_LSTM_18_8.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The actual value is: [7.0793625], while the predicted value is: [7.0221114]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The actual value is: [7.0793625], while the predicted value is: [7.029217]
 </pre></div>
 </div>
 </div>
@@ -840,44 +853,44 @@ Build cuda_11.4.r11.4/compiler.30300941_0
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 100, 6)
 (50, 1)
-Model: &quot;model_3&quot;
+Model: &quot;model_1&quot;
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-input_4 (InputLayer)         [(None, 100, 6)]          0         
+input_2 (InputLayer)         [(None, 100, 6)]          0         
 _________________________________________________________________
-lstm_3 (LSTM)                (None, 32)                4992      
+lstm_1 (LSTM)                (None, 32)                4992      
 _________________________________________________________________
-dense_3 (Dense)              (None, 1)                 33        
+dense_1 (Dense)              (None, 1)                 33        
 =================================================================
 Total params: 5,025
 Trainable params: 5,025
 Non-trainable params: 0
 _________________________________________________________________
 Epoch 1/10
-735/735 [==============================] - 6s 7ms/step - loss: 1.4896 - val_loss: 0.6771
+735/735 [==============================] - 6s 7ms/step - loss: 1.6749 - val_loss: 5.9166
 
-Epoch 00001: val_loss improved from inf to 0.67708, saving model to model_checkpoint.h5
+Epoch 00001: val_loss improved from inf to 5.91663, saving model to model_checkpoint.h5
 Epoch 2/10
-735/735 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 0.6931
+735/735 [==============================] - 5s 7ms/step - loss: 0.0013 - val_loss: 5.9464
 
-Epoch 00002: val_loss did not improve from 0.67708
+Epoch 00002: val_loss did not improve from 5.91663
 Epoch 3/10
-735/735 [==============================] - 5s 7ms/step - loss: 0.0012 - val_loss: 0.6991
+735/735 [==============================] - 5s 7ms/step - loss: 0.0012 - val_loss: 5.9565
 
-Epoch 00003: val_loss did not improve from 0.67708
+Epoch 00003: val_loss did not improve from 5.91663
 Epoch 4/10
-735/735 [==============================] - 5s 7ms/step - loss: 0.0010 - val_loss: 0.7075
+735/735 [==============================] - 5s 7ms/step - loss: 9.9394e-04 - val_loss: 5.9735
 
-Epoch 00004: val_loss did not improve from 0.67708
+Epoch 00004: val_loss did not improve from 5.91663
 Epoch 5/10
-735/735 [==============================] - 5s 7ms/step - loss: 8.3755e-04 - val_loss: 0.7167
+735/735 [==============================] - 5s 7ms/step - loss: 8.0812e-04 - val_loss: 5.9885
 
-Epoch 00005: val_loss did not improve from 0.67708
+Epoch 00005: val_loss did not improve from 5.91663
 Epoch 6/10
-735/735 [==============================] - 5s 7ms/step - loss: 6.5938e-04 - val_loss: 0.7146
+735/735 [==============================] - 5s 7ms/step - loss: 6.3145e-04 - val_loss: 5.9819
 
-Epoch 00006: val_loss did not improve from 0.67708
+Epoch 00006: val_loss did not improve from 5.91663
 </pre></div>
 </div>
 <img alt="../../_images/Keras_LSTM_21_1.png" src="../../_images/Keras_LSTM_21_1.png" />
@@ -1019,44 +1032,44 @@ Epoch 00006: val_loss did not improve from 0.67708
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 10, 6)
 (50, 1)
-Model: &quot;model_4&quot;
+Model: &quot;model_2&quot;
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-input_5 (InputLayer)         [(None, 10, 6)]           0         
+input_3 (InputLayer)         [(None, 10, 6)]           0         
 _________________________________________________________________
-lstm_4 (LSTM)                (None, 32)                4992      
+lstm_2 (LSTM)                (None, 32)                4992      
 _________________________________________________________________
-dense_4 (Dense)              (None, 1)                 33        
+dense_2 (Dense)              (None, 1)                 33        
 =================================================================
 Total params: 5,025
 Trainable params: 5,025
 Non-trainable params: 0
 _________________________________________________________________
 Epoch 1/10
-753/753 [==============================] - 5s 5ms/step - loss: 2.9383 - val_loss: 2.4041
+753/753 [==============================] - 5s 5ms/step - loss: 2.5029 - val_loss: 0.4215
 
-Epoch 00001: val_loss improved from inf to 2.40413, saving model to model_checkpoint.h5
+Epoch 00001: val_loss improved from inf to 0.42147, saving model to model_checkpoint.h5
 Epoch 2/10
-753/753 [==============================] - 3s 5ms/step - loss: 0.0012 - val_loss: 2.4224
+753/753 [==============================] - 3s 5ms/step - loss: 0.0012 - val_loss: 0.4271
 
-Epoch 00002: val_loss did not improve from 2.40413
+Epoch 00002: val_loss did not improve from 0.42147
 Epoch 3/10
-753/753 [==============================] - 3s 4ms/step - loss: 0.0013 - val_loss: 2.4400
+753/753 [==============================] - 3s 4ms/step - loss: 0.0013 - val_loss: 0.4371
 
-Epoch 00003: val_loss did not improve from 2.40413
+Epoch 00003: val_loss did not improve from 0.42147
 Epoch 4/10
-753/753 [==============================] - 3s 5ms/step - loss: 0.0012 - val_loss: 2.4472
+753/753 [==============================] - 3s 4ms/step - loss: 0.0013 - val_loss: 0.4426
 
-Epoch 00004: val_loss did not improve from 2.40413
+Epoch 00004: val_loss did not improve from 0.42147
 Epoch 5/10
-753/753 [==============================] - 3s 4ms/step - loss: 9.6689e-04 - val_loss: 2.4616
+753/753 [==============================] - 4s 5ms/step - loss: 0.0011 - val_loss: 0.4474
 
-Epoch 00005: val_loss did not improve from 2.40413
+Epoch 00005: val_loss did not improve from 0.42147
 Epoch 6/10
-753/753 [==============================] - 3s 5ms/step - loss: 7.6413e-04 - val_loss: 2.4724
+753/753 [==============================] - 3s 5ms/step - loss: 8.8771e-04 - val_loss: 0.4551
 
-Epoch 00006: val_loss did not improve from 2.40413
+Epoch 00006: val_loss did not improve from 0.42147
 </pre></div>
 </div>
 <img alt="../../_images/Keras_LSTM_25_1.png" src="../../_images/Keras_LSTM_25_1.png" />
@@ -1198,44 +1211,44 @@ Epoch 00006: val_loss did not improve from 2.40413
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 1000, 6)
 (50, 1)
-Model: &quot;model_6&quot;
+Model: &quot;model_3&quot;
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-input_7 (InputLayer)         [(None, 1000, 6)]         0         
+input_4 (InputLayer)         [(None, 1000, 6)]         0         
 _________________________________________________________________
-lstm_6 (LSTM)                (None, 32)                4992      
+lstm_3 (LSTM)                (None, 32)                4992      
 _________________________________________________________________
-dense_6 (Dense)              (None, 1)                 33        
+dense_3 (Dense)              (None, 1)                 33        
 =================================================================
 Total params: 5,025
 Trainable params: 5,025
 Non-trainable params: 0
 _________________________________________________________________
 Epoch 1/10
-735/735 [==============================] - 26s 34ms/step - loss: 1.5312 - val_loss: 0.9959
+735/735 [==============================] - 26s 34ms/step - loss: 1.7236 - val_loss: 3.6228
 
-Epoch 00001: val_loss improved from inf to 0.99593, saving model to model_checkpoint.h5
+Epoch 00001: val_loss improved from inf to 3.62276, saving model to model_checkpoint.h5
 Epoch 2/10
-735/735 [==============================] - 24s 33ms/step - loss: 0.0013 - val_loss: 1.0128
+735/735 [==============================] - 24s 33ms/step - loss: 0.0013 - val_loss: 3.6557
 
-Epoch 00002: val_loss did not improve from 0.99593
+Epoch 00002: val_loss did not improve from 3.62276
 Epoch 3/10
-735/735 [==============================] - 24s 33ms/step - loss: 0.0012 - val_loss: 1.0184
+735/735 [==============================] - 24s 33ms/step - loss: 0.0013 - val_loss: 3.6720
 
-Epoch 00003: val_loss did not improve from 0.99593
+Epoch 00003: val_loss did not improve from 3.62276
 Epoch 4/10
-735/735 [==============================] - 24s 33ms/step - loss: 9.8170e-04 - val_loss: 1.0286
+735/735 [==============================] - 24s 33ms/step - loss: 0.0011 - val_loss: 3.6864
 
-Epoch 00004: val_loss did not improve from 0.99593
+Epoch 00004: val_loss did not improve from 3.62276
 Epoch 5/10
-735/735 [==============================] - 24s 33ms/step - loss: 7.9717e-04 - val_loss: 1.0367
+735/735 [==============================] - 24s 33ms/step - loss: 8.8305e-04 - val_loss: 3.7074
 
-Epoch 00005: val_loss did not improve from 0.99593
+Epoch 00005: val_loss did not improve from 3.62276
 Epoch 6/10
-735/735 [==============================] - 24s 33ms/step - loss: 6.2199e-04 - val_loss: 1.0326
+735/735 [==============================] - 24s 33ms/step - loss: 7.0599e-04 - val_loss: 3.7107
 
-Epoch 00006: val_loss did not improve from 0.99593
+Epoch 00006: val_loss did not improve from 3.62276
 </pre></div>
 </div>
 <img alt="../../_images/Keras_LSTM_29_1.png" src="../../_images/Keras_LSTM_29_1.png" />
@@ -1258,9 +1271,212 @@ Epoch 00006: val_loss did not improve from 0.99593
 </div>
 </div>
 </div>
-<div class="section" id="another-way-to-provide-dataset-to-keras-model">
-<h1>2, Another way to provide dataset to Keras model<a class="headerlink" href="#another-way-to-provide-dataset-to-keras-model" title="Permalink to this headline">¶</a></h1>
-<p>Please refer to the following link:<a class="reference external" href="https://www.machinecurve.com/index.php/2020/04/05/how-to-find-the-value-for-keras-input_shape-input_dim/">machinecurve</a>.</p>
+<div class="section" id="here-we-will-try-to-resample-the-data-with-interval-10-and-set-step-1">
+<h1>7, Here we will try to resample the data with <span class="math notranslate nohighlight">\(interval =10\)</span> and set step =1<a class="headerlink" href="#here-we-will-try-to-resample-the-data-with-interval-10-and-set-step-1" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Change the time interval</span>
+<span class="n">df_train_resample</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">df_train</span><span class="p">):</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">split_fraction</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">train_split</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_train_resample</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">split_fraction</span><span class="p">)</span>
+<span class="n">past</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">future</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">step</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+
+
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">df_train_resample</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">train_split</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">val_data</span> <span class="o">=</span> <span class="n">df_train_resample</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_split</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prepare training dataset</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">past</span> <span class="o">+</span> <span class="n">future</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">train_split</span>
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">][</span><span class="s1">&#39;head_gross&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+<span class="n">sequence_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">past</span><span class="o">/</span><span class="n">step</span><span class="p">)</span>
+
+<span class="n">dataset_train</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">timeseries_dataset_from_array</span><span class="p">(</span>
+    <span class="n">x_train</span><span class="p">,</span>
+    <span class="n">y_train</span><span class="p">,</span>
+    <span class="n">sequence_length</span> <span class="o">=</span> <span class="n">sequence_length</span><span class="p">,</span>
+    <span class="n">sampling_rate</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Prepare validation dataset</span>
+<span class="n">x_end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_data</span><span class="p">)</span> <span class="o">-</span> <span class="n">past</span> <span class="o">-</span> <span class="n">future</span>
+<span class="n">label_start</span> <span class="o">=</span> <span class="n">train_split</span> <span class="o">+</span> <span class="n">past</span> <span class="o">+</span> <span class="n">future</span>
+
+<span class="n">x_val</span> <span class="o">=</span> <span class="n">val_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">x_end</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_val</span> <span class="o">=</span> <span class="n">val_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">label_start</span><span class="p">:][</span><span class="s1">&#39;head_gross&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_val</span> <span class="o">=</span> <span class="n">y_val</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+
+<span class="n">dataset_val</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">preprocessing</span><span class="o">.</span><span class="n">timeseries_dataset_from_array</span><span class="p">(</span>
+    <span class="n">x_val</span><span class="p">,</span>
+    <span class="n">y_val</span><span class="p">,</span>
+    <span class="n">sequence_length</span> <span class="o">=</span> <span class="n">sequence_length</span><span class="p">,</span>
+    <span class="n">sampling_rate</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Print the dimension of the inputs and targets </span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataset_train</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+  <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">targets</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1">## Construct the model</span>
+<span class="c1"># Construct the model</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+<span class="n">lstm_out</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">32</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="n">lstm_out</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">),</span> <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+
+<span class="c1"># Estimate the LSTM model</span>
+<span class="n">path_checkpoint</span> <span class="o">=</span> <span class="s2">&quot;model_checkpoint.h5&quot;</span>
+<span class="n">es_callback</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">,</span> <span class="n">min_delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">modelckpt_callback</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span>
+    <span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">,</span>
+    <span class="n">filepath</span><span class="o">=</span><span class="n">path_checkpoint</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">save_weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">dataset_train</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span>
+    <span class="n">validation_data</span><span class="o">=</span><span class="n">dataset_val</span><span class="p">,</span>
+    <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">es_callback</span><span class="p">,</span> <span class="n">modelckpt_callback</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># Visualize the results</span>
+<span class="k">def</span> <span class="nf">visualize_loss</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span>
+    <span class="n">val_loss</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_loss&quot;</span><span class="p">]</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">loss</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Training loss&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation loss&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># plot the modelling history results</span>
+<span class="n">visualize_loss</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="s2">&quot;Training and Validation Loss&quot;</span><span class="p">)</span>
+
+<span class="c1"># plot the prediction results</span>
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataset_val</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">show_plot</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]],</span>
+        <span class="n">future</span><span class="p">,</span>
+        <span class="s2">&quot;Single Step Prediction&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 20, 6)
+(50, 1)
+Model: &quot;model_4&quot;
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_5 (InputLayer)         [(None, 20, 6)]           0         
+_________________________________________________________________
+lstm_4 (LSTM)                (None, 32)                4992      
+_________________________________________________________________
+dense_4 (Dense)              (None, 1)                 33        
+=================================================================
+Total params: 5,025
+Trainable params: 5,025
+Non-trainable params: 0
+_________________________________________________________________
+Epoch 1/10
+76/76 [==============================] - 2s 9ms/step - loss: 21.8318 - val_loss: 16.7973
+
+Epoch 00001: val_loss improved from inf to 16.79725, saving model to model_checkpoint.h5
+Epoch 2/10
+76/76 [==============================] - 0s 6ms/step - loss: 1.1807 - val_loss: 9.7418
+
+Epoch 00002: val_loss improved from 16.79725 to 9.74181, saving model to model_checkpoint.h5
+Epoch 3/10
+76/76 [==============================] - 0s 6ms/step - loss: 0.0142 - val_loss: 9.0928
+
+Epoch 00003: val_loss improved from 9.74181 to 9.09284, saving model to model_checkpoint.h5
+Epoch 4/10
+76/76 [==============================] - 0s 6ms/step - loss: 0.0028 - val_loss: 9.0786
+
+Epoch 00004: val_loss improved from 9.09284 to 9.07864, saving model to model_checkpoint.h5
+Epoch 5/10
+76/76 [==============================] - 0s 6ms/step - loss: 0.0028 - val_loss: 9.0819
+
+Epoch 00005: val_loss did not improve from 9.07864
+Epoch 6/10
+76/76 [==============================] - 0s 6ms/step - loss: 0.0029 - val_loss: 9.0841
+
+Epoch 00006: val_loss did not improve from 9.07864
+Epoch 7/10
+76/76 [==============================] - 0s 6ms/step - loss: 0.0029 - val_loss: 9.0855
+
+Epoch 00007: val_loss did not improve from 9.07864
+Epoch 8/10
+76/76 [==============================] - 0s 6ms/step - loss: 0.0030 - val_loss: 9.0861
+
+Epoch 00008: val_loss did not improve from 9.07864
+Epoch 9/10
+76/76 [==============================] - 0s 6ms/step - loss: 0.0030 - val_loss: 9.0858
+
+Epoch 00009: val_loss did not improve from 9.07864
+</pre></div>
+</div>
+<img alt="../../_images/Keras_LSTM_33_1.png" src="../../_images/Keras_LSTM_33_1.png" />
+<img alt="../../_images/Keras_LSTM_33_2.png" src="../../_images/Keras_LSTM_33_2.png" />
+<img alt="../../_images/Keras_LSTM_33_3.png" src="../../_images/Keras_LSTM_33_3.png" />
+</div>
+</div>
+</div>
+<div class="section" id="span-style-color-blue-font-size-30px-font-weight-800-2-complete-procedure-to-run-keras-model-span">
+<h1><span style = "color: blue; font-size: 30px;  font-weight: 800"> 2, Complete procedure to run Keras model</span><a class="headerlink" href="#span-style-color-blue-font-size-30px-font-weight-800-2-complete-procedure-to-run-keras-model-span" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1, read the data</span>
+
+
+<span class="c1"># 2, organize the data</span>
+
+<span class="c1"># 3, prepare the model</span>
+
+<span class="c1"># 4, run the ML</span>
+
+<span class="c1"># 5, check the results</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
