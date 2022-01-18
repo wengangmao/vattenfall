@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New Section &#8212; Optimization of pump operation under transients in hydraulic turbine rigs</title>
+    <title>Static modelling &#8212; Optimization of pump operation under transients in hydraulic turbine rigs</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -53,7 +53,7 @@
     <link rel="shortcut icon" href="../../_static/turbine.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Tensorflow: vattenfall" href="rnn_tensorflow.html" />
+    <link rel="next" title="Tensorflow modelling" href="rnn_tensorflow.html" />
     <link rel="prev" title="Research Logbook – Vattenfall turbine modelling" href="../logbook.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -120,17 +120,17 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="rnn_tensorflow.html">
-   Tensorflow: vattenfall
+   Tensorflow modelling
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="Keras_LSTM.html">
-   1, Load the data
+   Keras LSTM
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="arima_pytorch.html">
-   RNN ARIMA Modeling
+   ARIMA &amp; Pytorch Modeling
   </a>
  </li>
 </ul>
@@ -245,10 +245,22 @@
             </div>
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#use-the-rnn-method-to-build-the-ml-model-correlated-time-series">
-   2, Use the RNN method to build the ML model (correlated time series)
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Static modelling
   </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#new-section">
+   New Section
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#use-the-rnn-method-to-build-the-ml-model-correlated-time-series">
+     2, Use the RNN method to build the ML model (correlated time series)
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -261,7 +273,8 @@
         
               <div>
                 
-  <p>Colab RNN for Vattenfall project by GPU</p>
+  <div class="section" id="static-modelling">
+<h1>Static modelling<a class="headerlink" href="#static-modelling" title="Permalink to this headline">¶</a></h1>
 <ul>
 <li>Explore statistical correlation between different parameters</li>
 <li>ML to get static condition</li>
@@ -318,6 +331,7 @@
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="new-section">
 <h1>New Section<a class="headerlink" href="#new-section" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
@@ -341,7 +355,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/xgb_static_7_0.png" src="../../_images/xgb_static_7_0.png" />
+<img alt="../../_images/xgb_static_6_0.png" src="../../_images/xgb_static_6_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -357,8 +371,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/xgb_static_8_0.png" src="../../_images/xgb_static_8_0.png" />
-<img alt="../../_images/xgb_static_8_1.png" src="../../_images/xgb_static_8_1.png" />
+<img alt="../../_images/xgb_static_7_0.png" src="../../_images/xgb_static_7_0.png" />
+<img alt="../../_images/xgb_static_7_1.png" src="../../_images/xgb_static_7_1.png" />
 </div>
 </div>
 <div class="section" id="use-the-rnn-method-to-build-the-ml-model-correlated-time-series">
@@ -601,9 +615,9 @@ Build cuda_11.0_bu.TC445_37.28845127_0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/xgb_static_20_0.png" src="../../_images/xgb_static_20_0.png" />
-<img alt="../../_images/xgb_static_20_1.png" src="../../_images/xgb_static_20_1.png" />
-<img alt="../../_images/xgb_static_20_2.png" src="../../_images/xgb_static_20_2.png" />
+<img alt="../../_images/xgb_static_19_0.png" src="../../_images/xgb_static_19_0.png" />
+<img alt="../../_images/xgb_static_19_1.png" src="../../_images/xgb_static_19_1.png" />
+<img alt="../../_images/xgb_static_19_2.png" src="../../_images/xgb_static_19_2.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -643,63 +657,63 @@ Build cuda_11.0_bu.TC445_37.28845127_0
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 19,Loss:0.065407
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_1.png" src="../../_images/xgb_static_21_1.png" />
+<img alt="../../_images/xgb_static_20_1.png" src="../../_images/xgb_static_20_1.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 39,Loss:0.054160
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_3.png" src="../../_images/xgb_static_21_3.png" />
+<img alt="../../_images/xgb_static_20_3.png" src="../../_images/xgb_static_20_3.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 59,Loss:0.052042
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_5.png" src="../../_images/xgb_static_21_5.png" />
+<img alt="../../_images/xgb_static_20_5.png" src="../../_images/xgb_static_20_5.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 79,Loss:0.049947
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_7.png" src="../../_images/xgb_static_21_7.png" />
+<img alt="../../_images/xgb_static_20_7.png" src="../../_images/xgb_static_20_7.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 99,Loss:0.046264
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_9.png" src="../../_images/xgb_static_21_9.png" />
+<img alt="../../_images/xgb_static_20_9.png" src="../../_images/xgb_static_20_9.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 119,Loss:0.042869
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_11.png" src="../../_images/xgb_static_21_11.png" />
+<img alt="../../_images/xgb_static_20_11.png" src="../../_images/xgb_static_20_11.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 139,Loss:0.039421
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_13.png" src="../../_images/xgb_static_21_13.png" />
+<img alt="../../_images/xgb_static_20_13.png" src="../../_images/xgb_static_20_13.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 159,Loss:0.036280
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_15.png" src="../../_images/xgb_static_21_15.png" />
+<img alt="../../_images/xgb_static_20_15.png" src="../../_images/xgb_static_20_15.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 179,Loss:0.033471
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_17.png" src="../../_images/xgb_static_21_17.png" />
+<img alt="../../_images/xgb_static_20_17.png" src="../../_images/xgb_static_20_17.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 199,Loss:0.031238
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_19.png" src="../../_images/xgb_static_21_19.png" />
+<img alt="../../_images/xgb_static_20_19.png" src="../../_images/xgb_static_20_19.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 219,Loss:0.340514
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_21.png" src="../../_images/xgb_static_21_21.png" />
+<img alt="../../_images/xgb_static_20_21.png" src="../../_images/xgb_static_20_21.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 239,Loss:0.437077
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_23.png" src="../../_images/xgb_static_21_23.png" />
+<img alt="../../_images/xgb_static_20_23.png" src="../../_images/xgb_static_20_23.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 259,Loss:0.177472
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_25.png" src="../../_images/xgb_static_21_25.png" />
+<img alt="../../_images/xgb_static_20_25.png" src="../../_images/xgb_static_20_25.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 279,Loss:0.101393
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_27.png" src="../../_images/xgb_static_21_27.png" />
+<img alt="../../_images/xgb_static_20_27.png" src="../../_images/xgb_static_20_27.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 299,Loss:0.055096
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_21_29.png" src="../../_images/xgb_static_21_29.png" />
+<img alt="../../_images/xgb_static_20_29.png" src="../../_images/xgb_static_20_29.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -754,7 +768,7 @@ Build cuda_11.0_bu.TC445_37.28845127_0
         <a class="right-next" href="rnn_tensorflow.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Tensorflow: vattenfall</p>
+                <p class="prevnext-title">Tensorflow modelling</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

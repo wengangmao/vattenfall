@@ -13,4 +13,10 @@ Run the following steps to compile the Jupter book:
 > 3. Enter into the "vattenfall" folder
 > 4. Publish the html pages by run "ghp-import -n -p -f _build/html"
 
+Or, alternatively, an easier approach to build as follows:
+
+> 1. Go to the "vattenfall" folder
+> 2. Build the book by run "jb build ."
+> 3. Publish the html pages by run "ghp-import -n -p -f _build/html"
+
 Then you should be able to access the [Vattenfall_project logbook](https://wengangmao.github.io/vattenfall/contents/home.html)!

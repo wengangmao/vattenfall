@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # RNN ARIMA Modeling
+# # ARIMA & Pytorch Modeling
 
 # In[2]:
 

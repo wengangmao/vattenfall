@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Colab RNN for Vattenfall project by GPU
+# # Static modelling
 # 
 # <ul>
 # <li>Explore statistical correlation between different parameters</li>
@@ -9,12 +9,6 @@
 # <li>Deep learning to test $Head$ in terms of pump speed and  $head$</li>
 # </ul>
 # 
-
-# In[ ]:
-
-
-
-
 
 # In[ ]:
 

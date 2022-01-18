@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Tensorflow: vattenfall
+# # Tensorflow modelling
 # 
 # **Deep learning to model transient dynamics of hydro Turbine**
 
