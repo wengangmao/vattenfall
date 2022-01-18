@@ -321,14 +321,10 @@
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#single-step-model-head-t-f-guide-open-t-1-t-2-pump-speed-t-1-t-2-discharge-rate-t-1-t-2">
+    <a class="reference internal nav-link" href="#single-step-model">
      5,
      <strong>
-      Single step model: $
-      <span class="math notranslate nohighlight">
-       \(Head\_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)\)
-      </span>
-      $
+      Single step model
      </strong>
     </a>
     <ul class="nav section-nav flex-column">
@@ -350,19 +346,13 @@
       </ul>
      </li>
      <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#linear-model-with-narrow-window-dataset-span-style-background-yellow-windowgenerator-input-width-1-label-width-1-shift-1-span">
+      <a class="reference internal nav-link" href="#linear-model-with-narrow-window-dataset">
        5.2, Linear model with narrow window dataset
-       <span style="background: yellow">
-        ”WindowGenerator(input_width=1, label_width=1, shift=1)”
-       </span>
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#linear-model-for-wide-window-data-inputs-span-style-background-yellow-windowgenerator-input-width-300-label-width-300-shift-1-span">
+      <a class="reference internal nav-link" href="#linear-model-for-wide-window-data-inputs">
        5.3, linear model for wide window data inputs
-       <span style="background: yellow">
-        ”WindowGenerator(input_width=300, label_width=300, shift=1)”
-       </span>
       </a>
      </li>
      <li class="toc-h3 nav-item toc-entry">
@@ -373,13 +363,10 @@
     </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#cnn-model-construction-for-x-t-f-x-t-1-x-t-2-x-t-3">
+    <a class="reference internal nav-link" href="#cnn-model-construction">
      6,
      <strong>
-      CNN Model construction for
-      <span class="math notranslate nohighlight">
-       \(x_t = f(X_{t-1}, X_{t-2}, X_{t-3},...)\)
-      </span>
+      CNN Model construction
      </strong>
     </a>
     <ul class="nav section-nav flex-column">
@@ -1303,8 +1290,10 @@ Labels shape (batch, time, features): (32, 1, 5)
 </div>
 </div>
 </div>
-<div class="section" id="single-step-model-head-t-f-guide-open-t-1-t-2-pump-speed-t-1-t-2-discharge-rate-t-1-t-2">
-<h2>5, <strong>Single step model: $<span class="math notranslate nohighlight">\(Head\_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)\)</span>$</strong><a class="headerlink" href="#single-step-model-head-t-f-guide-open-t-1-t-2-pump-speed-t-1-t-2-discharge-rate-t-1-t-2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="single-step-model">
+<h2>5, <strong>Single step model</strong><a class="headerlink" href="#single-step-model" title="Permalink to this headline">¶</a></h2>
+<p><span style = "font-weight: 500; font-size: 20px"><span class="math notranslate nohighlight">\(Head\_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)\)</span></span> <br />
+<br /></p>
 <div class="section" id="baseline-and-linear-models">
 <h3>5.1, Baseline and linear models<a class="headerlink" href="#baseline-and-linear-models" title="Permalink to this headline">¶</a></h3>
 <table class="colwidths-auto table">
@@ -1428,8 +1417,9 @@ Labels shape (batch, time, features): (32, 1, 1)
 </ul>
 </div>
 </div>
-<div class="section" id="linear-model-with-narrow-window-dataset-span-style-background-yellow-windowgenerator-input-width-1-label-width-1-shift-1-span">
-<h3>5.2, Linear model with narrow window dataset <span style = "background: yellow">”WindowGenerator(input_width=1, label_width=1, shift=1)”</span><a class="headerlink" href="#linear-model-with-narrow-window-dataset-span-style-background-yellow-windowgenerator-input-width-1-label-width-1-shift-1-span" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="linear-model-with-narrow-window-dataset">
+<h3>5.2, Linear model with narrow window dataset<a class="headerlink" href="#linear-model-with-narrow-window-dataset" title="Permalink to this headline">¶</a></h3>
+<p><strong>NB: <span style = "background: yellow">”WindowGenerator(input_width=1, label_width=1, shift=1)”</span></strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define linear model from the package</span>
@@ -1518,8 +1508,9 @@ Epoch 3/3
 </div>
 </div>
 </div>
-<div class="section" id="linear-model-for-wide-window-data-inputs-span-style-background-yellow-windowgenerator-input-width-300-label-width-300-shift-1-span">
-<h3>5.3, linear model for wide window data inputs <span style = "background: yellow">”WindowGenerator(input_width=300, label_width=300, shift=1)”</span><a class="headerlink" href="#linear-model-for-wide-window-data-inputs-span-style-background-yellow-windowgenerator-input-width-300-label-width-300-shift-1-span" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="linear-model-for-wide-window-data-inputs">
+<h3>5.3, linear model for wide window data inputs<a class="headerlink" href="#linear-model-for-wide-window-data-inputs" title="Permalink to this headline">¶</a></h3>
+<p><strong>NB: <span style = "background: yellow">”WindowGenerator(input_width=300, label_width=300, shift=1)”</span></strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the result to check the linear model</span>
@@ -1601,8 +1592,9 @@ Epoch 3/3
 </div>
 </div>
 </div>
-<div class="section" id="cnn-model-construction-for-x-t-f-x-t-1-x-t-2-x-t-3">
-<h2>6, <strong>CNN Model construction for <span class="math notranslate nohighlight">\(x_t = f(X_{t-1}, X_{t-2}, X_{t-3},...)\)</span></strong><a class="headerlink" href="#cnn-model-construction-for-x-t-f-x-t-1-x-t-2-x-t-3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cnn-model-construction">
+<h2>6, <strong>CNN Model construction</strong><a class="headerlink" href="#cnn-model-construction" title="Permalink to this headline">¶</a></h2>
+<p><span style = "font-weight: 500; font-size: 20px"><span class="math notranslate nohighlight">\(x_t = f(X_{t-1}, X_{t-2}, X_{t-3},...)\)</span></span> <br /> <br /></p>
 <div class="section" id="set-up-the-convolutional-neuron-network-cnn-dataset">
 <h3>6.1, Set up the convolutional neuron network (CNN) dataset.<a class="headerlink" href="#set-up-the-convolutional-neuron-network-cnn-dataset" title="Permalink to this headline">¶</a></h3>
 <p><img alt="RNN_Data_Structrue" src="../../_images/cnn_dataset.png" /></p>
@@ -1697,8 +1689,8 @@ Label column name(s): [&#39;head_gross&#39;]
 </div>
 <div class="section" id="convolutional-neuron-network">
 <h3>6.3, Convolutional Neuron Network:<a class="headerlink" href="#convolutional-neuron-network" title="Permalink to this headline">¶</a></h3>
-<p><span style = "color: blue; font-size: 20px"> Narrow window: input_width = CONV_width = 3</span>
-Difference between multi-step dense model and CNN model</p>
+<p><strong><span style = "color: blue; font-size: 20px"> Narrow window: input_width = CONV_width = 3</span></strong></p>
+<p>Difference between multi-step dense model and CNN model</p>
 <ul class="simple">
 <li><p>model construction: CNN model require input_width, but no need for layers.flatten() and layers.reshape([1, -1])</p></li>
 <li><p>data structure: output of CNN datastructure is (#input_window -1) dimensions less</p></li>
