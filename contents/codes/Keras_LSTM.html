@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1, Load the data &#8212; Optimization of pump operation under transients in hydraulic turbine rigs</title>
+    <title>Keras LSTM &#8212; Optimization of pump operation under transients in hydraulic turbine rigs</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -127,7 +127,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   1, Load the data
+   Keras LSTM
   </a>
  </li>
  <li class="toctree-l1">
@@ -249,74 +249,81 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   1, Load the data
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#preprocessing-data-normalize-train-validation-test-etc">
-   2, Preprocessing data: normalize, train, validation, test, etc.
+   Keras LSTM
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#resample-the-data-with-low-resolution">
-     2.1, resample the data with low-resolution
+    <a class="reference internal nav-link" href="#load-the-data">
+     1, Load the data
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#normalize-the-data">
-     2.2, normalize the data
+    <a class="reference internal nav-link" href="#preprocessing-data-normalize-train-validation-test-etc">
+     2, Preprocessing data: normalize, train, validation, test, etc.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#resample-the-data-with-low-resolution">
+       2.1, resample the data with low-resolution
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#normalize-the-data">
+       2.2, normalize the data
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#analysis-step-1-past-100-future-10-font-color-blue-2021-11-05-font">
+     3, Analysis: step = 1; past =100; future = 10
+     <font color="blue">
+      <strong>
+       (2021-11-05)
+      </strong>
+     </font>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#analysis-step-10-past-1000-future-10-font-color-blue-2021-11-06-font">
+     4, Analysis: step = 10; past =1000; future = 10
+     <font color="blue">
+      <strong>
+       (2021-11-06)
+      </strong>
+     </font>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#analysis-step-10-past-100-future-10-font-color-blue-2021-11-06-font">
+     5, Analysis: step = 10; past =100; future = 10
+     <font color="blue">
+      <strong>
+       (2021-11-06)
+      </strong>
+     </font>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#analysis-step-1-past-1000-future-10-font-color-blue-2021-11-06-font">
+     6, Analysis: step = 1; past =1000; future = 10
+     <font color="blue">
+      <strong>
+       (2021-11-06)
+      </strong>
+     </font>
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#here-we-will-try-to-resample-the-data-with-interval-10-and-set-step-1">
+     7, Here we will try to resample the data with
+     <span class="math notranslate nohighlight">
+      \(interval =10\)
+     </span>
+     and set step =1
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#analysis-step-1-past-100-future-10-font-color-blue-2021-11-05-font">
-   3, Analysis: step = 1; past =100; future = 10
-   <font color="blue">
-    <strong>
-     (2021-11-05)
-    </strong>
-   </font>
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#analysis-step-10-past-1000-future-10-font-color-blue-2021-11-06-font">
-   4, Analysis: step = 10; past =1000; future = 10
-   <font color="blue">
-    <strong>
-     (2021-11-06)
-    </strong>
-   </font>
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#analysis-step-10-past-100-future-10-font-color-blue-2021-11-06-font">
-   5, Analysis: step = 10; past =100; future = 10
-   <font color="blue">
-    <strong>
-     (2021-11-06)
-    </strong>
-   </font>
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#analysis-step-1-past-1000-future-10-font-color-blue-2021-11-06-font">
-   6, Analysis: step = 1; past =1000; future = 10
-   <font color="blue">
-    <strong>
-     (2021-11-06)
-    </strong>
-   </font>
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#here-we-will-try-to-resample-the-data-with-interval-10-and-set-step-1">
-   7, Here we will try to resample the data with
-   <span class="math notranslate nohighlight">
-    \(interval =10\)
-   </span>
-   and set step =1
-  </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#span-style-color-blue-font-size-30px-font-weight-800-2-complete-procedure-to-run-keras-model-span">
@@ -337,6 +344,8 @@
               <div>
                 
   <p><a href="https://colab.research.google.com/github/wengangmao/vattenfall/blob/main/Keras_LSTM.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
+<div class="section" id="keras-lstm">
+<h1>Keras LSTM<a class="headerlink" href="#keras-lstm" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -354,7 +363,7 @@
 </div>
 </div>
 <div class="section" id="load-the-data">
-<h1>1, Load the data<a class="headerlink" href="#load-the-data" title="Permalink to this headline">¶</a></h1>
+<h2>1, Load the data<a class="headerlink" href="#load-the-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
@@ -414,9 +423,9 @@
 </div>
 </div>
 <div class="section" id="preprocessing-data-normalize-train-validation-test-etc">
-<h1>2, Preprocessing data: normalize, train, validation, test, etc.<a class="headerlink" href="#preprocessing-data-normalize-train-validation-test-etc" title="Permalink to this headline">¶</a></h1>
+<h2>2, Preprocessing data: normalize, train, validation, test, etc.<a class="headerlink" href="#preprocessing-data-normalize-train-validation-test-etc" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="resample-the-data-with-low-resolution">
-<h2>2.1, resample the data with low-resolution<a class="headerlink" href="#resample-the-data-with-low-resolution" title="Permalink to this headline">¶</a></h2>
+<h3>2.1, resample the data with low-resolution<a class="headerlink" href="#resample-the-data-with-low-resolution" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">feature_keys</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">5</span><span class="p">]]][</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="mf">0.2</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="mf">0.8</span><span class="p">):</span><span class="mi">10</span><span class="p">]</span>
@@ -445,7 +454,7 @@
 </div>
 </div>
 <div class="section" id="normalize-the-data">
-<h2>2.2, normalize the data<a class="headerlink" href="#normalize-the-data" title="Permalink to this headline">¶</a></h2>
+<h3>2.2, normalize the data<a class="headerlink" href="#normalize-the-data" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, we assume all data are used for the training (the time series is not that stationary for the prediction)</span>
@@ -471,7 +480,7 @@
 </div>
 </div>
 <div class="section" id="analysis-step-1-past-100-future-10-font-color-blue-2021-11-05-font">
-<h1>3, Analysis: step = 1; past =100; future = 10 <font color ='blue'>  <strong>(2021-11-05)</strong></font><a class="headerlink" href="#analysis-step-1-past-100-future-10-font-color-blue-2021-11-05-font" title="Permalink to this headline">¶</a></h1>
+<h2>3, Analysis: step = 1; past =100; future = 10 <font color ='blue'>  <strong>(2021-11-05)</strong></font><a class="headerlink" href="#analysis-step-1-past-100-future-10-font-color-blue-2021-11-05-font" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -735,7 +744,7 @@ Build cuda_11.4.r11.4/compiler.30300941_0
 </div>
 </div>
 <div class="section" id="analysis-step-10-past-1000-future-10-font-color-blue-2021-11-06-font">
-<h1>4, Analysis: step = 10; past =1000; future = 10 <font color ='blue'>  <strong>(2021-11-06)</strong></font><a class="headerlink" href="#analysis-step-10-past-1000-future-10-font-color-blue-2021-11-06-font" title="Permalink to this headline">¶</a></h1>
+<h2>4, Analysis: step = 10; past =1000; future = 10 <font color ='blue'>  <strong>(2021-11-06)</strong></font><a class="headerlink" href="#analysis-step-10-past-1000-future-10-font-color-blue-2021-11-06-font" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -914,7 +923,7 @@ Epoch 00006: val_loss did not improve from 5.91663
 </div>
 </div>
 <div class="section" id="analysis-step-10-past-100-future-10-font-color-blue-2021-11-06-font">
-<h1>5, Analysis: step = 10; past =100; future = 10 <font color ='blue'>  <strong>(2021-11-06)</strong></font><a class="headerlink" href="#analysis-step-10-past-100-future-10-font-color-blue-2021-11-06-font" title="Permalink to this headline">¶</a></h1>
+<h2>5, Analysis: step = 10; past =100; future = 10 <font color ='blue'>  <strong>(2021-11-06)</strong></font><a class="headerlink" href="#analysis-step-10-past-100-future-10-font-color-blue-2021-11-06-font" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1093,7 +1102,7 @@ Epoch 00006: val_loss did not improve from 0.42147
 </div>
 </div>
 <div class="section" id="analysis-step-1-past-1000-future-10-font-color-blue-2021-11-06-font">
-<h1>6, Analysis: step = 1; past =1000; future = 10 <font color ='blue'>  <strong>(2021-11-06)</strong></font><a class="headerlink" href="#analysis-step-1-past-1000-future-10-font-color-blue-2021-11-06-font" title="Permalink to this headline">¶</a></h1>
+<h2>6, Analysis: step = 1; past =1000; future = 10 <font color ='blue'>  <strong>(2021-11-06)</strong></font><a class="headerlink" href="#analysis-step-1-past-1000-future-10-font-color-blue-2021-11-06-font" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1272,7 +1281,7 @@ Epoch 00006: val_loss did not improve from 3.62276
 </div>
 </div>
 <div class="section" id="here-we-will-try-to-resample-the-data-with-interval-10-and-set-step-1">
-<h1>7, Here we will try to resample the data with <span class="math notranslate nohighlight">\(interval =10\)</span> and set step =1<a class="headerlink" href="#here-we-will-try-to-resample-the-data-with-interval-10-and-set-step-1" title="Permalink to this headline">¶</a></h1>
+<h2>7, Here we will try to resample the data with <span class="math notranslate nohighlight">\(interval =10\)</span> and set step =1<a class="headerlink" href="#here-we-will-try-to-resample-the-data-with-interval-10-and-set-step-1" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1456,6 +1465,7 @@ Epoch 00009: val_loss did not improve from 9.07864
 <img alt="../../_images/Keras_LSTM_34_1.png" src="../../_images/Keras_LSTM_34_1.png" />
 <img alt="../../_images/Keras_LSTM_34_2.png" src="../../_images/Keras_LSTM_34_2.png" />
 <img alt="../../_images/Keras_LSTM_34_3.png" src="../../_images/Keras_LSTM_34_3.png" />
+</div>
 </div>
 </div>
 </div>
