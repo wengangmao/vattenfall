@@ -589,7 +589,10 @@ for example_inputs, example_labels in w.train.take(1):
   print(f'Labels shape (batch, time, features): {example_labels.shape}')
 
 
-# ## 5, **Single step model: $$Head\_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)$$**
+# ## 5, **Single step model**
+# 
+# <span style = "font-weight: 500; font-size: 20px">$Head\_t = f(guide\_open_{(t-1, t-2, ...)}, pump\_speed_{(t-1, t-2, ...)}, discharge\_rate_{(t-1, t-2, ...)},...)$</span> <br />
+# <br />
 
 # ### 5.1, Baseline and linear models
 # | <span style = "color: red; font-weight: 500; font-size: 20px"> Baseline narrow window </span> | <span style = "color: red; font-weight: 500; font-size: 20px">Baseline wide window </span> | <span style = "color: blue; font-weight: 500; font-size: 20px">Linear model with narrow window</span> | <span style = "color: blue; font-weight: 500; font-size: 20px"> Linear model with wide window </span> |
@@ -667,7 +670,8 @@ wide_window.plot(baseline)
 # * it is important to keep "baseline = Baseline(label_index=single_step_window.column_indices['head_gross'])" 
 # * the index should be the same as the WindowGenerator function!!***
 
-# ### 5.2, Linear model with narrow window dataset <span style = "background: yellow">"WindowGenerator(input_width=1, label_width=1, shift=1)"</span>
+# ### 5.2, Linear model with narrow window dataset
+# **NB: <span style = "background: yellow">"WindowGenerator(input_width=1, label_width=1, shift=1)"</span>**
 
 # In[27]:
 
@@ -729,7 +733,8 @@ ax2.plot(single_step_window.example[1].numpy().flatten(), 'k')
 ax2.set_title("NB: the linear model is the same as the optimized in the history, which is diferent from the above one using only one running")
 
 
-# ### 5.3, linear model for wide window data inputs <span style = "background: yellow">"WindowGenerator(input_width=300, label_width=300, shift=1)"</span>
+# ### 5.3, linear model for wide window data inputs
+# **NB: <span style = "background: yellow">"WindowGenerator(input_width=300, label_width=300, shift=1)"</span>**
 
 # In[30]:
 
@@ -789,7 +794,9 @@ ax2.plot(linear(single_step_window.example[0]).numpy().flatten(), 'b')
 ax2.plot(single_step_window.example[1].numpy().flatten(), 'k')
 
 
-# ## 6, **CNN Model construction for $x_t = f(X_{t-1}, X_{t-2}, X_{t-3},...)$**
+# ## 6, **CNN Model construction**
+# 
+# <span style = "font-weight: 500; font-size: 20px">$x_t = f(X_{t-1}, X_{t-2}, X_{t-3},...)$</span> <br /> <br />
 
 # ### 6.1, Set up the convolutional neuron network (CNN) dataset.
 # ![RNN_Data_Structrue](./images/cnn_dataset.png)
@@ -858,7 +865,8 @@ plt.show()
 
 # ### 6.3, Convolutional Neuron Network:
 # 
-# <span style = "color: blue; font-size: 20px"> Narrow window: input_width = CONV_width = 3</span>
+# **<span style = "color: blue; font-size: 20px"> Narrow window: input_width = CONV_width = 3</span>**
+# 
 # Difference between multi-step dense model and CNN model
 # * model construction: CNN model require input_width, but no need for layers.flatten() and layers.reshape([1, -1])
 # * data structure: output of CNN datastructure is (#input_window -1) dimensions less
@@ -1130,6 +1138,8 @@ multi_window.plot(multi_lstm_model)
 
 
 # ## 7.3 Illustration of autoregressive RNN model
+# 
+# 
 # ![rnn_autoregressive](./images/multistep_rnn_autoregressive.png)
 # 
 # **Model description of autoregressive rnn model**
