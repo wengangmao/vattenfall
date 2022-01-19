@@ -10,7 +10,7 @@
 # </ul>
 # 
 
-# In[ ]:
+# In[1]:
 
 
 import pandas as pd
@@ -27,41 +27,29 @@ get_ipython().run_line_magic('load_ext', 'autoreload')
 get_ipython().run_line_magic('autoreload', '2')
 
 
-# In[ ]:
+# ## 1A. Load data from google drive
+
+# In[2]:
 
 
-## load the file from local directory
-#from google.colab import files
-#uploaded = files.upload()
-
-from google.colab import drive
-drive.mount('/content/drive')
-
-#drive.flush_and_unmount()
-#print('All changes made in this colab session should now be visible in Drive.')
+#from google.colab import drive
+#drive.mount('/content/drive')
 
 
-# In[1]:
+# ## 1B. Load data from local drive
 
-
-from google.colab import drive
-drive.mount('/content/drive')
-
-
-# # New Section
-
-# In[ ]:
+# In[3]:
 
 
 #import io
 #df = pd.read_csv(io.StringIO(uploaded['vattenfall_turbine.csv'].decode('utf-8')))
 
-df = pd.read_csv('/content/drive/MyDrive/Data/vattenfall_turbine.csv')
+df = pd.read_csv(r'C:\Users\wengang\OneDrive - Chalmers\2021_Vattenfall\vattenfall_turbine.csv')
 keys = df.dtypes.index[1:11]
 df_data = df[df.dtypes.index[1:10]]
 
 
-# In[ ]:
+# In[4]:
 
 
 df_data.plot(subplots=True)
@@ -69,7 +57,7 @@ df_data.plot(subplots=True)
 plt.show()
 
 
-# In[ ]:
+# In[5]:
 
 
 #sns.lmplot(df.dtypes.index[1],df.dtypes.index[2], data=df, fit_reg=False)
@@ -81,211 +69,194 @@ sns.jointplot(data=df_data, x='pump102_speed', y='pump101_speed', kind='reg', co
 plt.show()
 
 
-# ## 2, Use the RNN method to build the ML model (correlated time series)
+# ## 2, Use various static ML methods to derive models for Head_g
 
-# In[ ]:
-
-
-get_ipython().system(' nvcc --version')
+# In[6]:
 
 
-# In[ ]:
-
-
-get_ipython().system(' /opt/bin/nvidia-smi')
-
-
-# In[ ]:
-
-
-get_ipython().system(' pip3 install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html')
-
-
-# In[ ]:
-
-
-from google.colab import drive
-drive.flush_and_unmount()
-print('All changes made in this colab session should now be visible in Drive.')
-
-
-# In[ ]:
-
-
-import itertools
-from itertools import product  
-import numpy as np
-import xarray as xr
-import pandas as pd
-from copy import copy
-from copy import deepcopy
-import datetime
-from time import time
-from dateutil.relativedelta import relativedelta
-
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import cross_validate
-from sklearn.model_selection import KFold
-from sklearn.model_selection import learning_curve
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.neural_network import MLPRegressor
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.preprocessing import QuantileTransformer, PowerTransformer
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-
-import torch
-import torch.nn as nn
-from torch.nn import functional as F
-from torch import optim
-import math, random
 
 
-# In[ ]:
+import xgboost as xgb
 
 
-TIME_STEP = 10 # rnn 时序步长数
-INPUT_SIZE = 1 # rnn 的输入维度
-#DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
-DEVICE = torch.device("cuda:0") 
-H_SIZE = 64 # of rnn 隐藏单元个数
-EPOCHS=300 # 总共训练次数
-EPOCHS=300 # 总共训练次数
-h_state = None # 隐藏层状态
+# ### **2.1, XGBoost model**
+
+# In[7]:
 
 
-# In[ ]:
+# Prepare for the data
+df_data.dropna()
+resolution = 100
+df_data1 = df_data.iloc[::resolution]
+
+df_features = df_data1[df_data.keys()[[0, 2, 3, 8]]]
+df_target = df_data1[['head_gross']]
+X_train, X_test, y_train, y_test = train_test_split(df_features, df_target, test_size = 0.2)
+y_test = np.sort(y_test)
+
+# Find the optimal parameters for the XGBoost modelling
+params_fix = {'objective':'reg:squarederror', 
+              'nthread': -1, 
+              'colsample_bytree': 0.99, 
+              'min_child_weight': 5.0, 
+              'n_estimators': 100
+    }
+params = {'learning_rate': [0.1, 0.15],
+        'gamma': [5, 6, 7],
+        #'reg_alpha': 149.79,
+        'subsample': [0.8, 0.9],
+        'max_depth': [16, 19]
+    }
+
+params_best = {'learning_rate': 0.15,
+        'gamma': 5,
+        #'reg_alpha': 149.79,
+        'subsample': 0.9,
+        'max_depth': 16
+    }
 
 
-class RNN(nn.Module):
-    def __init__(self):
-        super(RNN, self).__init__()
-        self.rnn = nn.RNN(
-        input_size=INPUT_SIZE,
-        hidden_size=H_SIZE, 
-        num_layers=1, 
-        batch_first=True,
-        )
-        self.out = nn.Linear(H_SIZE, 1)
-    def forward(self, x, h_state):
-         # x (batch, time_step, input_size)
-         # h_state (n_layers, batch, hidden_size)
-         # r_out (batch, time_step, hidden_size)
-        r_out, h_state = self.rnn(x, h_state)
-        #print(r_out.shape)
-        outs = [] # 保存所有的预测值
-        for time_step in range(r_out.size(1)): # 计算每一步长的预测值
-            outs.append(self.out(r_out[:, time_step, :]))
-        return torch.stack(outs, dim=1), h_state
-         # 也可使用以下这样的返回值
-         # r_out = r_out.view(-1, 32)
-         # outs = self.out(r_out)
-         # return outs, h_state
+xgb_reg = xgb.XGBRegressor(**params_fix)
+
+import time
+start = time.time()
+xgb_models = GridSearchCV(xgb_reg, params).fit(X_train,y_train)
+params_best = xgb_models.best_params_
+end = time.time()
+time_cost = end - start
+print(f'The time used to find the optimal solution is {time_cost} seconds')
 
 
-# In[ ]:
+# Print the best model parameters: NB one should use it in the following analysis
+xgb_models.fit(X_train, y_train)
+print(xgb_models.best_score_)
+print(xgb_models.best_params_)
+
+# Use best parameters to fit the XGBoost model
+model_xgb = xgb.XGBRegressor(max_depth = 16, learning_rate = 0.1, gamma= 0, subsample=0.8, colsample_bytree = 0.1, n_estimators = 1000)
+model_xgb.fit(X_train, y_train)
+
+# Prediction and model assessment by MSE and R2
+predictions_xgb = model_xgb.predict(X_test)
+mse_xgb = mean_squared_error(predictions_xgb,y_test)
+r2_xgb = r2_score(predictions_xgb,y_test)
+
+# Plot the results
+plt.figure()
+plt.plot(predictions_xgb, label = "XGBoost with tuned params")
+plt.plot(y_test,'-o',  label = "Data")
+plt.legend()
 
 
-rnn = RNN().to(DEVICE)
-optimizer = torch.optim.Adam(rnn.parameters()) # Adam优化，几乎不用调参
-criterion = nn.MSELoss() # 因为最终的结果是一个数值，所以损失函数用均方误差
+# ### **2.2, Neural Network Model**
+
+# In[9]:
 
 
-# In[ ]:
+model_nn = MLPRegressor(hidden_layer_sizes=(50,),solver ="lbfgs", random_state=9)
+
+model_nn.fit(X_train,y_train.values.ravel())
+
+predictions_nn = model_nn.predict(X_test)
+
+error_nn = mean_squared_error(predictions_nn, y_test)
 
 
-torch.manual_seed(10010)
-random.seed(10010)
-np.random.seed(10010)
-rnn.train()
-plt.figure(2)
-for step in range(EPOCHS):
-#    start, end = step * np.pi, (step+1)*np.pi # 一个时间周期
-#    steps = np.linspace(start, end, TIME_STEP, dtype=np.float32)
-#    x_np = np.sin(steps) 
-#    y_np = np.cos(steps)
-#    x = torch.from_numpy(x_np[np.newaxis, :, np.newaxis]) # shape (batch, time_step, input_size)
-#    y = torch.from_numpy(y_np[np.newaxis, :, np.newaxis])
-    #x_np = Features.values
-    x_np = df_data.pump101_speed.values[:,np.newaxis]
-    y_np = df_data.pump101_speed.values[:,np.newaxis]
-    x_np = x_np[200000:200500,]
-    y_np = y_np[200000:200500,]
-    x_np = np.array(x_np, dtype = np.float32)
-    y_np = np.array(y_np, dtype = np.float32)
-    
-    x = torch.from_numpy(x_np[np.newaxis, :, :]) # shape (batch, time_step, input_size)
-    y = torch.from_numpy(y_np[np.newaxis, :, :])
-    
-    x=x.to(DEVICE)
-    prediction, h_state = rnn(x, h_state) # rnn output
-    #print(prediction.shape)
-    # 这一步非常重要
-    h_state = h_state.data # 重置隐藏层的状态, 切断和前一次迭代的链接
-    loss = criterion(prediction.cpu(), y) 
-    # 这三行写在一起就可以
-    optimizer.zero_grad() 
-    loss.backward() 
-    optimizer.step() 
-    if (step+1)%100==0: #每训练20个批次可视化一下效果，并打印一下loss
-        print("EPOCHS: {},Loss:{:4f}".format(step,loss))
-        plt.plot(y_np.flatten(), 'r-')
-        plt.plot(prediction.cpu().data.numpy().flatten(), 'b-')
-        plt.draw()
-        plt.pause(1e-7)
+# Prediction and model assessment by MSE and R2
+mse_nn = mean_squared_error(predictions_nn,y_test)
+r2_nn = r2_score(predictions_nn,y_test)
+
+#### Plots of results ####
+plt.figure()
+
+plt.plot(y_test,'-o',  label = "Data")
+
+plt.plot(predictions_nn,'-*', label = "Neural Network")
+plt.legend()
 
 
-# In[ ]:
+# ### **2.3, Ada random forest model**
+
+# In[10]:
 
 
+#### Ada Boosted Decision Tree ####
+
+# Initialize the model with some parameters.
+model_ada = AdaBoostRegressor(DecisionTreeRegressor(max_depth=4), n_estimators=300)
+# Fit the model to the data.
+model_ada.fit(X_train,y_train.values.ravel())
+# Make predictions.
+predictions_ada = model_ada.predict(X_test)
+# Compute the error.
+error_ada = mean_squared_error(predictions_ada, y_test)
 
 
-
-# In[ ]:
-
-
-plt.plot(df_data.guide_open)
-plt.show()
-plt.plot(df_data.pump101_speed)
-plt.show()
-plt.plot(df_data.pump102_speed)
-plt.show()
+# Prediction and model assessment by MSE and R2
+mse_ada = mean_squared_error(predictions_ada,y_test)
+r2_ada = r2_score(predictions_ada,y_test)
 
 
-# In[ ]:
+#### Plots of results ####
+plt.figure()
+plt.plot(y_test,'-o',  label = "Data")
+plt.plot(predictions_ada,'-*', label = "Ada Boost RF")
+plt.legend()
 
 
-torch.manual_seed(10010)
-random.seed(10010)
-np.random.seed(10010)
-rnn.train()
-plt.figure(2)
-for step in range(EPOCHS):
-    start, end = step * np.pi, (step+1)*np.pi # 一个时间周期
-    steps = np.linspace(start, end, TIME_STEP, dtype=np.float32)
-    x_np = np.sin(steps) 
-    y_np = np.cos(steps)
-    x = torch.from_numpy(x_np[np.newaxis, :, np.newaxis]) # shape (batch, time_step, input_size)
-    y = torch.from_numpy(y_np[np.newaxis, :, np.newaxis])
-    x=x.to(DEVICE)
-    prediction, h_state = rnn(x, h_state) # rnn output
-    #print(prediction.shape)
-    # 这一步非常重要
-    h_state = h_state.data # 重置隐藏层的状态, 切断和前一次迭代的链接
-    loss = criterion(prediction.cpu(), y) 
-    # 这三行写在一起就可以
-    optimizer.zero_grad() 
-    loss.backward() 
-    optimizer.step() 
-    if (step+1)%20==0: #每训练20个批次可视化一下效果，并打印一下loss
-        print("EPOCHS: {},Loss:{:4f}".format(step,loss))
-        plt.plot(steps, y_np.flatten(), 'r-')
-        plt.plot(steps, prediction.cpu().data.numpy().flatten(), 'b-')
-        plt.draw()
-        plt.pause(1e-7)
+# ### **2.4, Poly nominal regression model**
+
+# In[11]:
 
 
-# In[ ]:
+model_lin = LinearRegression()
+
+model_lin.fit(X_train,y_train)
+
+predictions_lin = model_lin.predict(X_test)
+
+error = mean_squared_error(predictions_lin, y_test) # Mean squared error
+
+score = model_lin.score(X_test,y_test)              # Variance / score
+
+# Prediction and model assessment by MSE and R2
+mse_lin = mean_squared_error(predictions_lin,y_test)
+r2_lin = r2_score(predictions_lin,y_test)
 
 
-import tensorflow as tf
+#### Plots of results ####
+plt.figure()
+plt.plot(y_test,'-o',  label = "Data")
+plt.plot(predictions_lin,'-*', label = "Linear regression")
+plt.legend()
+
+
+# ## **3, Summary of the results and output of data for matlab plot**
+
+# In[20]:
+
+
+# Print the goodness of all the models
+print(f'R2 of different models.\n The xgboost model: {r2_xgb};\n The neural network model: {r2_nn};\n The ada boost RF model: {r2_ada};\n The linear regression model: {r2_lin}. ')
+
+
+# NB: OPTIONAL -- save results to Mat file for better plotting
+from scipy import io
+
+head_obs = y_test
+head_xgb = model_xgb.predict(X_test)
+
+head_nn = model_nn.predict(X_test)
+head_ada = model_ada.predict(X_test)
+head_lin = model_lin.predict(X_test)
+
+io.savemat('head_data.mat', {'head_obs':head_obs,'head_xgb':head_xgb,'head_nn':head_nn,'head_ada':head_ada,'head_lin':head_lin})
 

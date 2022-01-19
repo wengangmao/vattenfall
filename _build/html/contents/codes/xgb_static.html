@@ -245,22 +245,57 @@
             </div>
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Static modelling
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-load-data-from-google-drive">
+   1A. Load data from google drive
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#new-section">
-   New Section
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#b-load-data-from-local-drive">
+   1B. Load data from local drive
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#use-the-rnn-method-to-build-the-ml-model-correlated-time-series">
-     2, Use the RNN method to build the ML model (correlated time series)
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-various-static-ml-methods-to-derive-models-for-head-g">
+   2, Use various static ML methods to derive models for Head_g
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#xgboost-model">
+     <strong>
+      2.1, XGBoost model
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#neural-network-model">
+     <strong>
+      2.2, Neural Network Model
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ada-random-forest-model">
+     <strong>
+      2.3, Ada random forest model
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#poly-nominal-regression-model">
+     <strong>
+      2.4, Poly nominal regression model
+     </strong>
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary-of-the-results-and-output-of-data-for-matlab-plot">
+   <strong>
+    3, Summary of the results and output of data for matlab plot
+   </strong>
+  </a>
  </li>
 </ul>
 
@@ -298,48 +333,25 @@
 </div>
 </div>
 </div>
+<div class="section" id="a-load-data-from-google-drive">
+<h2>1A. Load data from google drive<a class="headerlink" href="#a-load-data-from-google-drive" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## load the file from local directory</span>
-<span class="c1">#from google.colab import files</span>
-<span class="c1">#uploaded = files.upload()</span>
-
-<span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
-<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
-
-<span class="c1">#drive.flush_and_unmount()</span>
-<span class="c1">#print(&#39;All changes made in this colab session should now be visible in Drive.&#39;)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mounted at /content/drive
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
-<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mounted at /content/drive
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#from google.colab import drive</span>
+<span class="c1">#drive.mount(&#39;/content/drive&#39;)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="section" id="new-section">
-<h1>New Section<a class="headerlink" href="#new-section" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="b-load-data-from-local-drive">
+<h2>1B. Load data from local drive<a class="headerlink" href="#b-load-data-from-local-drive" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#import io</span>
 <span class="c1">#df = pd.read_csv(io.StringIO(uploaded[&#39;vattenfall_turbine.csv&#39;].decode(&#39;utf-8&#39;)))</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/Data/vattenfall_turbine.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Users\wengang\OneDrive - Chalmers\2021_Vattenfall\vattenfall_turbine.csv&#39;</span><span class="p">)</span>
 <span class="n">keys</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span>
 <span class="n">df_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">]]</span>
 </pre></div>
@@ -375,350 +387,244 @@
 <img alt="../../_images/xgb_static_7_1.png" src="../../_images/xgb_static_7_1.png" />
 </div>
 </div>
-<div class="section" id="use-the-rnn-method-to-build-the-ml-model-correlated-time-series">
-<h2>2, Use the RNN method to build the ML model (correlated time series)<a class="headerlink" href="#use-the-rnn-method-to-build-the-ml-model-correlated-time-series" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="use-various-static-ml-methods-to-derive-models-for-head-g">
+<h2>2, Use various static ML methods to derive models for Head_g<a class="headerlink" href="#use-various-static-ml-methods-to-derive-models-for-head-g" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span> nvcc --version
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>nvcc: NVIDIA (R) Cuda compiler driver
-Copyright (c) 2005-2020 NVIDIA Corporation
-Built on Wed_Jul_22_19:09:09_PDT_2020
-Cuda compilation tools, release 11.0, V11.0.221
-Build cuda_11.0_bu.TC445_37.28845127_0
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span> /opt/bin/nvidia-smi
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tue Sep 14 11:13:01 2021       
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI 460.32.03    Driver Version: 460.32.03    CUDA Version: 11.2     |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|                               |                      |               MIG M. |
-|===============================+======================+======================|
-|   0  Tesla K80           Off  | 00000000:00:04.0 Off |                    0 |
-| N/A   60C    P8    30W / 149W |      0MiB / 11441MiB |      0%      Default |
-|                               |                      |                  N/A |
-+-------------------------------+----------------------+----------------------+
-                                                                               
-+-----------------------------------------------------------------------------+
-| Processes:                                                                  |
-|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
-|        ID   ID                                                   Usage      |
-|=============================================================================|
-|  No running processes found                                                 |
-+-----------------------------------------------------------------------------+
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span> pip3 install <span class="nv">torch</span><span class="o">==</span><span class="m">1</span>.8.1+cu111 <span class="nv">torchvision</span><span class="o">==</span><span class="m">0</span>.9.1+cu111 <span class="nv">torchaudio</span><span class="o">==</span><span class="m">0</span>.8.1 -f https://download.pytorch.org/whl/torch_stable.html
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
-<span class="n">drive</span><span class="o">.</span><span class="n">flush_and_unmount</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;All changes made in this colab session should now be visible in Drive.&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All changes made in this colab session should now be visible in Drive.
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>  
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">from</span> <span class="nn">dateutil.relativedelta</span> <span class="kn">import</span> <span class="n">relativedelta</span>
-
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">learning_curve</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.neural_network</span> <span class="kn">import</span> <span class="n">MLPRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">GridSearchCV</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">QuantileTransformer</span><span class="p">,</span> <span class="n">PowerTransformer</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">MinMaxScaler</span>
 
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">F</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">optim</span>
-<span class="kn">import</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">random</span>
+
+<span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">xgb</span>
 </pre></div>
 </div>
 </div>
 </div>
+<div class="section" id="xgboost-model">
+<h3><strong>2.1, XGBoost model</strong><a class="headerlink" href="#xgboost-model" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">TIME_STEP</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># rnn 时序步长数</span>
-<span class="n">INPUT_SIZE</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># rnn 的输入维度</span>
-<span class="c1">#DEVICE = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;) </span>
-<span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda:0&quot;</span><span class="p">)</span> 
-<span class="n">H_SIZE</span> <span class="o">=</span> <span class="mi">64</span> <span class="c1"># of rnn 隐藏单元个数</span>
-<span class="n">EPOCHS</span><span class="o">=</span><span class="mi">300</span> <span class="c1"># 总共训练次数</span>
-<span class="n">EPOCHS</span><span class="o">=</span><span class="mi">300</span> <span class="c1"># 总共训练次数</span>
-<span class="n">h_state</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># 隐藏层状态</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">RNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">RNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">RNN</span><span class="p">(</span>
-        <span class="n">input_size</span><span class="o">=</span><span class="n">INPUT_SIZE</span><span class="p">,</span>
-        <span class="n">hidden_size</span><span class="o">=</span><span class="n">H_SIZE</span><span class="p">,</span> 
-        <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
-        <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">H_SIZE</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">h_state</span><span class="p">):</span>
-         <span class="c1"># x (batch, time_step, input_size)</span>
-         <span class="c1"># h_state (n_layers, batch, hidden_size)</span>
-         <span class="c1"># r_out (batch, time_step, hidden_size)</span>
-        <span class="n">r_out</span><span class="p">,</span> <span class="n">h_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">h_state</span><span class="p">)</span>
-        <span class="c1">#print(r_out.shape)</span>
-        <span class="n">outs</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># 保存所有的预测值</span>
-        <span class="k">for</span> <span class="n">time_step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">r_out</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)):</span> <span class="c1"># 计算每一步长的预测值</span>
-            <span class="n">outs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">(</span><span class="n">r_out</span><span class="p">[:,</span> <span class="n">time_step</span><span class="p">,</span> <span class="p">:]))</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">outs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">h_state</span>
-         <span class="c1"># 也可使用以下这样的返回值</span>
-         <span class="c1"># r_out = r_out.view(-1, 32)</span>
-         <span class="c1"># outs = self.out(r_out)</span>
-         <span class="c1"># return outs, h_state</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rnn</span> <span class="o">=</span> <span class="n">RNN</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">rnn</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span> <span class="c1"># Adam优化，几乎不用调参</span>
-<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span> <span class="c1"># 因为最终的结果是一个数值，所以损失函数用均方误差</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">10010</span><span class="p">)</span>
-<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10010</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10010</span><span class="p">)</span>
-<span class="n">rnn</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
-<span class="c1">#    start, end = step * np.pi, (step+1)*np.pi # 一个时间周期</span>
-<span class="c1">#    steps = np.linspace(start, end, TIME_STEP, dtype=np.float32)</span>
-<span class="c1">#    x_np = np.sin(steps) </span>
-<span class="c1">#    y_np = np.cos(steps)</span>
-<span class="c1">#    x = torch.from_numpy(x_np[np.newaxis, :, np.newaxis]) # shape (batch, time_step, input_size)</span>
-<span class="c1">#    y = torch.from_numpy(y_np[np.newaxis, :, np.newaxis])</span>
-    <span class="c1">#x_np = Features.values</span>
-    <span class="n">x_np</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">pump101_speed</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
-    <span class="n">y_np</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">pump101_speed</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
-    <span class="n">x_np</span> <span class="o">=</span> <span class="n">x_np</span><span class="p">[</span><span class="mi">200000</span><span class="p">:</span><span class="mi">200500</span><span class="p">,]</span>
-    <span class="n">y_np</span> <span class="o">=</span> <span class="n">y_np</span><span class="p">[</span><span class="mi">200000</span><span class="p">:</span><span class="mi">200500</span><span class="p">,]</span>
-    <span class="n">x_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_np</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">y_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_np</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    
-    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">x_np</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span> <span class="c1"># shape (batch, time_step, input_size)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">y_np</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
-    
-    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
-    <span class="n">prediction</span><span class="p">,</span> <span class="n">h_state</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">h_state</span><span class="p">)</span> <span class="c1"># rnn output</span>
-    <span class="c1">#print(prediction.shape)</span>
-    <span class="c1"># 这一步非常重要</span>
-    <span class="n">h_state</span> <span class="o">=</span> <span class="n">h_state</span><span class="o">.</span><span class="n">data</span> <span class="c1"># 重置隐藏层的状态, 切断和前一次迭代的链接</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">y</span><span class="p">)</span> 
-    <span class="c1"># 这三行写在一起就可以</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span> 
-    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> 
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span> 
-    <span class="k">if</span> <span class="p">(</span><span class="n">step</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="k">100</span>==0: #每训练20个批次可视化一下效果，并打印一下loss
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;EPOCHS: </span><span class="si">{}</span><span class="s2">,Loss:</span><span class="si">{:4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">loss</span><span class="p">))</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_np</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">1e-7</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prepare for the data</span>
+<span class="n">df_data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">resolution</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">df_data1</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[::</span><span class="n">resolution</span><span class="p">]</span>
+
+<span class="n">df_features</span> <span class="o">=</span> <span class="n">df_data1</span><span class="p">[</span><span class="n">df_data</span><span class="o">.</span><span class="n">keys</span><span class="p">()[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">]]]</span>
+<span class="n">df_target</span> <span class="o">=</span> <span class="n">df_data1</span><span class="p">[[</span><span class="s1">&#39;head_gross&#39;</span><span class="p">]]</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">df_features</span><span class="p">,</span> <span class="n">df_target</span><span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+
+<span class="c1"># Find the optimal parameters for the XGBoost modelling</span>
+<span class="n">params_fix</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;objective&#39;</span><span class="p">:</span><span class="s1">&#39;reg:squarederror&#39;</span><span class="p">,</span> 
+              <span class="s1">&#39;nthread&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> 
+              <span class="s1">&#39;colsample_bytree&#39;</span><span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span> 
+              <span class="s1">&#39;min_child_weight&#39;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> 
+              <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span>
+    <span class="p">}</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">],</span>
+        <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+        <span class="c1">#&#39;reg_alpha&#39;: 149.79,</span>
+        <span class="s1">&#39;subsample&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span>
+        <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">19</span><span class="p">]</span>
+    <span class="p">}</span>
+
+<span class="n">params_best</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="c1">#&#39;reg_alpha&#39;: 149.79,</span>
+        <span class="s1">&#39;subsample&#39;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+        <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">16</span>
+    <span class="p">}</span>
+
+
+<span class="n">xgb_reg</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBRegressor</span><span class="p">(</span><span class="o">**</span><span class="n">params_fix</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">xgb_models</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">xgb_reg</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">params_best</span> <span class="o">=</span> <span class="n">xgb_models</span><span class="o">.</span><span class="n">best_params_</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">time_cost</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The time used to find the optimal solution is </span><span class="si">{</span><span class="n">time_cost</span><span class="si">}</span><span class="s1"> seconds&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># Print the best model parameters: NB one should use it in the following analysis</span>
+<span class="n">xgb_models</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">xgb_models</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">xgb_models</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+
+<span class="c1"># Use best parameters to fit the XGBoost model</span>
+<span class="n">model_xgb</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBRegressor</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">subsample</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">colsample_bytree</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">n_estimators</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">model_xgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Prediction and model assessment by MSE and R2</span>
+<span class="n">predictions_xgb</span> <span class="o">=</span> <span class="n">model_xgb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">mse_xgb</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">predictions_xgb</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+<span class="n">r2_xgb</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">predictions_xgb</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+
+<span class="c1"># Plot the results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predictions_xgb</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;XGBoost with tuned params&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span>  <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Data&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="nn">&lt;ipython-input-19-40c08bce107a&gt;</span> in <span class="ni">&lt;module&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">30</span>     <span class="c1"># 这三行写在一起就可以</span>
-<span class="g g-Whitespace">     </span><span class="mi">31</span>     <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-<span class="ne">---&gt; </span><span class="mi">32</span>     <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">33</span>     <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">34</span>     <span class="k">if</span> <span class="p">(</span><span class="n">step</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="k">100</span>==0: #每训练20个批次可视化一下效果，并打印一下loss
-
-<span class="nn">/usr/local/lib/python3.7/dist-packages/torch/_tensor.py</span> in <span class="ni">backward</span><span class="nt">(self, gradient, retain_graph, create_graph, inputs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">253</span>                 <span class="n">create_graph</span><span class="o">=</span><span class="n">create_graph</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">254</span>                 <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">255</span>         <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">256</span> 
-<span class="g g-Whitespace">    </span><span class="mi">257</span>     <span class="k">def</span> <span class="nf">register_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hook</span><span class="p">):</span>
-
-<span class="nn">/usr/local/lib/python3.7/dist-packages/torch/autograd/__init__.py</span> in <span class="ni">backward</span><span class="nt">(tensors, grad_tensors, retain_graph, create_graph, grad_variables, inputs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">147</span>     <span class="n">Variable</span><span class="o">.</span><span class="n">_execution_engine</span><span class="o">.</span><span class="n">run_backward</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">148</span>         <span class="n">tensors</span><span class="p">,</span> <span class="n">grad_tensors_</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span>
-<span class="ne">--&gt; </span><span class="mi">149</span>         <span class="n">allow_unreachable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">accumulate_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># allow_unreachable flag</span>
-<span class="g g-Whitespace">    </span><span class="mi">150</span> 
-<span class="g g-Whitespace">    </span><span class="mi">151</span> 
-
-<span class="ne">KeyboardInterrupt</span>: 
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The time used to find the optimal solution is 79.16086387634277 seconds
+-0.0015027951597700983
+{&#39;gamma&#39;: 5, &#39;learning_rate&#39;: 0.15, &#39;max_depth&#39;: 16, &#39;subsample&#39;: 0.8}
 </pre></div>
 </div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x190d8043df0&gt;
+</pre></div>
+</div>
+<img alt="../../_images/xgb_static_11_2.png" src="../../_images/xgb_static_11_2.png" />
 </div>
 </div>
+</div>
+<div class="section" id="neural-network-model">
+<h3><strong>2.2, Neural Network Model</strong><a class="headerlink" href="#neural-network-model" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_data</span><span class="o">.</span><span class="n">guide_open</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_data</span><span class="o">.</span><span class="n">pump101_speed</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_data</span><span class="o">.</span><span class="n">pump102_speed</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_nn</span> <span class="o">=</span> <span class="n">MLPRegressor</span><span class="p">(</span><span class="n">hidden_layer_sizes</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,),</span><span class="n">solver</span> <span class="o">=</span><span class="s2">&quot;lbfgs&quot;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="n">model_nn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+
+<span class="n">predictions_nn</span> <span class="o">=</span> <span class="n">model_nn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">error_nn</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">predictions_nn</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+
+
+<span class="c1"># Prediction and model assessment by MSE and R2</span>
+<span class="n">mse_nn</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">predictions_nn</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+<span class="n">r2_nn</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">predictions_nn</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+
+<span class="c1">#### Plots of results ####</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span>  <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Data&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predictions_nn</span><span class="p">,</span><span class="s1">&#39;-*&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Neural Network&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/xgb_static_19_0.png" src="../../_images/xgb_static_19_0.png" />
-<img alt="../../_images/xgb_static_19_1.png" src="../../_images/xgb_static_19_1.png" />
-<img alt="../../_images/xgb_static_19_2.png" src="../../_images/xgb_static_19_2.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x190daa44460&gt;
+</pre></div>
+</div>
+<img alt="../../_images/xgb_static_13_1.png" src="../../_images/xgb_static_13_1.png" />
 </div>
 </div>
+</div>
+<div class="section" id="ada-random-forest-model">
+<h3><strong>2.3, Ada random forest model</strong><a class="headerlink" href="#ada-random-forest-model" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">10010</span><span class="p">)</span>
-<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10010</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10010</span><span class="p">)</span>
-<span class="n">rnn</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
-    <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">step</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="p">(</span><span class="n">step</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="c1"># 一个时间周期</span>
-    <span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">TIME_STEP</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">x_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span> 
-    <span class="n">y_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">x_np</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span> <span class="c1"># shape (batch, time_step, input_size)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">y_np</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
-    <span class="n">prediction</span><span class="p">,</span> <span class="n">h_state</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">h_state</span><span class="p">)</span> <span class="c1"># rnn output</span>
-    <span class="c1">#print(prediction.shape)</span>
-    <span class="c1"># 这一步非常重要</span>
-    <span class="n">h_state</span> <span class="o">=</span> <span class="n">h_state</span><span class="o">.</span><span class="n">data</span> <span class="c1"># 重置隐藏层的状态, 切断和前一次迭代的链接</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">y</span><span class="p">)</span> 
-    <span class="c1"># 这三行写在一起就可以</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span> 
-    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> 
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span> 
-    <span class="k">if</span> <span class="p">(</span><span class="n">step</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="k">20</span>==0: #每训练20个批次可视化一下效果，并打印一下loss
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;EPOCHS: </span><span class="si">{}</span><span class="s2">,Loss:</span><span class="si">{:4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">loss</span><span class="p">))</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">y_np</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">prediction</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="s1">&#39;b-&#39;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">1e-7</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#### Ada Boosted Decision Tree ####</span>
+
+<span class="c1"># Initialize the model with some parameters.</span>
+<span class="n">model_ada</span> <span class="o">=</span> <span class="n">AdaBoostRegressor</span><span class="p">(</span><span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="c1"># Fit the model to the data.</span>
+<span class="n">model_ada</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+<span class="c1"># Make predictions.</span>
+<span class="n">predictions_ada</span> <span class="o">=</span> <span class="n">model_ada</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="c1"># Compute the error.</span>
+<span class="n">error_ada</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">predictions_ada</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+
+
+<span class="c1"># Prediction and model assessment by MSE and R2</span>
+<span class="n">mse_ada</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">predictions_ada</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+<span class="n">r2_ada</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">predictions_ada</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+
+
+<span class="c1">#### Plots of results ####</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span>  <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Data&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predictions_ada</span><span class="p">,</span><span class="s1">&#39;-*&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Ada Boost RF&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 19,Loss:0.065407
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x190daadb1c0&gt;
 </pre></div>
 </div>
-<img alt="../../_images/xgb_static_20_1.png" src="../../_images/xgb_static_20_1.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 39,Loss:0.054160
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_3.png" src="../../_images/xgb_static_20_3.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 59,Loss:0.052042
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_5.png" src="../../_images/xgb_static_20_5.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 79,Loss:0.049947
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_7.png" src="../../_images/xgb_static_20_7.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 99,Loss:0.046264
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_9.png" src="../../_images/xgb_static_20_9.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 119,Loss:0.042869
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_11.png" src="../../_images/xgb_static_20_11.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 139,Loss:0.039421
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_13.png" src="../../_images/xgb_static_20_13.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 159,Loss:0.036280
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_15.png" src="../../_images/xgb_static_20_15.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 179,Loss:0.033471
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_17.png" src="../../_images/xgb_static_20_17.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 199,Loss:0.031238
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_19.png" src="../../_images/xgb_static_20_19.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 219,Loss:0.340514
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_21.png" src="../../_images/xgb_static_20_21.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 239,Loss:0.437077
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_23.png" src="../../_images/xgb_static_20_23.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 259,Loss:0.177472
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_25.png" src="../../_images/xgb_static_20_25.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 279,Loss:0.101393
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_27.png" src="../../_images/xgb_static_20_27.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EPOCHS: 299,Loss:0.055096
-</pre></div>
-</div>
-<img alt="../../_images/xgb_static_20_29.png" src="../../_images/xgb_static_20_29.png" />
+<img alt="../../_images/xgb_static_15_1.png" src="../../_images/xgb_static_15_1.png" />
 </div>
 </div>
+</div>
+<div class="section" id="poly-nominal-regression-model">
+<h3><strong>2.4, Poly nominal regression model</strong><a class="headerlink" href="#poly-nominal-regression-model" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_lin</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="n">model_lin</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">predictions_lin</span> <span class="o">=</span> <span class="n">model_lin</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">error</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">predictions_lin</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span> <span class="c1"># Mean squared error</span>
+
+<span class="n">score</span> <span class="o">=</span> <span class="n">model_lin</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>              <span class="c1"># Variance / score</span>
+
+<span class="c1"># Prediction and model assessment by MSE and R2</span>
+<span class="n">mse_lin</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">predictions_lin</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+<span class="n">r2_lin</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">predictions_lin</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
+
+
+<span class="c1">#### Plots of results ####</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span>  <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Data&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predictions_lin</span><span class="p">,</span><span class="s1">&#39;-*&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Linear regression&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x190db1d28e0&gt;
+</pre></div>
+</div>
+<img alt="../../_images/xgb_static_17_1.png" src="../../_images/xgb_static_17_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="summary-of-the-results-and-output-of-data-for-matlab-plot">
+<h2><strong>3, Summary of the results and output of data for matlab plot</strong><a class="headerlink" href="#summary-of-the-results-and-output-of-data-for-matlab-plot" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the goodness of all the models</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;R2 of different models.</span><span class="se">\n</span><span class="s1"> The xgboost model: </span><span class="si">{</span><span class="n">r2_xgb</span><span class="si">}</span><span class="s1">;</span><span class="se">\n</span><span class="s1"> The neural network model: </span><span class="si">{</span><span class="n">r2_nn</span><span class="si">}</span><span class="s1">;</span><span class="se">\n</span><span class="s1"> The ada boost RF model: </span><span class="si">{</span><span class="n">r2_ada</span><span class="si">}</span><span class="s1">;</span><span class="se">\n</span><span class="s1"> The linear regression model: </span><span class="si">{</span><span class="n">r2_lin</span><span class="si">}</span><span class="s1">. &#39;</span><span class="p">)</span>
+
+
+<span class="c1"># NB: OPTIONAL -- save results to Mat file for better plotting</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">io</span>
+
+<span class="n">head_obs</span> <span class="o">=</span> <span class="n">y_test</span>
+<span class="n">head_xgb</span> <span class="o">=</span> <span class="n">model_xgb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">head_nn</span> <span class="o">=</span> <span class="n">model_nn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">head_ada</span> <span class="o">=</span> <span class="n">model_ada</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">head_lin</span> <span class="o">=</span> <span class="n">model_lin</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">io</span><span class="o">.</span><span class="n">savemat</span><span class="p">(</span><span class="s1">&#39;head_data.mat&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;head_obs&#39;</span><span class="p">:</span><span class="n">head_obs</span><span class="p">,</span><span class="s1">&#39;head_xgb&#39;</span><span class="p">:</span><span class="n">head_xgb</span><span class="p">,</span><span class="s1">&#39;head_nn&#39;</span><span class="p">:</span><span class="n">head_nn</span><span class="p">,</span><span class="s1">&#39;head_ada&#39;</span><span class="p">:</span><span class="n">head_ada</span><span class="p">,</span><span class="s1">&#39;head_lin&#39;</span><span class="p">:</span><span class="n">head_lin</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R2 of different models.
+ The xgboost model: 0.1678369777863331;
+ The neural network model: -0.842166034311792;
+ The ada boost RF model: 0.03646914777986854;
+ The linear regression model: -2.7208236624984203. 
 </pre></div>
 </div>
 </div>
